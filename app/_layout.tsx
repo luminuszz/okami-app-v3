@@ -17,20 +17,10 @@ import {
 import "react-native-reanimated";
 
 import { QueryClientProvider } from "@tanstack/react-query";
-import { AxiosError } from "axios";
 import { AppState } from "react-native";
 import { onAppStateChange, queryClient } from "../lib/react-query";
 
 SplashScreen.preventAutoHideAsync();
-
-let isRefreshing = false;
-
-type FailRequestQueue = {
-  onSuccess: () => void;
-  onFailure: (error: AxiosError) => void;
-}[];
-
-const failRequestQueue: FailRequestQueue = [];
 
 export default function RootLayout() {
   const [loaded] = useFonts({
