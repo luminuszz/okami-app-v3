@@ -12,7 +12,7 @@ import { Input, InputField } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import { Text } from "@/components/ui/text";
 import { VStack } from "@/components/ui/vstack";
-import { STORAGE_KEYS, useStorage } from "@/lib/storage";
+import { useStorage } from "@/lib/storage";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { router } from "expo-router";
 import { Controller, useForm } from "react-hook-form";
@@ -51,8 +51,8 @@ export default function SignInScreen() {
         },
       });
 
-      storage.set(STORAGE_KEYS.TOKEN, token);
-      storage.set(STORAGE_KEYS.REFRESH_TOKEN, refreshToken);
+      storage.set("TOKEN", token);
+      storage.set("REFRESH_TOKEN", refreshToken);
 
       router.push("/home");
     } catch {
