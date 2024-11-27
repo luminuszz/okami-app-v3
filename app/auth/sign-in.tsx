@@ -55,7 +55,7 @@ export default function SignInScreen() {
       storage.set(STORAGE_KEYS.REFRESH_TOKEN, refreshToken);
 
       router.push("/home");
-    } catch (e) {
+    } catch {
       toast({
         title: "Erro ao fazer login",
         description: "Verifique suas credenciais e tente novamente",
