@@ -23,22 +23,18 @@ import { useQueryClient } from "@tanstack/react-query";
 import { Link, router, useLocalSearchParams } from "expo-router";
 import { useAtomValue } from "jotai";
 import { ChevronLeft } from "lucide-react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function UpdateWorkChapterScreen() {
   const { workId } = useLocalSearchParams<{ workId: string }>();
 
-  const { data: currentWork, isLoading } = useWorkControllerGetById(workId, {
-    query: {
-      enabled: !!workId,
-    },
-  });
+  const { data: currentWork, isLoading } = useWorkControllerGetById(workId);
 
   const client = useQueryClient();
   const toast = useOkamiToast();
 
   const [error, setError] = useState("");
-  const [chapter, setChapter] = useState(currentWork?.nextChapter);
+  const [chapter, setChapter] = useState(currentWork?.nextChapter ?? 0);
 
   const filters = useAtomValue(worksFiltersAtom);
 
@@ -89,6 +85,12 @@ export default function UpdateWorkChapterScreen() {
     });
   }
 
+  useEffect(() => {
+    if (currentWork?.nextChapter) {
+      setChapter(currentWork?.nextChapter);
+    }
+  }, [currentWork?.nextChapter]);
+
   if (isLoading) {
     return (
       <Container>
@@ -103,7 +105,7 @@ export default function UpdateWorkChapterScreen() {
   }
 
   return (
-    <Container classname="px-10">
+    <Container classname="px-10 mt-10">
       <HStack className="w-full justify-end">
         <Link href="/home">
           <ChevronLeft stroke="white" size={30} />
