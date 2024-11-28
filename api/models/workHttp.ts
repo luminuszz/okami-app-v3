@@ -5,10 +5,10 @@
  * The Okami rest api
  * OpenAPI spec version: 1.0
  */
-import type { TagModel } from './tagModel';
+import type { TagModel } from "./tagModel";
 
 export interface WorkHttp {
-  category: string;
+  category: "ANIME" | "MANGA";
   chapter: number;
   hasNewChapter: boolean;
   id: string;
@@ -27,4 +27,6 @@ export interface WorkHttp {
   updatedAt: string;
   url: string;
   userId: string;
+  alternativeName?: string;
+  createdAt: string;
 }

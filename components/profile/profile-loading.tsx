@@ -5,7 +5,7 @@ import { VStack } from "../ui/vstack";
 export function ProfileLoading() {
   return (
     <VStack space="lg">
-      <Skeleton variant="circular" className="size-[200px]" />
+      <Skeleton variant="circular" className="h-[20px] w-[200px]" />
       <SkeletonText className="h-[20px] w-[200px]" />
 
       <HStack>

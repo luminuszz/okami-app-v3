@@ -8,7 +8,9 @@ export interface ContainerProps {
 
 export function Container({ children, classname }: ContainerProps) {
   return (
-    <Box className={twMerge("h-full w-full flex-1 bg-[#031318]", classname)}>
+    <Box
+      className={twMerge("mt-5 h-full w-full flex-1 bg-[#031318]", classname)}
+    >
       {children}
     </Box>
   );

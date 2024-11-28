@@ -141,7 +141,11 @@ export function WorkFilters() {
         </DrawerBody>
 
         <DrawerFooter>
-          <Button className="w-full" onPress={handleSubmit(handlerFilterWorks)}>
+          <Button
+            size="md"
+            className="w-full"
+            onPress={handleSubmit(handlerFilterWorks)}
+          >
             <ButtonText>Filtrar</ButtonText>
           </Button>
         </DrawerFooter>
