@@ -22,7 +22,7 @@ export function OkamiToast({
   return (
     <Toast nativeID={uniqueToastId} action={action} variant="outline">
       <ToastTitle>{title}</ToastTitle>
-      <ToastDescription>{description}</ToastDescription>
+      {description && <ToastDescription>{description}</ToastDescription>}
     </Toast>
   );
 }
@@ -34,7 +34,6 @@ export function useOkamiToast() {
     const toastId = Date.now().toString();
 
     toast.show({
-      id: toastId,
       placement: "top",
       duration: 3000,
       render({ id }) {

@@ -24,6 +24,9 @@ import { Link, router, useLocalSearchParams } from "expo-router";
 import { useAtomValue } from "jotai";
 import { ChevronLeft } from "lucide-react-native";
 import { useEffect, useState } from "react";
+import { z } from "zod";
+
+const validChapter = z.coerce.number().positive();
 
 export default function UpdateWorkChapterScreen() {
   const { workId } = useLocalSearchParams<{ workId: string }>();
@@ -34,7 +37,7 @@ export default function UpdateWorkChapterScreen() {
   const toast = useOkamiToast();
 
   const [error, setError] = useState("");
-  const [chapter, setChapter] = useState(currentWork?.nextChapter ?? 0);
+  const [chapter, setChapter] = useState(String(currentWork?.nextChapter ?? 0));
 
   const filters = useAtomValue(worksFiltersAtom);
 
@@ -70,9 +73,9 @@ export default function UpdateWorkChapterScreen() {
     });
 
   function handleUpdateChapter() {
-    const parsedChapter = Number(chapter);
+    const chapterResult = validChapter.safeParse(chapter);
 
-    if (!parsedChapter || parsedChapter < 0 || !workId) {
+    if (!chapterResult.success) {
       setError("Capítulo inválido");
       return;
     }
@@ -80,15 +83,18 @@ export default function UpdateWorkChapterScreen() {
     updateWorkChapter({
       id: workId,
       data: {
-        chapter: Number(chapter),
+        chapter: chapterResult.data,
       },
     });
   }
 
   useEffect(() => {
     if (currentWork?.nextChapter) {
-      setChapter(currentWork?.nextChapter);
+      setChapter(String(currentWork?.nextChapter));
     }
+    return () => {
+      setChapter(String(currentWork?.nextChapter));
+    };
   }, [currentWork?.nextChapter]);
 
   if (isLoading) {
@@ -130,8 +136,10 @@ export default function UpdateWorkChapterScreen() {
         <FormControl size="lg" isInvalid={!!error}>
           <Input size="xl">
             <InputField
-              value={String(chapter)}
-              onChangeText={(vl) => setChapter(Number(vl))}
+              value={chapter}
+              onChangeText={(vl) => {
+                setChapter(vl);
+              }}
               className="w-full"
               keyboardType="numbers-and-punctuation"
               type="text"
