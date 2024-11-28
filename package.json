@@ -11,7 +11,8 @@
     "test": "jest --watchAll",
     "lint": "expo lint",
     "postinstall": "patch-package",
-    "glue-add": "pnpm dlx gluestack-ui add"
+    "glue-add": "pnpm dlx gluestack-ui add",
+    "make:apk": "pnpm dlx eas-cli build -p android --profile preview --local"
   },
   "jest": {
     "preset": "jest-expo"

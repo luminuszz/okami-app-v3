@@ -4,7 +4,7 @@ import {
   worksFiltersIsIsOpen,
 } from "@/store/works-filters-store";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useAtomValue, useSetAtom } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { ChevronDown } from "lucide-react-native";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -16,11 +16,10 @@ import {
   DrawerBody,
   DrawerContent,
   DrawerFooter,
-  DrawerHeader,
 } from "../ui/drawer";
 import { FormControl } from "../ui/form-control";
 
-import { Heading } from "../ui/heading";
+import { filtersLabels, filtersOptions } from "@/constants/strings";
 import { Input, InputField } from "../ui/input";
 import {
   Select,
@@ -47,36 +46,43 @@ export function WorkFilters() {
   const isOpen = useAtomValue(worksFiltersIsIsOpen);
 
   const handleClose = useSetAtom(toggleWorkFilter);
-  const updateFilters = useSetAtom(worksFiltersAtom);
+  const [filters, updateFilters] = useAtom(worksFiltersAtom);
 
-  const { control, handleSubmit } = useForm<WorkFiltersSchema>({
+  const { control, handleSubmit, reset } = useForm<WorkFiltersSchema>({
     values: {
-      search: "",
-      status: null,
+      search: filters.search ?? "",
+      status: filters.status ?? null,
     },
     resolver: zodResolver(workFiltersSchema),
   });
 
   function handlerFilterWorks(values: WorkFiltersSchema) {
-    console.log({ values });
-
-    return updateFilters({
+    updateFilters({
       search: values.search ?? "",
       status: values.status ?? null,
     });
+
+    handleClose();
   }
+
+  function handleClearFilters() {
+    reset();
+
+    updateFilters({
+      search: "",
+      status: null,
+    });
+
+    handleClose();
+  }
+
   return (
     <Drawer isOpen={isOpen} onClose={handleClose} size="sm" anchor="bottom">
-      <DrawerHeader>
-        <Heading> Filtros de obras</Heading>
-      </DrawerHeader>
-
       <DrawerBackdrop />
-
       <DrawerContent>
         <DrawerBody>
           <VStack space="md">
-            <FormControl size="lg">
+            <FormControl size="md">
               <Controller
                 name="search"
                 control={control}
@@ -113,7 +119,10 @@ export function WorkFilters() {
                         size="xl"
                         className="flex justify-between pr-4"
                       >
-                        <SelectInput placeholder="Status" />
+                        <SelectInput
+                          placeholder="Status"
+                          value={field.value ? filtersLabels[field.value] : ""}
+                        />
                         <SelectIcon
                           as={() => (
                             <ChevronDown stroke="white" className="size-5" />
@@ -126,10 +135,13 @@ export function WorkFilters() {
                           <SelectDragIndicatorWrapper>
                             <SelectDragIndicator />
                           </SelectDragIndicatorWrapper>
-                          <SelectItem label="Favoritos" value="favorites" />
-                          <SelectItem label="Finalizados" value="finish" />
-                          <SelectItem label="Lidos" value="read" />
-                          <SelectItem label="Não lidos" value="unread" />
+                          {filtersOptions.map((option) => (
+                            <SelectItem
+                              key={option.value}
+                              label={option.label}
+                              value={option.value}
+                            />
+                          ))}
                         </SelectContent>
                       </SelectPortal>
                     </Select>
@@ -140,14 +152,20 @@ export function WorkFilters() {
           </VStack>
         </DrawerBody>
 
-        <DrawerFooter>
-          <Button
-            size="md"
-            className="w-full"
-            onPress={handleSubmit(handlerFilterWorks)}
-          >
-            <ButtonText>Filtrar</ButtonText>
-          </Button>
+        <DrawerFooter className="mb-10">
+          <VStack className="w-full" space="md">
+            <Button
+              size="sm"
+              className="w-full"
+              onPress={handleSubmit(handlerFilterWorks)}
+            >
+              <ButtonText>Filtrar</ButtonText>
+            </Button>
+
+            <Button size="sm" className="w-full" onPress={handleClearFilters}>
+              <ButtonText>Limpar</ButtonText>
+            </Button>
+          </VStack>
         </DrawerFooter>
       </DrawerContent>
     </Drawer>

@@ -17,6 +17,7 @@ import { HStack } from "@/components/ui/hstack";
 import { Image } from "@/components/ui/image";
 import { Input, InputField } from "@/components/ui/input";
 import { Skeleton, SkeletonText } from "@/components/ui/skeleton";
+import { Spinner } from "@/components/ui/spinner";
 import { VStack } from "@/components/ui/vstack";
 import { worksFiltersAtom } from "@/store/works-filters-store";
 import { useQueryClient } from "@tanstack/react-query";
@@ -112,7 +113,8 @@ export default function UpdateWorkChapterScreen() {
 
   return (
     <Container classname="px-10 mt-10">
-      <HStack className="w-full justify-end">
+      <HStack className="mt-10 w-full justify-between">
+        <Heading>Atualizar Obra</Heading>
         <Link href="/home">
           <ChevronLeft stroke="white" size={30} />
         </Link>
@@ -120,9 +122,9 @@ export default function UpdateWorkChapterScreen() {
 
       <Center className="mt-5">
         <VStack space="md" className="w-full text-center">
-          <HStack className="justify-between">
-            <Heading className="text-center">{currentWork?.name}</Heading>
-          </HStack>
+          <Heading className="text-center" size="md">
+            {currentWork?.name}
+          </Heading>
 
           <Image
             alt={currentWork?.name}
@@ -160,7 +162,7 @@ export default function UpdateWorkChapterScreen() {
           action="positive"
           isDisabled={isPending}
         >
-          <ButtonText>Atualizar</ButtonText>
+          <ButtonText>{isPending ? <Spinner /> : "Atualizar"}</ButtonText>
         </Button>
       </VStack>
     </Container>

@@ -5,10 +5,10 @@
  * The Okami rest api
  * OpenAPI spec version: 1.0
  */
-import type { NotificationHttpReadAt } from './notificationHttpReadAt';
+import type { NotificationHttpReadAt } from "./notificationHttpReadAt";
 
 export interface NotificationHttp {
-  content: string;
+  content: any;
   id: string;
   readAt: NotificationHttpReadAt;
 }

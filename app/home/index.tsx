@@ -1,33 +1,50 @@
 import { useWorkControllerListUserWorks } from "@/api/okami";
+import { Navbar } from "@/components/navbar";
+import { Badge, BadgeText } from "@/components/ui/badge";
 import { Box } from "@/components/ui/box";
-import { Button, ButtonText } from "@/components/ui/button";
+import { HStack } from "@/components/ui/hstack";
+import { Text } from "@/components/ui/text";
 import { WorkCard } from "@/components/works/work-card";
-import { WorkFilters } from "@/components/works/works-filters";
-import {
-  toggleWorkFilter,
-  worksFiltersAtom,
-} from "@/store/works-filters-store";
-import { useAtomValue, useSetAtom } from "jotai";
+import { filtersLabels } from "@/constants/strings";
+import { worksFiltersAtom } from "@/store/works-filters-store";
+import { useAtomValue } from "jotai";
+
 import { FlatList } from "react-native";
 
 export default function WorkListScreen() {
-  const openFilterModal = useSetAtom(toggleWorkFilter);
   const { search, status } = useAtomValue(worksFiltersAtom);
 
-  const { data } = useWorkControllerListUserWorks({
+  const { data, refetch, isFetching } = useWorkControllerListUserWorks({
     status: status ?? undefined,
     search: search ?? "",
   });
 
+  const hasFilters = status || search;
+
   return (
     <Box className="mt-10 w-full flex-1 px-4">
-      <WorkFilters />
-      <Button size="lg" onPress={openFilterModal}>
-        <ButtonText>Filtrar obras</ButtonText>
-      </Button>
+      <Navbar />
 
-      <Box className="mt-10">
+      <HStack className="mt-5" space="md">
+        {hasFilters && <Text className="text-typography-400">Filtros</Text>}
+
+        {status && (
+          <Badge variant="outline" action="info">
+            <BadgeText>{`Status: ${filtersLabels[status]} `}</BadgeText>
+          </Badge>
+        )}
+
+        {search && (
+          <Badge variant="outline" action="info">
+            <BadgeText>{`Nome: ${search} `}</BadgeText>
+          </Badge>
+        )}
+      </HStack>
+
+      <Box className="mt-10 pb-24">
         <FlatList
+          onRefresh={refetch}
+          refreshing={isFetching}
           keyExtractor={(item) => item.id}
           data={data}
           renderItem={({ item: work }) => (
@@ -43,6 +60,7 @@ export default function WorkListScreen() {
                 type: work.category,
                 isFinished: work.isFinished,
                 id: work.id,
+                url: work.url,
               }}
             />
           )}

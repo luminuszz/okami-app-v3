@@ -4,20 +4,47 @@
     "slug": "okami-app-v3",
     "version": "1.0.0",
     "orientation": "portrait",
+    "icon": "assets/images/icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.luminuszz.okamiappv3"
+      "supportsTablet": true
     },
     "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "assets/images/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
       "package": "com.luminuszz.okamiappv3"
     },
-    "plugins": [],
-
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "assets/images/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "image": "assets/images/splash-icon.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#ffffff"
+        }
+      ]
+    ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "313a979e-bddb-42b6-9755-99a9114f5440"
+      }
     }
   }
 }

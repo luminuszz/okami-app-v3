@@ -3,11 +3,10 @@ import "@/global.css";
 import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
 import { DarkTheme, ThemeProvider } from "@react-navigation/native";
 import { useFonts } from "expo-font";
-import { router, Stack, useFocusEffect } from "expo-router";
-import * as SplashScreen from "expo-splash-screen";
+import { router, Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { Provider as JotaiProvider } from "jotai";
-import { useCallback, useEffect } from "react";
+import { useEffect } from "react";
 
 import {
   Roboto_400Regular,
@@ -21,10 +20,8 @@ import { isUnauthorizedError, okamiHttpGateway } from "@/lib/axios";
 import { useStorage } from "@/lib/storage";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { AppState } from "react-native";
-import { onAppStateChange, queryClient } from "../lib/react-query";
-
-SplashScreen.preventAutoHideAsync();
+import { Text, View } from "react-native";
+import { queryClient } from "../lib/react-query";
 
 let isRefreshing = false;
 
@@ -45,69 +42,73 @@ export default function RootLayout() {
   });
 
   useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
+    const interceptorId = okamiHttpGateway.interceptors.response.use(
+      (response) => response,
+      async (error: AxiosError) => {
+        const refreshToken = await storageService.getString("REFRESH_TOKEN");
 
-    const subscription = AppState.addEventListener("change", onAppStateChange);
+        if (isUnauthorizedError(error) && refreshToken) {
+          if (!isRefreshing) {
+            isRefreshing = true;
 
-    return () => subscription.remove();
-  }, [loaded]);
+            authControllerRefreshToken({ refreshToken })
+              .then(({ token }) => {
+                storageService.set("TOKEN", token);
 
-  useFocusEffect(
-    useCallback(() => {
-      const interceptorId = okamiHttpGateway.interceptors.response.use(
-        (response) => response,
-        async (error: AxiosError) => {
-          const refreshToken = await storageService.getString("REFRESH_TOKEN");
-
-          if (isUnauthorizedError(error) && refreshToken) {
-            if (!isRefreshing) {
-              isRefreshing = true;
-
-              authControllerRefreshToken({ refreshToken })
-                .then(({ token }) => {
-                  storageService.set("TOKEN", token);
-
-                  failRequestQueue.forEach((request) => {
-                    request.onSuccess(token);
-                  });
-                })
-                .catch((error) => {
-                  failRequestQueue.forEach((request) => {
-                    request.onFailure(error);
-                  });
-                })
-                .finally(() => {
-                  isRefreshing = false;
+                failRequestQueue.forEach((request) => {
+                  request.onSuccess(token);
                 });
-            }
-
-            return new Promise((resolve, reject) => {
-              failRequestQueue.push({
-                onFailure: (error) => reject(error),
-                onSuccess: (token) => {
-                  if (!error.config?.headers) return;
-
-                  error.config.headers.Authorization = `Bearer ${token}`;
-
-                  resolve(okamiHttpGateway(error.config));
-                },
+              })
+              .catch((error) => {
+                failRequestQueue.forEach((request) => {
+                  request.onFailure(error);
+                });
+              })
+              .finally(() => {
+                isRefreshing = false;
               });
-            });
           }
 
-          router.replace("/auth/sign-in");
+          return new Promise((resolve, reject) => {
+            failRequestQueue.push({
+              onFailure: (error) => reject(error),
+              onSuccess: (token) => {
+                if (!error.config?.headers) return;
 
-          return Promise.reject(error);
-        },
-      );
+                error.config.headers.Authorization = `Bearer ${token}`;
 
-      return () => {
-        okamiHttpGateway.interceptors.response.eject(interceptorId);
-      };
-    }, [storageService]),
-  );
+                resolve(okamiHttpGateway(error.config));
+              },
+            });
+          });
+        }
+
+        router.replace("/auth/sign-in");
+
+        return Promise.reject(error);
+      },
+    );
+
+    return () => {
+      okamiHttpGateway.interceptors.response.eject(interceptorId);
+    };
+  }, [storageService]);
+
+  if (!loaded) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          width: "100%",
+          height: "100%",
+        }}
+      >
+        <Text>Okami app</Text>
+      </View>
+    );
+  }
 
   return (
     <QueryClientProvider client={queryClient}>

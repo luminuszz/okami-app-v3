@@ -1,8 +1,16 @@
+import { useNotificationControllerGetRecentNotifications } from "@/api/okami";
 import { Container } from "@/components/layout/container";
 import { Tabs } from "expo-router";
-import { BookMarked, UserRound } from "lucide-react-native";
+import { Bell, BookMarked, UserRound } from "lucide-react-native";
 
 export default function ApplicationTabLayout() {
+  const { data: notifications = [] } =
+    useNotificationControllerGetRecentNotifications();
+
+  const unreadNotificationsCount = notifications?.filter(
+    (notification) => !notification?.readAt,
+  ).length;
+
   return (
     <Tabs
       screenOptions={{ headerShown: false }}
@@ -26,6 +34,17 @@ export default function ApplicationTabLayout() {
           tabBarIcon: ({ color, size }) => (
             <UserRound size={size} stroke={color} className="size-4" />
           ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="notifications"
+        options={{
+          title: "Notificações",
+          tabBarIcon: ({ color, size }) => (
+            <Bell size={size} stroke={color} className="size-4" />
+          ),
+          tabBarBadge: unreadNotificationsCount,
         }}
       />
     </Tabs>

@@ -12,6 +12,7 @@ export default function IndexScreen() {
   const checksUserSession = useCallback(async () => {
     setIsLoading(true);
     const refreshToken = await storageService.getString("REFRESH_TOKEN");
+
     if (!refreshToken) {
       router.replace("/auth/sign-in");
     } else {

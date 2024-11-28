@@ -8,10 +8,12 @@ import { Image } from "../ui/image";
 import { Text } from "../ui/text";
 import { VStack } from "../ui/vstack";
 
+import { filtersLabels } from "@/constants/strings";
 import { formatDistanceToNow, parseISO } from "date-fns";
 import { Link } from "expo-router";
 import { BookMarked, Clock } from "lucide-react-native";
 import configColors from "tailwindcss/colors";
+import { ExternalLink } from "../ExternalLink";
 import { Button, ButtonIcon } from "../ui/button";
 
 export interface WorkCardProps {
@@ -26,8 +28,15 @@ export interface WorkCardProps {
     currentChapter: number;
     type: "ANIME" | "MANGA";
     isFinished?: boolean;
+    url: string;
   };
 }
+
+const statusColor = {
+  finished: configColors.purple[500],
+  unread: configColors.emerald[500],
+  read: configColors.blue[500],
+};
 
 export function WorkCard({ work }: WorkCardProps) {
   const limitedTags = work.tags.slice(0, 3).map((tag) => {
@@ -46,14 +55,31 @@ export function WorkCard({ work }: WorkCardProps) {
 
   const categoryLabel = work.type === "ANIME" ? "Episódio" : "Capítulo";
 
+  const status = work.isFinished
+    ? "finished"
+    : work.newChapter
+      ? "unread"
+      : "read";
+
   return (
-    <Card variant="elevated" className="max-w-[200px] px-4">
+    <Card variant="elevated" className="max-w-[200px]">
       <HStack space="lg">
-        <Image
-          className="mb-6 h-[200px] w-[300px] rounded-md"
-          source={{ uri: work.imageUrl }}
-          alt="Solo Leveling"
-        />
+        <VStack>
+          <Badge
+            className="z-10 -mb-8 ml-2 self-start rounded-lg"
+            style={{ backgroundColor: statusColor[status] }}
+          >
+            <BadgeText className="text-typography-900">
+              {filtersLabels[status]}
+            </BadgeText>
+          </Badge>
+
+          <Image
+            className="mb-6 h-[200px] w-[300px] rounded-md"
+            source={{ uri: work.imageUrl }}
+            alt="Solo Leveling"
+          />
+        </VStack>
 
         <VStack space="md">
           <VStack>
@@ -114,15 +140,20 @@ export function WorkCard({ work }: WorkCardProps) {
             </Text>
           </HStack>
 
-          {work.isFinished && (
-            <Badge
-              style={{ backgroundColor: configColors.green[500] }}
-              className="justify-center rounded-lg text-sm"
-              variant="outline"
-            >
-              <BadgeText className="text-typography-900">Finalizado</BadgeText>
-            </Badge>
-          )}
+          <Badge
+            action={!!work.newChapter ? "success" : "muted"}
+            style={{
+              backgroundColor: work.newChapter
+                ? configColors.emerald[500]
+                : configColors.gray[500],
+            }}
+            className="justify-center rounded-lg text-sm"
+            variant="outline"
+          >
+            <ExternalLink className="text-typography-900" href={work.url ?? ""}>
+              Ir para o site
+            </ExternalLink>
+          </Badge>
         </VStack>
       </HStack>
     </Card>
