@@ -1,76 +1,32 @@
-import { authControllerRefreshToken } from "@/api/okami";
-import { isUnauthorizedError, okamiHttpGateway } from "@/lib/axios";
+import { Text } from "@/components/ui/text";
 import { useStorage } from "@/lib/storage";
-import { AxiosError } from "axios";
-import { router, useFocusEffect } from "expo-router";
-import { useCallback } from "react";
-
-let isRefreshing = false;
-
-type FailRequestQueue = {
-  onSuccess: (newToken: string) => void;
-  onFailure: (error: AxiosError) => void;
-}[];
-
-const failRequestQueue: FailRequestQueue = [];
+import { router } from "expo-router";
+import { Box } from "lucide-react-native";
+import { useCallback, useEffect, useState } from "react";
 
 export default function IndexScreen() {
   const storageService = useStorage();
 
-  useFocusEffect(
-    useCallback(() => {
-      const interceptorId = okamiHttpGateway.interceptors.response.use(
-        (response) => response,
-        (error: AxiosError) => {
-          const refreshToken = storageService.getString("REFRESH_TOKEN");
+  const [isLoading, setIsLoading] = useState(true);
 
-          if (isUnauthorizedError(error) && refreshToken) {
-            if (!isRefreshing) {
-              isRefreshing = true;
+  const checksUserSession = useCallback(async () => {
+    setIsLoading(true);
+    const refreshToken = await storageService.getString("REFRESH_TOKEN");
+    if (!refreshToken) {
+      router.replace("/auth/sign-in");
+    } else {
+      router.replace("/home");
+    }
+    setIsLoading(false);
+  }, [storageService]);
 
-              authControllerRefreshToken({ refreshToken })
-                .then(({ token }) => {
-                  storageService.set("TOKEN", token);
+  useEffect(() => {
+    checksUserSession();
+  }, [checksUserSession]);
 
-                  failRequestQueue.forEach((request) => {
-                    request.onSuccess(token);
-                  });
-                })
-                .catch((error) => {
-                  failRequestQueue.forEach((request) => {
-                    request.onFailure(error);
-                  });
-                })
-                .finally(() => {
-                  isRefreshing = false;
-                });
-            }
-
-            return new Promise((resolve, reject) => {
-              failRequestQueue.push({
-                onFailure: (error) => reject(error),
-                onSuccess: (token) => {
-                  if (!error.config?.headers) return;
-
-                  error.config.headers.Authorization = `Bearer ${token}`;
-
-                  resolve(okamiHttpGateway(error.config));
-                },
-              });
-            });
-          }
-
-          router.replace("/auth/sign-in");
-
-          return Promise.reject(error);
-        },
-      );
-
-      return () => {
-        okamiHttpGateway.interceptors.response.eject(interceptorId);
-      };
-    }, [storageService]),
+  return (
+    <Box className="flex h-full w-full flex-1 items-center justify-center">
+      {isLoading ? <Text>Carregando</Text> : null}
+    </Box>
   );
-
-  return null;
 }

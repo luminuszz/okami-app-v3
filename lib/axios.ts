@@ -25,7 +25,6 @@ export const customInstance = <T>(
   return promise;
 };
 
-// In some case with react-query and swr you want to be able to override the return error type so you can also do it here like this
 export type ErrorType<Error> = AxiosError<Error>;
 
 export type BodyType<BodyData> = BodyData;

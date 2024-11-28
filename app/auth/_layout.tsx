@@ -7,7 +7,7 @@ export default function AuthLayout() {
       screenLayout={({ children }) => <Container>{children}</Container>}
       screenOptions={{ headerShown: false }}
     >
-      <Stack.Screen name="index" />
+      <Stack.Screen name="sign-in" />
       <Stack.Screen name="sign-up" />
     </Stack>
   );

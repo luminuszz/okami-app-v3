@@ -1,4 +1,4 @@
-import { MMKV, useMMKV } from "react-native-mmkv";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const STORAGE_KEYS = {
   REFRESH_TOKEN: "okami-refresh-token",
@@ -7,29 +7,24 @@ export const STORAGE_KEYS = {
 
 type KeyOfStorageKeys = keyof typeof STORAGE_KEYS;
 
-const databaseKey = "okami";
+export const storage = AsyncStorage;
 
-export const storage = new MMKV({ id: databaseKey });
-
-export interface Storage extends MMKV {
-  set(key: KeyOfStorageKeys, value: string): void;
-  getString(key: KeyOfStorageKeys): string | undefined;
+export interface Storage {
+  set(key: KeyOfStorageKeys, value: string): Promise<void>;
+  getString(key: KeyOfStorageKeys): Promise<string | null>;
 }
 
 export function useStorage(): Storage {
-  function set(key: KeyOfStorageKeys, value: string) {
-    storage.set(STORAGE_KEYS[key], value);
+  async function set(key: KeyOfStorageKeys, value: string) {
+    await storage.setItem(STORAGE_KEYS[key], value);
   }
 
-  function getString(key: KeyOfStorageKeys) {
-    return storage.getString(STORAGE_KEYS[key]);
+  async function getString(key: KeyOfStorageKeys) {
+    return storage.getItem(STORAGE_KEYS[key]);
   }
-
-  const storage = useMMKV({ id: databaseKey });
 
   return {
-    ...storage,
     set,
     getString,
-  } as Storage;
+  };
 }

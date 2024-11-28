@@ -1,7 +1,6 @@
 import { useWorkControllerListUserWorks } from "@/api/okami";
 import { Box } from "@/components/ui/box";
-import { Button } from "@/components/ui/button";
-import { Text } from "@/components/ui/text";
+import { Button, ButtonText } from "@/components/ui/button";
 import { WorkFilters } from "@/components/works/works-filters";
 import {
   toggleWorkFilter,
@@ -18,14 +17,11 @@ export default function WorkListScreen() {
     search: search ?? "",
   });
 
-  console.log({ data });
-
   return (
-    <Box>
+    <Box className="mt-10">
       <WorkFilters />
-      <Text>Work List screen</Text>
-      <Button onPress={openFilterModal}>
-        <Text>Open Filter</Text>
+      <Button size="lg" onPress={openFilterModal}>
+        <ButtonText>Abrir filtros</ButtonText>
       </Button>
     </Box>
   );
