@@ -62,6 +62,7 @@ export default function WorkListScreen() {
                 isFinished: work.isFinished,
                 id: work.id,
                 url: work.url,
+                isFavorite: work.isFavorite,
               }}
             />
           )}

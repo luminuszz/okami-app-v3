@@ -29,4 +29,5 @@ export interface WorkHttp {
   userId: string;
   alternativeName?: string;
   createdAt: string;
+  isFavorite: boolean;
 }

@@ -10,8 +10,10 @@ import { VStack } from "../ui/vstack";
 
 import { filtersLabels } from "@/constants/strings";
 import { formatDistanceToNow, parseISO } from "date-fns";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import { BookCheck, BookMarked, Clock } from "lucide-react-native";
+import { useState } from "react";
+import { Pressable } from "react-native";
 import configColors from "tailwindcss/colors";
 import { ExternalLink } from "../ExternalLink";
 import { Button, ButtonIcon } from "../ui/button";
@@ -29,6 +31,7 @@ export interface WorkCardProps {
     type: "ANIME" | "MANGA";
     isFinished?: boolean;
     url: string;
+    isFavorite: boolean;
   };
 }
 
@@ -39,6 +42,8 @@ const statusColor = {
 };
 
 export function WorkCard({ work }: WorkCardProps) {
+  const [isFavorite, setIsFavorite] = useState(work.isFavorite);
+
   const limitedTags = work.tags.slice(0, 3).map((tag) => {
     const currentColor = tag.color as keyof typeof configColors;
 
@@ -74,11 +79,22 @@ export function WorkCard({ work }: WorkCardProps) {
             </BadgeText>
           </Badge>
 
-          <Image
-            className="mb-6 h-[200px] w-[300px] rounded-md"
-            source={{ uri: work.imageUrl }}
-            alt="Solo Leveling"
-          />
+          <Pressable
+            onPress={() =>
+              router.push({
+                pathname: "/modal/[workId]/edit-work",
+                params: {
+                  workId: work.id,
+                },
+              })
+            }
+          >
+            <Image
+              className="mb-6 h-[200px] w-[300px] rounded-md"
+              source={{ uri: work.imageUrl }}
+              alt="Solo Leveling"
+            />
+          </Pressable>
         </VStack>
 
         <VStack space="md">
@@ -86,6 +102,7 @@ export function WorkCard({ work }: WorkCardProps) {
             <Heading ellipsizeMode="tail" numberOfLines={2} size="md">
               {work.title.trim()}
             </Heading>
+
             {work.alternativeTitle && (
               <Text size="sm" className="text-typography-400">
                 {work.alternativeTitle}
