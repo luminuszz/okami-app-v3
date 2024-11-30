@@ -5,6 +5,7 @@ import AsyncStorage, {
 export const STORAGE_KEYS = {
   REFRESH_TOKEN: "okami-refresh-token",
   TOKEN: "okami-token",
+  SYNC_WORK_DELAY_DATE: "okami-sync-work-delay-date",
 } as const;
 
 type KeyOfStorageKeys = keyof typeof STORAGE_KEYS;

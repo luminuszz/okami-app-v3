@@ -11,7 +11,7 @@ import { VStack } from "../ui/vstack";
 import { filtersLabels } from "@/constants/strings";
 import { formatDistanceToNow, parseISO } from "date-fns";
 import { Link } from "expo-router";
-import { BookMarked, Clock } from "lucide-react-native";
+import { BookCheck, BookMarked, Clock } from "lucide-react-native";
 import configColors from "tailwindcss/colors";
 import { ExternalLink } from "../ExternalLink";
 import { Button, ButtonIcon } from "../ui/button";
@@ -116,7 +116,6 @@ export function WorkCard({ work }: WorkCardProps) {
               action="positive"
             >
               <ButtonIcon as={BookMarked} />
-
               <Link
                 className="text-md text-left text-emerald-500"
                 href={{
@@ -128,9 +127,18 @@ export function WorkCard({ work }: WorkCardProps) {
               </Link>
             </Button>
           ) : (
-            <Text size="sm" className="text-md text-typography-400">
-              {`${categoryLabel} atual: ${work.currentChapter}`}
-            </Text>
+            <Button size="sm" variant="link" className="max-w-xl justify-start">
+              <ButtonIcon as={BookCheck} />
+              <Link
+                className="text-md text-left text-typography-600"
+                href={{
+                  pathname: "/modal/[workId]",
+                  params: { workId: work.id },
+                }}
+              >
+                {` ${categoryLabel} atual: ${work.currentChapter}`}
+              </Link>
+            </Button>
           )}
 
           <HStack space="xs" className="items-center">

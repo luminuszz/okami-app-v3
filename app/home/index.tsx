@@ -6,7 +6,7 @@ import { HStack } from "@/components/ui/hstack";
 import { Text } from "@/components/ui/text";
 import { WorkCard } from "@/components/works/work-card";
 import { filtersLabels } from "@/constants/strings";
-import { worksFiltersAtom } from "@/store/works-filters-store";
+import { worksFiltersAtom } from "@/store/works-filters";
 import { useAtomValue } from "jotai";
 
 import { FlatList } from "react-native";
@@ -54,7 +54,8 @@ export default function WorkListScreen() {
                 tags: work.tags,
                 title: work.name,
                 alternativeTitle: work.alternativeName ?? "",
-                updatedAt: work.updatedAt ?? work.createdAt,
+                updatedAt:
+                  work.nextChapterUpdatedAt ?? work.updatedAt ?? work.createdAt,
                 currentChapter: work.chapter,
                 newChapter: work.nextChapter,
                 type: work.category,

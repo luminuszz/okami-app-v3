@@ -1,0 +1,1 @@
+export const DELAY_FOR_SYNC_WORKS_IN_HOURS = 2;

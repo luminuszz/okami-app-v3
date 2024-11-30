@@ -19,7 +19,7 @@ import { Input, InputField } from "@/components/ui/input";
 import { Skeleton, SkeletonText } from "@/components/ui/skeleton";
 import { Spinner } from "@/components/ui/spinner";
 import { VStack } from "@/components/ui/vstack";
-import { worksFiltersAtom } from "@/store/works-filters-store";
+import { worksFiltersAtom } from "@/store/works-filters";
 import { useQueryClient } from "@tanstack/react-query";
 import { Link, router, useLocalSearchParams } from "expo-router";
 import { useAtomValue } from "jotai";

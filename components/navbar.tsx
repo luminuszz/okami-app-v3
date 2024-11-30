@@ -1,9 +1,12 @@
 import { useAuthControllerGetMe } from "@/api/okami";
-import { toggleWorkFilter } from "@/store/works-filters-store";
+import { toggleProfileDrawerActionAtom } from "@/store/profile-drawer";
+import { toggleWorkFilter } from "@/store/works-filters";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { useSetAtom } from "jotai";
 import { Search } from "lucide-react-native";
+import { Pressable } from "react-native";
+import { ProfileDrawer } from "./profile/profile-drawer";
 import { Avatar, AvatarFallbackText, AvatarImage } from "./ui/avatar";
 import { Box } from "./ui/box";
 import { Button, ButtonIcon } from "./ui/button";
@@ -14,6 +17,8 @@ import { WorkFilters } from "./works/works-filters";
 export function Navbar() {
   const { data: userDetails } = useAuthControllerGetMe();
   const openFilterModal = useSetAtom(toggleWorkFilter);
+
+  const toggleProfileDrawer = useSetAtom(toggleProfileDrawerActionAtom);
 
   const formattedToday = format(new Date(), "'Hoje', EEEE", { locale: ptBR });
 
@@ -30,18 +35,21 @@ export function Navbar() {
           >
             <ButtonIcon as={() => <Search stroke="white" size={25} />} />
           </Button>
-          <Avatar size="md">
-            {userDetails?.avatarImageUrl ? (
-              <AvatarImage
-                source={{ uri: userDetails?.avatarImageUrl ?? "" }}
-              />
-            ) : (
-              <AvatarFallbackText>{userDetails?.name}</AvatarFallbackText>
-            )}
-          </Avatar>
+          <Pressable onPress={toggleProfileDrawer}>
+            <Avatar size="md">
+              {userDetails?.avatarImageUrl ? (
+                <AvatarImage
+                  source={{ uri: userDetails?.avatarImageUrl ?? "" }}
+                />
+              ) : (
+                <AvatarFallbackText>{userDetails?.name}</AvatarFallbackText>
+              )}
+            </Avatar>
+          </Pressable>
         </HStack>
       </HStack>
 
+      <ProfileDrawer />
       <WorkFilters />
     </Box>
   );

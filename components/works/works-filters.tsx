@@ -2,7 +2,7 @@ import {
   toggleWorkFilter,
   worksFiltersAtom,
   worksFiltersIsIsOpen,
-} from "@/store/works-filters-store";
+} from "@/store/works-filters";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { ChevronDown } from "lucide-react-native";

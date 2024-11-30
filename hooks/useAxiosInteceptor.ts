@@ -18,7 +18,21 @@ export function useAxiosInterceptor() {
   const storageService = useStorage();
 
   useEffect(() => {
-    const interceptorId = okamiHttpGateway.interceptors.response.use(
+    const interceptorIdRequest = okamiHttpGateway.interceptors.request.use(
+      async (config) => {
+        if (config.headers) {
+          const token = await storage.getItem("TOKEN");
+
+          config.headers["Authorization"] = `Bearer ${token}`;
+        }
+
+        config.baseURL = process.env.EXPO_PUBLIC_API_URL;
+
+        return config;
+      },
+    );
+
+    const interceptorIdResponse = okamiHttpGateway.interceptors.response.use(
       (response) => response,
       async (error: AxiosError) => {
         const refreshToken = await storageService.getString("REFRESH_TOKEN");
@@ -49,7 +63,10 @@ export function useAxiosInterceptor() {
 
           return new Promise((resolve, reject) => {
             failRequestQueue.push({
-              onFailure: (error) => reject(error),
+              onFailure: (error) => {
+                reject(error);
+                router.replace("/auth/sign-in");
+              },
               onSuccess: (token) => {
                 if (!error.config?.headers) return;
 
@@ -61,11 +78,12 @@ export function useAxiosInterceptor() {
           });
         }
 
-        router.replace("/auth/sign-in");
-
         return Promise.reject(error);
       },
     );
-    return () => okamiHttpGateway.interceptors.response.eject(interceptorId);
+    return () => {
+      okamiHttpGateway.interceptors.response.eject(interceptorIdResponse);
+      okamiHttpGateway.interceptors.request.eject(interceptorIdRequest);
+    };
   }, [storageService]);
 }
