@@ -1,29 +1,39 @@
-import axios, { AxiosError, AxiosRequestConfig } from "axios";
-import { env } from "./env";
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
+import { storage } from "./storage";
 
 export const okamiHttpGateway = axios.create({
-  baseURL: env.EXPO_PUBLIC_API_URL,
-}); // use your own URL here or environment variable
+  baseURL: process.env.EXPO_PUBLIC_API_URL,
+});
 
-// add a second `options` argument here if you want to pass extra options to each generated query
 export const customInstance = <T>(
   config: AxiosRequestConfig,
   options?: AxiosRequestConfig,
 ): Promise<T> => {
-  const source = axios.CancelToken.source();
+  const controller = new AbortController();
+
   const promise = okamiHttpGateway({
     ...config,
     ...options,
-    cancelToken: source.token,
+    signal: controller.signal,
   }).then(({ data }) => data);
 
   // @ts-ignore
   promise.cancel = () => {
-    source.cancel("Query was cancelled");
+    controller.abort();
   };
 
   return promise;
 };
+
+okamiHttpGateway.interceptors.request.use(async (config) => {
+  if (config.headers) {
+    const token = await storage.getItem("TOKEN");
+
+    config.headers["Authorization"] = `Bearer ${token}`;
+  }
+
+  return config;
+});
 
 export type ErrorType<Error> = AxiosError<Error>;
 
@@ -31,3 +41,7 @@ export type BodyType<BodyData> = BodyData;
 
 export const isUnauthorizedError = (error: AxiosError): boolean =>
   [401, 403].includes(error.response?.status || 0);
+
+export const refreshTokenInterceptor = {
+  onSuccess: (axiosCall: AxiosResponse) => axiosCall,
+};

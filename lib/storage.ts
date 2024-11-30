@@ -1,4 +1,6 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import AsyncStorage, {
+  AsyncStorageStatic,
+} from "@react-native-async-storage/async-storage";
 
 export const STORAGE_KEYS = {
   REFRESH_TOKEN: "okami-refresh-token",
@@ -9,7 +11,7 @@ type KeyOfStorageKeys = keyof typeof STORAGE_KEYS;
 
 export const storage = AsyncStorage;
 
-export interface Storage {
+export interface Storage extends AsyncStorageStatic {
   set(key: KeyOfStorageKeys, value: string): Promise<void>;
   getString(key: KeyOfStorageKeys): Promise<string | null>;
 }
@@ -24,6 +26,7 @@ export function useStorage(): Storage {
   }
 
   return {
+    ...storage,
     set,
     getString,
   };

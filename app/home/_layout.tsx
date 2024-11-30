@@ -1,5 +1,4 @@
 import { useNotificationControllerGetRecentNotifications } from "@/api/okami";
-import { Container } from "@/components/layout/container";
 import { Tabs } from "expo-router";
 import { Bell, BookMarked, UserRound } from "lucide-react-native";
 
@@ -12,11 +11,7 @@ export default function ApplicationTabLayout() {
   ).length;
 
   return (
-    <Tabs
-      screenOptions={{ headerShown: false }}
-      screenLayout={({ children }) => <Container>{children}</Container>}
-      initialRouteName="index"
-    >
+    <Tabs screenOptions={{ headerShown: false }} initialRouteName="index">
       <Tabs.Screen
         name="index"
         options={{

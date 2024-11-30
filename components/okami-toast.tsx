@@ -20,7 +20,12 @@ export function OkamiToast({
   description = "",
 }: OkamiToastProps) {
   return (
-    <Toast nativeID={uniqueToastId} action={action} variant="outline">
+    <Toast
+      nativeID={uniqueToastId}
+      action={action}
+      variant="outline"
+      className="mt-10"
+    >
       <ToastTitle>{title}</ToastTitle>
       {description && <ToastDescription>{description}</ToastDescription>}
     </Toast>

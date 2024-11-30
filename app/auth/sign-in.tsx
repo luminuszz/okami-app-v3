@@ -12,7 +12,7 @@ import { Input, InputField } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import { Text } from "@/components/ui/text";
 import { VStack } from "@/components/ui/vstack";
-import { useStorage } from "@/lib/storage";
+import { STORAGE_KEYS, useStorage } from "@/lib/storage";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { router } from "expo-router";
 import { Controller, useForm } from "react-hook-form";
@@ -26,7 +26,26 @@ const formLoginSchema = z.object({
 type FormSchema = z.infer<typeof formLoginSchema>;
 
 export default function SignInScreen() {
-  const { mutateAsync } = useAuthControllerLoginV2();
+  const { mutateAsync } = useAuthControllerLoginV2({
+    mutation: {
+      async onSuccess({ refreshToken, token }) {
+        await storage.multiSet([
+          [STORAGE_KEYS.TOKEN, token],
+          [STORAGE_KEYS.REFRESH_TOKEN, refreshToken],
+        ]);
+
+        router.push("/home");
+      },
+      onError(error) {
+        toast({
+          title: "Erro ao fazer login",
+          description:
+            "Verifique suas credenciais e tente novamente" + error.message,
+          action: "error",
+        });
+      },
+    },
+  });
   const storage = useStorage();
   const toast = useOkamiToast();
 
@@ -42,27 +61,13 @@ export default function SignInScreen() {
     resolver: zodResolver(formLoginSchema),
   });
 
-  async function handleSignIn(values: FormSchema) {
-    try {
-      const { refreshToken, token } = await mutateAsync({
-        data: {
-          email: values.email,
-          password: values.password,
-        },
-      });
-
-      storage.set("TOKEN", token);
-      storage.set("REFRESH_TOKEN", refreshToken);
-
-      router.push("/home");
-    } catch {
-      toast({
-        title: "Erro ao fazer login",
-        description: "Verifique suas credenciais e tente novamente",
-        action: "error",
-      });
-    }
-  }
+  const handleMutate = (values: FormSchema) =>
+    mutateAsync({
+      data: {
+        email: values.email,
+        password: values.password,
+      },
+    });
 
   return (
     <Box className="flex-1 items-center justify-center gap-4">
@@ -124,7 +129,7 @@ export default function SignInScreen() {
 
         <Button
           disabled={isSubmitting}
-          onPress={handleSubmit(handleSignIn)}
+          onPress={handleSubmit(handleMutate)}
           variant="solid"
           className="w-full"
           size="lg"
