@@ -89,14 +89,21 @@ export default function EditWorkScreen() {
 
   async function handleEditWork(values: EditFormValues) {
     try {
+      const data = {
+        alternativeName: values.alternativeName ?? "",
+        chapter: Number(values.chapter),
+        name: values.name,
+        url: values.url,
+        tagsId: currentWork?.tags.map((tag) => tag.id) ?? [],
+      };
+
+      if (currentWork?.hasNewChapter) {
+        // @ts-ignore
+        delete data.chapter;
+      }
+
       await updateWorkMutation.mutateAsync({
-        data: {
-          alternativeName: values.alternativeName ?? "",
-          chapter: Number(values.chapter),
-          name: values.name,
-          url: values.url,
-          tagsId: currentWork?.tags.map((tag) => tag.id) ?? [],
-        },
+        data,
         id: workId,
       });
       toast({
@@ -205,15 +212,26 @@ export default function EditWorkScreen() {
         />
 
         <Controller
+          disabled={currentWork?.hasNewChapter}
           control={control}
           name="chapter"
           render={({ field, fieldState }) => (
-            <FormControl size="md" isInvalid={!!fieldState.error}>
+            <FormControl
+              size="md"
+              isInvalid={!!fieldState.error}
+              isDisabled={currentWork?.hasNewChapter}
+            >
               <FormControlLabel>
                 <FormControlLabelText>{categoryLabel}</FormControlLabelText>
               </FormControlLabel>
 
-              <Input size="xl">
+              <Input
+                size="xl"
+                isDisabled={currentWork?.hasNewChapter}
+                className={
+                  currentWork?.hasNewChapter ? "bg-typography-100" : ""
+                }
+              >
                 <InputField
                   value={field.value}
                   onChangeText={(vl) => field.onChange(vl)}

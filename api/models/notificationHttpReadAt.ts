@@ -6,4 +6,4 @@
  * OpenAPI spec version: 1.0
  */
 
-export type NotificationHttpReadAt = { [key: string]: unknown };
+export type NotificationHttpReadAt = string | null;

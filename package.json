@@ -59,6 +59,7 @@
     "expo-web-browser": "~14.0.1",
     "jotai": "^2.10.3",
     "lucide-react-native": "^0.460.0",
+    "moti": "^0.29.0",
     "nativewind": "4.0.36",
     "orval": "^7.3.0",
     "react": "18.3.1",

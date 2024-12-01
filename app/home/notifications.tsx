@@ -1,18 +1,24 @@
 import { useNotificationControllerGetRecentNotifications } from "@/api/okami";
 import { Container } from "@/components/layout/container";
 import { Box } from "@/components/ui/box";
-import { Card } from "@/components/ui/card";
 import { Heading } from "@/components/ui/heading";
 import { HStack } from "@/components/ui/hstack";
-import { Text } from "@/components/ui/text";
 import { VStack } from "@/components/ui/vstack";
 import { Link } from "expo-router";
 import { ChevronLeft } from "lucide-react-native";
 import { FlatList } from "react-native";
 
+import { NotificationCard } from "@/components/notifications/notification-card";
+
 export default function Notifications() {
   const { data, refetch, isFetching } =
-    useNotificationControllerGetRecentNotifications();
+    useNotificationControllerGetRecentNotifications({
+      query: {
+        select(notifications) {
+          return notifications?.sort((a) => (a.readAt ? 1 : -1));
+        },
+      },
+    });
 
   return (
     <Container classname="mt-10 ">
@@ -24,7 +30,7 @@ export default function Notifications() {
           </Link>
         </HStack>
 
-        <Box className="mt-5 pb-12">
+        <Box className="mt-5 px-3 pb-12">
           <FlatList
             refreshing={isFetching}
             onRefresh={refetch}
@@ -32,14 +38,13 @@ export default function Notifications() {
             keyExtractor={(item) => item.id}
             ItemSeparatorComponent={() => <Box className="h-2" />}
             renderItem={({ item }) => (
-              <Card variant="elevated">
-                <VStack space="xs">
-                  <Text className="text-md text-typography-600">{`Obra atualizada: ${item.content?.name}`}</Text>
-                  <Text className="text-sm text-typography-400">
-                    {`${item.content.category === "ANIME" ? "Episódio" : "Capítulo"} ${item.content.chapter} disponível !`}
-                  </Text>
-                </VStack>
-              </Card>
+              <NotificationCard
+                notification={{
+                  content: item.content,
+                  id: item.id,
+                  readAt: item.readAt,
+                }}
+              />
             )}
           />
         </Box>

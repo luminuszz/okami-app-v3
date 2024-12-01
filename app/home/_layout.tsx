@@ -39,7 +39,7 @@ export default function ApplicationTabLayout() {
           tabBarIcon: ({ color, size }) => (
             <Bell size={size} stroke={color} className="size-4" />
           ),
-          tabBarBadge: unreadNotificationsCount,
+          tabBarBadge: unreadNotificationsCount || undefined,
         }}
       />
     </Tabs>
