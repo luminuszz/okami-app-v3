@@ -10,6 +10,7 @@ import type { UserHttpRole } from './userHttpRole';
 
 export interface UserHttp {
   avatarImageId: string;
+  /** @nullable */
   avatarImageUrl: UserHttpAvatarImageUrl;
   email: string;
   finishedWorksCount: number;

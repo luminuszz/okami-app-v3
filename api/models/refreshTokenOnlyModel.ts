@@ -7,5 +7,5 @@
  */
 
 export interface RefreshTokenOnlyModel {
-  token: string;
+  refreshToken: string;
 }

@@ -2,6 +2,14 @@ require("dotenv").config();
 
 module.exports = {
   okami: {
+    input: {
+      target: "./swagger.json",
+      filers: {
+        mode: "exclude",
+        tags: [/health/],
+      },
+    },
+
     output: {
       target: "api/okami.ts",
       schemas: "api/models",
@@ -13,8 +21,9 @@ module.exports = {
         },
       },
     },
-    input: {
-      target: "swagger.json",
+
+    hooks: {
+      afterAllFilesWrite: "prettier --write",
     },
   },
 };

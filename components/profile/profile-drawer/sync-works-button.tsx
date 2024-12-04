@@ -1,7 +1,7 @@
 import { useWorkControllerRefreshChapters } from "@/api/okami";
 import { useOkamiToast } from "@/components/okami-toast";
 import { Button, ButtonIcon, ButtonText } from "@/components/ui/button";
-import { DELAY_FOR_SYNC_WORKS_IN_HOURS } from "@/constants/delay";
+import { DELAY_FOR_SYNC_WORKS_IN_HOURS } from "@/constants/time";
 import { STORAGE_KEYS } from "@/lib/storage";
 import { useAsyncStorage } from "@react-native-async-storage/async-storage";
 import { addHours, formatDistance, isBefore, parseISO } from "date-fns";
@@ -10,9 +10,7 @@ import { RefreshCcw } from "lucide-react-native";
 
 export function SyncWorksButton() {
   const toast = useOkamiToast();
-  const syncWorkDelayStorage = useAsyncStorage(
-    STORAGE_KEYS.SYNC_WORK_DELAY_DATE,
-  );
+  const syncWorkDelayStorage = useAsyncStorage(STORAGE_KEYS.SYNC_WORK_DELAY_DATE);
 
   const syncAllWorksMutation = useWorkControllerRefreshChapters({
     mutation: {
@@ -29,15 +27,13 @@ export function SyncWorksButton() {
           title: "Erro ao atualizar obras",
           action: "error",
         });
-        syncWorkDelayStorage.removeItem();
+        await syncWorkDelayStorage.removeItem();
       },
     },
   });
 
   async function setNewDelay() {
-    await syncWorkDelayStorage.setItem(
-      addHours(new Date(), DELAY_FOR_SYNC_WORKS_IN_HOURS).toISOString(),
-    );
+    await syncWorkDelayStorage.setItem(addHours(new Date(), DELAY_FOR_SYNC_WORKS_IN_HOURS).toISOString());
   }
 
   async function handleSyncWorks() {
@@ -72,11 +68,7 @@ export function SyncWorksButton() {
   }
 
   return (
-    <Button
-      variant="outline"
-      disabled={syncAllWorksMutation.isPending}
-      onPress={handleSyncWorks}
-    >
+    <Button variant="outline" disabled={syncAllWorksMutation.isPending} onPress={handleSyncWorks}>
       <ButtonIcon as={RefreshCcw} />
       <ButtonText>Sincronizar todas as obras</ButtonText>
     </Button>

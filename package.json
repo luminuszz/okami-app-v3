@@ -12,7 +12,8 @@
     "lint": "expo lint",
     "postinstall": "patch-package",
     "glue-add": "pnpm dlx gluestack-ui add",
-    "make:apk": "pnpm dlx eas-cli build -p android --profile preview --local"
+    "make:apk": "pnpm dlx eas-cli build -p android --profile preview --local",
+    "make:orval": "pnpm  orval generate --config ./orval.config.js"
   },
   "jest": {
     "preset": "jest-expo"
@@ -94,5 +95,6 @@
     "react-test-renderer": "18.3.1",
     "typescript": "^5.3.3"
   },
-  "private": true
+  "private": true,
+  "packageManager": "pnpm@9.12.3+sha512.cce0f9de9c5a7c95bef944169cc5dfe8741abfb145078c0d508b868056848a87c81e626246cb60967cbd7fd29a6c062ef73ff840d96b3c86c40ac92cf4a813ee"
 }

@@ -12,7 +12,6 @@ import { filtersLabels } from "@/constants/strings";
 import { formatDistanceToNow, parseISO } from "date-fns";
 import { Link, router } from "expo-router";
 import { BookCheck, BookMarked, Clock } from "lucide-react-native";
-import { useState } from "react";
 import { Pressable } from "react-native";
 import configColors from "tailwindcss/colors";
 import { ExternalLink } from "../ExternalLink";
@@ -42,8 +41,6 @@ const statusColor = {
 };
 
 export function WorkCard({ work }: WorkCardProps) {
-  const [isFavorite, setIsFavorite] = useState(work.isFavorite);
-
   const limitedTags = work.tags.slice(0, 3).map((tag) => {
     const currentColor = tag.color as keyof typeof configColors;
 
@@ -60,23 +57,14 @@ export function WorkCard({ work }: WorkCardProps) {
 
   const categoryLabel = work.type === "ANIME" ? "Episódio" : "Capítulo";
 
-  const status = work.isFinished
-    ? "finished"
-    : work.newChapter
-      ? "unread"
-      : "read";
+  const status = work.isFinished ? "finished" : work.newChapter ? "unread" : "read";
 
   return (
     <Card variant="elevated" className="max-w-[200px]">
       <HStack space="lg">
         <VStack>
-          <Badge
-            className="z-10 -mb-8 ml-2 self-start rounded-lg"
-            style={{ backgroundColor: statusColor[status] }}
-          >
-            <BadgeText className="text-typography-900">
-              {filtersLabels[status]}
-            </BadgeText>
+          <Badge className="z-10 -mb-8 ml-2 self-start rounded-lg" style={{ backgroundColor: statusColor[status] }}>
+            <BadgeText className="text-typography-900">{filtersLabels[status]}</BadgeText>
           </Badge>
 
           <Pressable
@@ -89,11 +77,7 @@ export function WorkCard({ work }: WorkCardProps) {
               })
             }
           >
-            <Image
-              className="mb-6 h-[200px] w-[300px] rounded-md"
-              source={{ uri: work.imageUrl }}
-              alt="Solo Leveling"
-            />
+            <Image className="mb-6 h-[200px] w-[300px] rounded-md" source={{ uri: work.imageUrl }} alt="Solo Leveling" />
           </Pressable>
         </VStack>
 
@@ -112,26 +96,14 @@ export function WorkCard({ work }: WorkCardProps) {
 
           <Box className="flex-row flex-wrap gap-1">
             {limitedTags.map((tag) => (
-              <Badge
-                style={{ backgroundColor: tag.color }}
-                key={tag.id}
-                className={`rounded-lg text-sm`}
-                variant="outline"
-              >
-                <BadgeText className="text-typography-900">
-                  {tag.name}
-                </BadgeText>
+              <Badge style={{ backgroundColor: tag.color }} key={tag.id} className={`rounded-lg text-sm`} variant="outline">
+                <BadgeText className="text-typography-900">{tag.name}</BadgeText>
               </Badge>
             ))}
           </Box>
 
           {work.newChapter ? (
-            <Button
-              size="sm"
-              variant="link"
-              className="max-w-xl justify-start"
-              action="positive"
-            >
+            <Button size="sm" variant="link" className="max-w-xl justify-start" action="positive">
               <ButtonIcon as={BookMarked} />
               <Link
                 className="text-md text-left text-emerald-500"
@@ -160,17 +132,13 @@ export function WorkCard({ work }: WorkCardProps) {
 
           <HStack space="xs" className="items-center">
             <Clock size="16" className="size-4 bg-slate-200" stroke="gray" />
-            <Text className="text-sm text-typography-400">
-              {formattedUpdatedAt}
-            </Text>
+            <Text className="text-sm text-typography-400">{formattedUpdatedAt}</Text>
           </HStack>
 
           <Badge
             action={!!work.newChapter ? "success" : "muted"}
             style={{
-              backgroundColor: work.newChapter
-                ? configColors.emerald[500]
-                : configColors.gray[500],
+              backgroundColor: work.newChapter ? configColors.emerald[500] : configColors.gray[500],
             }}
             className="justify-center rounded-lg text-sm"
             variant="outline"

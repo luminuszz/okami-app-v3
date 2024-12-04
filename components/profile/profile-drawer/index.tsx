@@ -10,13 +10,7 @@ import { Avatar, AvatarFallbackText, AvatarImage } from "../../ui/avatar";
 import { Badge, BadgeIcon, BadgeText } from "../../ui/badge";
 import { Button, ButtonIcon, ButtonText } from "../../ui/button";
 import { Center } from "../../ui/center";
-import {
-  Drawer,
-  DrawerBackdrop,
-  DrawerBody,
-  DrawerContent,
-  DrawerFooter,
-} from "../../ui/drawer";
+import { Drawer, DrawerBackdrop, DrawerBody, DrawerContent, DrawerFooter } from "../../ui/drawer";
 import { Text } from "../../ui/text";
 import { VStack } from "../../ui/vstack";
 import { SyncWorksButton } from "./sync-works-button";
@@ -36,42 +30,20 @@ export function ProfileDrawer() {
   }
 
   return (
-    <Drawer
-      isOpen={isOpen}
-      onClose={() => setIsIOpen(false)}
-      size="md"
-      anchor="bottom"
-    >
+    <Drawer isOpen={isOpen} onClose={() => setIsIOpen(false)} size="md" anchor="bottom">
       <DrawerBackdrop />
       <DrawerContent>
         <DrawerBody>
           <Center className="mt-5">
             <VStack space="md">
-              <Avatar size="2xl">
-                {user?.avatarImageUrl ? (
-                  <AvatarImage source={{ uri: user.avatarImageUrl }} />
-                ) : (
-                  <AvatarFallbackText>{user?.name}</AvatarFallbackText>
-                )}
-              </Avatar>
+              <Avatar size="2xl">{user?.avatarImageUrl ? <AvatarImage source={{ uri: user.avatarImageUrl }} /> : <AvatarFallbackText>{user?.name}</AvatarFallbackText>}</Avatar>
 
-              <Text className="text-center text-xl text-typography-600">
-                {user?.name}
-              </Text>
+              <Text className="text-center text-xl text-typography-600">{user?.name}</Text>
 
-              <Badge
-                action="info"
-                variant="outline"
-                size="lg"
-                className="justify-center rounded-lg"
-              >
-                <BadgeIcon
-                  as={(props) => <Crown {...props} stroke="yellow" />}
-                />
+              <Badge action="info" variant="outline" size="lg" className="justify-center rounded-lg">
+                <BadgeIcon as={(props) => <Crown {...props} stroke="yellow" />} />
 
-                <BadgeText className="ml-2 text-sm tracking-widest">
-                  Premium
-                </BadgeText>
+                <BadgeText className="ml-2 text-sm tracking-widest">Premium</BadgeText>
               </Badge>
             </VStack>
           </Center>
@@ -85,12 +57,7 @@ export function ProfileDrawer() {
         </DrawerBody>
 
         <DrawerFooter className="mb-10">
-          <Button
-            variant="solid"
-            action="negative"
-            className="mt-2 w-full"
-            onPress={handleLogout}
-          >
+          <Button variant="solid" action="negative" className="mt-2 w-full" onPress={handleLogout}>
             <ButtonIcon as={ExternalLinkIcon} />
             <ButtonText>Sair</ButtonText>
           </Button>

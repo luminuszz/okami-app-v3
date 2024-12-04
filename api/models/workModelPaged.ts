@@ -8,6 +8,6 @@
 import type { WorkHttp } from './workHttp';
 
 export interface WorkModelPaged {
-  data: WorkHttp[];
   totalOfPages: number;
+  works: WorkHttp[];
 }

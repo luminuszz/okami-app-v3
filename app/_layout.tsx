@@ -3,38 +3,37 @@ import "react-native-reanimated";
 
 import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
 import { StatusBar } from "expo-status-bar";
-import { useEffect } from "react";
 
 import { useAxiosInterceptor } from "@/hooks/useAxiosInteceptor";
-import { useStorage } from "@/lib/storage";
 import { DarkTheme, ThemeProvider } from "@react-navigation/native";
 import { QueryClientProvider } from "@tanstack/react-query";
-import { router, Stack } from "expo-router";
-import * as SplashScreen from "expo-splash-screen";
-import { queryClient } from "../lib/react-query";
+import { Stack } from "expo-router";
+import { queryClient } from "@/lib/react-query";
 
-SplashScreen.preventAutoHideAsync();
+import * as SplashScreen from "expo-splash-screen";
+
+import { useFonts, Roboto_400Regular, Roboto_500Medium, Roboto_900Black } from "@expo-google-fonts/roboto";
+import { useEffect } from "react";
+
+void SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   useAxiosInterceptor();
-  const storageService = useStorage();
+
+  const [fontsLoaded] = useFonts([Roboto_500Medium, Roboto_900Black, Roboto_400Regular]);
 
   useEffect(() => {
-    (async () => {
-      const refreshToken = await storageService.getString("REFRESH_TOKEN");
-
-      router.replace(refreshToken ? "/home" : "/auth/sign-in");
-
-      SplashScreen.hideAsync();
-    })();
-  }, [storageService]);
+    if (fontsLoaded) {
+      void SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
 
   return (
     <GluestackUIProvider mode="dark">
       <QueryClientProvider client={queryClient}>
         <ThemeProvider value={DarkTheme}>
           <Stack screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="home" />
+            <Stack.Screen name="index" />
           </Stack>
         </ThemeProvider>
       </QueryClientProvider>

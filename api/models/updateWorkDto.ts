@@ -10,6 +10,5 @@ export interface UpdateWorkDto {
   alternativeName: string;
   chapter: number;
   name: string;
-  tagsId: string[];
   url: string;
 }

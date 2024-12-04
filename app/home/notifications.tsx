@@ -6,19 +6,19 @@ import { HStack } from "@/components/ui/hstack";
 import { VStack } from "@/components/ui/vstack";
 import { Link } from "expo-router";
 import { ChevronLeft } from "lucide-react-native";
+
 import { FlatList } from "react-native";
 
 import { NotificationCard } from "@/components/notifications/notification-card";
 
 export default function Notifications() {
-  const { data, refetch, isFetching } =
-    useNotificationControllerGetRecentNotifications({
-      query: {
-        select(notifications) {
-          return notifications?.sort((a) => (a.readAt ? 1 : -1));
-        },
+  const { data, refetch, isFetching } = useNotificationControllerGetRecentNotifications({
+    query: {
+      select(notifications) {
+        return notifications?.sort((a) => (a.readAt ? 1 : -1));
       },
-    });
+    },
+  });
 
   return (
     <Container classname="mt-10 ">

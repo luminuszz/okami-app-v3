@@ -6,4 +6,7 @@
  * OpenAPI spec version: 1.0
  */
 
-export type UserHttpAvatarImageUrl = string;
+/**
+ * @nullable
+ */
+export type UserHttpAvatarImageUrl = { [key: string]: unknown } | null;

@@ -1,20 +1,9 @@
-import {
-  getWorkControllerGetByIdQueryKey,
-  getWorkControllerListUserWorksQueryKey,
-  useWorkControllerGetById,
-  useWorkControllerUpdateWork,
-} from "@/api/okami";
+import { getWorkControllerGetByIdQueryKey, getWorkControllerListUserWorksQueryKey, useWorkControllerGetById, useWorkControllerUpdateWork } from "@/api/okami";
 import { Container } from "@/components/layout/container";
 import { useOkamiToast } from "@/components/okami-toast";
 import { Button, ButtonText } from "@/components/ui/button";
 import { Center } from "@/components/ui/center";
-import {
-  FormControl,
-  FormControlError,
-  FormControlErrorText,
-  FormControlLabel,
-  FormControlLabelText,
-} from "@/components/ui/form-control";
+import { FormControl, FormControlError, FormControlErrorText, FormControlLabel, FormControlLabelText } from "@/components/ui/form-control";
 import { Heading } from "@/components/ui/heading";
 import { HStack } from "@/components/ui/hstack";
 import { Image } from "@/components/ui/image";
@@ -84,8 +73,7 @@ export default function EditWorkScreen() {
     },
   });
 
-  const categoryLabel =
-    currentWork?.category === "ANIME" ? "Episódio" : "Capítulo";
+  const categoryLabel = currentWork?.category === "ANIME" ? "Episódio" : "Capítulo";
 
   async function handleEditWork(values: EditFormValues) {
     try {
@@ -143,11 +131,7 @@ export default function EditWorkScreen() {
             {currentWork?.name}
           </Heading>
 
-          <Image
-            alt={currentWork?.name}
-            className="mb-6 h-[200px] w-full rounded-md"
-            source={{ uri: currentWork?.imageUrl ?? "" }}
-          />
+          <Image alt={currentWork?.name} className="mb-6 h-[200px] w-full rounded-md" source={{ uri: currentWork?.imageUrl ?? "" }} />
         </VStack>
       </Center>
 
@@ -161,20 +145,12 @@ export default function EditWorkScreen() {
                 <FormControlLabelText>Nome da obra</FormControlLabelText>
               </FormControlLabel>
               <Input size="xl">
-                <InputField
-                  value={field.value}
-                  onChangeText={(vl) => field.onChange(vl)}
-                  onBlur={field.onBlur}
-                  className="text-md w-full"
-                  type="text"
-                />
+                <InputField value={field.value} onChangeText={(vl) => field.onChange(vl)} onBlur={field.onBlur} className="text-md w-full" type="text" />
               </Input>
 
               {fieldState.error && (
                 <FormControlError>
-                  <FormControlErrorText>
-                    {fieldState.error.message}
-                  </FormControlErrorText>
+                  <FormControlErrorText>{fieldState.error.message}</FormControlErrorText>
                 </FormControlError>
               )}
             </FormControl>
@@ -191,20 +167,12 @@ export default function EditWorkScreen() {
               </FormControlLabel>
 
               <Input size="xl">
-                <InputField
-                  value={field.value}
-                  onChangeText={(vl) => field.onChange(vl)}
-                  onBlur={field.onBlur}
-                  className="text-md w-full"
-                  type="text"
-                />
+                <InputField value={field.value} onChangeText={(vl) => field.onChange(vl)} onBlur={field.onBlur} className="text-md w-full" type="text" />
               </Input>
 
               {fieldState.error && (
                 <FormControlError>
-                  <FormControlErrorText>
-                    {fieldState.error.message}
-                  </FormControlErrorText>
+                  <FormControlErrorText>{fieldState.error.message}</FormControlErrorText>
                 </FormControlError>
               )}
             </FormControl>
@@ -216,37 +184,18 @@ export default function EditWorkScreen() {
           control={control}
           name="chapter"
           render={({ field, fieldState }) => (
-            <FormControl
-              size="md"
-              isInvalid={!!fieldState.error}
-              isDisabled={currentWork?.hasNewChapter}
-            >
+            <FormControl size="md" isInvalid={!!fieldState.error} isDisabled={currentWork?.hasNewChapter}>
               <FormControlLabel>
                 <FormControlLabelText>{categoryLabel}</FormControlLabelText>
               </FormControlLabel>
 
-              <Input
-                size="xl"
-                isDisabled={currentWork?.hasNewChapter}
-                className={
-                  currentWork?.hasNewChapter ? "bg-typography-100" : ""
-                }
-              >
-                <InputField
-                  value={field.value}
-                  onChangeText={(vl) => field.onChange(vl)}
-                  onBlur={field.onBlur}
-                  className="text-md w-full"
-                  type="text"
-                  keyboardType="numbers-and-punctuation"
-                />
+              <Input size="xl" isDisabled={currentWork?.hasNewChapter} className={currentWork?.hasNewChapter ? "bg-typography-100" : ""}>
+                <InputField value={field.value} onChangeText={(vl) => field.onChange(vl)} onBlur={field.onBlur} className="text-md w-full" type="text" keyboardType="numbers-and-punctuation" />
               </Input>
 
               {fieldState.error && (
                 <FormControlError>
-                  <FormControlErrorText>
-                    {fieldState.error.message}
-                  </FormControlErrorText>
+                  <FormControlErrorText>{fieldState.error.message}</FormControlErrorText>
                 </FormControlError>
               )}
             </FormControl>
@@ -263,37 +212,20 @@ export default function EditWorkScreen() {
               </FormControlLabel>
 
               <Input size="xl">
-                <InputField
-                  value={field.value}
-                  onChangeText={(vl) => field.onChange(vl)}
-                  onBlur={field.onBlur}
-                  className="text-md w-full"
-                  type="text"
-                  keyboardType="numbers-and-punctuation"
-                />
+                <InputField value={field.value} onChangeText={(vl) => field.onChange(vl)} onBlur={field.onBlur} className="text-md w-full" type="text" keyboardType="numbers-and-punctuation" />
               </Input>
 
               {fieldState.error && (
                 <FormControlError>
-                  <FormControlErrorText>
-                    {fieldState.error.message}
-                  </FormControlErrorText>
+                  <FormControlErrorText>{fieldState.error.message}</FormControlErrorText>
                 </FormControlError>
               )}
             </FormControl>
           )}
         />
 
-        <Button
-          onPress={handleSubmit(handleEditWork)}
-          className="w-full"
-          variant="solid"
-          action="positive"
-          isDisabled={isSubmitting || isLoading}
-        >
-          <ButtonText>
-            {isPending || isSubmitting ? <Spinner /> : "Salvar"}
-          </ButtonText>
+        <Button onPress={handleSubmit(handleEditWork)} className="w-full" variant="solid" action="positive" isDisabled={isSubmitting || isLoading}>
+          <ButtonText>{isPending || isSubmitting ? <Spinner /> : "Salvar"}</ButtonText>
         </Button>
       </VStack>
     </Container>

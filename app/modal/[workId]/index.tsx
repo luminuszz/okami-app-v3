@@ -1,17 +1,9 @@
-import {
-  getWorkControllerListUserWorksQueryKey,
-  useWorkControllerGetById,
-  useWorkControllerUpdateChapter,
-} from "@/api/okami";
+import { getWorkControllerListUserWorksQueryKey, useWorkControllerGetById, useWorkControllerUpdateChapter } from "@/api/okami";
 import { Container } from "@/components/layout/container";
 import { useOkamiToast } from "@/components/okami-toast";
 import { Button, ButtonText } from "@/components/ui/button";
 import { Center } from "@/components/ui/center";
-import {
-  FormControl,
-  FormControlError,
-  FormControlErrorText,
-} from "@/components/ui/form-control";
+import { FormControl, FormControlError, FormControlErrorText } from "@/components/ui/form-control";
 import { Heading } from "@/components/ui/heading";
 import { HStack } from "@/components/ui/hstack";
 import { Image } from "@/components/ui/image";
@@ -42,36 +34,35 @@ export default function UpdateWorkChapterScreen() {
 
   const filters = useAtomValue(worksFiltersAtom);
 
-  const { mutate: updateWorkChapter, isPending } =
-    useWorkControllerUpdateChapter({
-      mutation: {
-        async onSuccess() {
-          toast({
-            title: "Obra atualizada com sucesso !",
-            action: "success",
-          });
+  const { mutate: updateWorkChapter, isPending } = useWorkControllerUpdateChapter({
+    mutation: {
+      async onSuccess() {
+        toast({
+          title: "Obra atualizada com sucesso !",
+          action: "success",
+        });
 
-          const currentWorkListQuery = getWorkControllerListUserWorksQueryKey({
-            search: filters.search ?? undefined,
-            status: filters.status ?? undefined,
-          });
+        const currentWorkListQuery = getWorkControllerListUserWorksQueryKey({
+          search: filters.search ?? undefined,
+          status: filters.status ?? undefined,
+        });
 
-          await client.invalidateQueries({
-            queryKey: currentWorkListQuery,
-          });
+        await client.invalidateQueries({
+          queryKey: currentWorkListQuery,
+        });
 
-          router.push("/home");
-        },
-
-        onError() {
-          toast({
-            title: "Erro ao atualizar obra",
-            action: "error",
-            description: "Verifique os dados e tente novamente",
-          });
-        },
+        router.push("/home");
       },
-    });
+
+      onError() {
+        toast({
+          title: "Erro ao atualizar obra",
+          action: "error",
+          description: "Verifique os dados e tente novamente",
+        });
+      },
+    },
+  });
 
   function handleUpdateChapter() {
     const chapterResult = validChapter.safeParse(chapter);
@@ -126,11 +117,7 @@ export default function UpdateWorkChapterScreen() {
             {currentWork?.name}
           </Heading>
 
-          <Image
-            alt={currentWork?.name}
-            className="mb-6 h-[200px] w-full rounded-md"
-            source={{ uri: currentWork?.imageUrl ?? "" }}
-          />
+          <Image alt={currentWork?.name} className="mb-6 h-[200px] w-full rounded-md" source={{ uri: currentWork?.imageUrl ?? "" }} />
         </VStack>
       </Center>
 
@@ -155,13 +142,7 @@ export default function UpdateWorkChapterScreen() {
           )}
         </FormControl>
 
-        <Button
-          onPress={handleUpdateChapter}
-          className="w-full"
-          variant="solid"
-          action="positive"
-          isDisabled={isPending}
-        >
+        <Button onPress={handleUpdateChapter} className="w-full" variant="solid" action="positive" isDisabled={isPending}>
           <ButtonText>{isPending ? <Spinner /> : "Atualizar"}</ButtonText>
         </Button>
       </VStack>

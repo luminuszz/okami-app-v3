@@ -15,7 +15,3 @@ export const worksFiltersIsIsOpen = atom<boolean>(false);
 export const toggleWorkFilter = atom(null, (get, set) => {
   set(worksFiltersIsIsOpen, !get(worksFiltersIsIsOpen));
 });
-
-export const updateWorkFilters = atom(null, (_, set, payload: WorkFilters) => {
-  set(worksFiltersAtom, payload);
-});
