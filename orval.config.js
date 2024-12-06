@@ -19,11 +19,11 @@ module.exports = {
           path: "./lib/axios.ts",
           name: "customInstance",
         },
+        query: {
+          useInfinite: true,
+          useInfiniteQueryParam: "page",
+        },
       },
-    },
-
-    hooks: {
-      afterAllFilesWrite: "prettier --write",
     },
   },
 };

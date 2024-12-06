@@ -1,10 +1,4 @@
-import {
-  Toast,
-  ToastDescription,
-  ToastStyleProps,
-  ToastTitle,
-  useToast,
-} from "./ui/toast";
+import { Toast, ToastDescription, ToastStyleProps, ToastTitle, useToast } from "./ui/toast";
 
 export interface OkamiToastProps {
   uniqueToastId: string;
@@ -13,19 +7,9 @@ export interface OkamiToastProps {
   action?: ToastStyleProps["action"];
 }
 
-export function OkamiToast({
-  title,
-  uniqueToastId,
-  action = "muted",
-  description = "",
-}: OkamiToastProps) {
+export function OkamiToast({ title, uniqueToastId, action = "muted", description = "" }: OkamiToastProps) {
   return (
-    <Toast
-      nativeID={uniqueToastId}
-      action={action}
-      variant="outline"
-      className="mt-10"
-    >
+    <Toast nativeID={uniqueToastId} action={action} variant="outline" className="mt-10">
       <ToastTitle>{title}</ToastTitle>
       {description && <ToastDescription>{description}</ToastDescription>}
     </Toast>

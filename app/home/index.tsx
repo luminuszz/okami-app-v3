@@ -1,8 +1,10 @@
-import { useWorkControllerListUserWorks } from "@/api/okami";
+import { useWorkControllerListUserWorksPagedInfinite } from "@/api/okami";
 import { Navbar } from "@/components/navbar";
 import { Badge, BadgeText } from "@/components/ui/badge";
 import { Box } from "@/components/ui/box";
+import { Center } from "@/components/ui/center";
 import { HStack } from "@/components/ui/hstack";
+import { Spinner } from "@/components/ui/spinner";
 import { Text } from "@/components/ui/text";
 import { WorkCard } from "@/components/works/work-card";
 import { filtersLabels } from "@/constants/strings";
@@ -14,12 +16,24 @@ import { FlatList } from "react-native";
 export default function WorkListScreen() {
   const { search, status } = useAtomValue(worksFiltersAtom);
 
-  const { data, refetch, isFetching } = useWorkControllerListUserWorks({
-    status: status ?? undefined,
-    search: search ?? "",
-  });
+  const { data, refetch, isFetching, isLoading, fetchNextPage, isFetchingNextPage, hasNextPage } = useWorkControllerListUserWorksPagedInfinite(
+    {
+      status: status ?? undefined,
+      search: search ?? undefined,
+      limit: 10,
+      page: 1,
+    },
+    {
+      query: {
+        initialPageParam: 1,
+        getNextPageParam: (lastPage) => lastPage.nextPage,
+      },
+    },
+  );
 
   const hasFilters = status || search;
+
+  const canFetchNextPage = !isFetchingNextPage && hasNextPage;
 
   return (
     <Box className="mt-10 w-full flex-1 px-4">
@@ -42,31 +56,37 @@ export default function WorkListScreen() {
       </HStack>
 
       <Box className="mt-10 pb-24">
-        <FlatList
-          onRefresh={refetch}
-          refreshing={isFetching}
-          keyExtractor={(item) => item.id}
-          data={data}
-          renderItem={({ item: work }) => (
-            <WorkCard
-              work={{
-                imageUrl: work.imageUrl ?? "",
-                tags: work.tags,
-                title: work.name,
-                alternativeTitle: work.alternativeName ?? "",
-                updatedAt:
-                  work.nextChapterUpdatedAt ?? work.updatedAt ?? work.createdAt,
-                currentChapter: work.chapter,
-                newChapter: work.nextChapter,
-                type: work.category,
-                isFinished: work.isFinished,
-                id: work.id,
-                url: work.url,
-                isFavorite: work.isFavorite,
-              }}
-            />
-          )}
-        />
+        {isLoading ? (
+          <Center className="flex h-full w-full">
+            <Spinner />
+          </Center>
+        ) : (
+          <FlatList
+            onRefresh={refetch}
+            refreshing={isFetching}
+            keyExtractor={(item) => item.id}
+            data={data?.pages?.flatMap((page) => page.works) ?? []}
+            onEndReached={() => canFetchNextPage && fetchNextPage()}
+            renderItem={({ item: work }) => (
+              <WorkCard
+                work={{
+                  imageUrl: work.imageUrl ?? "",
+                  tags: work.tags,
+                  title: work.name,
+                  alternativeTitle: work.alternativeName ?? "",
+                  updatedAt: work.nextChapterUpdatedAt ?? work.updatedAt ?? work.createdAt,
+                  currentChapter: work.chapter,
+                  newChapter: work.nextChapter,
+                  type: work.category,
+                  isFinished: work.isFinished,
+                  id: work.id,
+                  url: work.url,
+                  isFavorite: work.isFavorite,
+                }}
+              />
+            )}
+          />
+        )}
       </Box>
     </Box>
   );

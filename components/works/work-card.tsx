@@ -77,7 +77,7 @@ export function WorkCard({ work }: WorkCardProps) {
               })
             }
           >
-            <Image className="mb-6 h-[200px] w-[300px] rounded-md" source={{ uri: work.imageUrl }} alt="Solo Leveling" />
+            {work.imageUrl && <Image className="mb-6 h-[200px] w-[300px] rounded-md" source={{ uri: work.imageUrl }} alt="Solo Leveling" />}
           </Pressable>
         </VStack>
 

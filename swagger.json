@@ -570,8 +570,8 @@
       "RefreshStatus": { "type": "string", "enum": ["SUCCESS", "FAILED", "PENDING"] },
       "WorkModelPaged": {
         "type": "object",
-        "properties": { "works": { "type": "array", "items": { "$ref": "#/components/schemas/WorkHttp" } }, "totalOfPages": { "type": "number" } },
-        "required": ["works", "totalOfPages"]
+        "properties": { "works": { "type": "array", "items": { "$ref": "#/components/schemas/WorkHttp" } }, "totalOfPages": { "type": "number" }, "nextPage": { "type": "object" } },
+        "required": ["works", "totalOfPages", "nextPage"]
       },
       "ScrappingReportDto": { "type": "object", "properties": { "status": { "type": "string" }, "workId": { "type": "string" } }, "required": ["status", "workId"] },
       "MakeSessionDto": {
