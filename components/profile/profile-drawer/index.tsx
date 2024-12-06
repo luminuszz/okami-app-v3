@@ -2,6 +2,7 @@ import { useAuthControllerGetMe } from "@/api/okami";
 import { queryClient } from "@/lib/react-query";
 import { STORAGE_KEYS, useStorage } from "@/lib/storage";
 import { profileDrawerIsOpen } from "@/store/profile-drawer";
+import { ToastProvider } from "@gluestack-ui/toast";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { router } from "expo-router";
 import { useAtom } from "jotai";
@@ -49,14 +50,16 @@ export function ProfileDrawer() {
           </Center>
 
           <VStack space="md" className="mt-10">
-            <QueryClientProvider client={queryClient}>
-              <SyncWorksButton />
-              <SyncWorksToNotionButton />
-              <Button action="positive" onPress={() => router.push("/actions/mark-work-as-finish")}>
-                <ButtonIcon as={BookCheck} />
-                <ButtonText>Marcar obra como finalizada</ButtonText>
-              </Button>
-            </QueryClientProvider>
+            <ToastProvider>
+              <QueryClientProvider client={queryClient}>
+                <SyncWorksButton />
+                <SyncWorksToNotionButton />
+                <Button action="positive" onPress={() => router.push("/actions/mark-work-as-finish")}>
+                  <ButtonIcon as={BookCheck} />
+                  <ButtonText>Marcar obra como finalizada</ButtonText>
+                </Button>
+              </QueryClientProvider>
+            </ToastProvider>
           </VStack>
         </DrawerBody>
 

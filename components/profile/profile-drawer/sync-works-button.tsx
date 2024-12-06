@@ -15,6 +15,8 @@ export function SyncWorksButton() {
   const syncAllWorksMutation = useWorkControllerRefreshChapters({
     mutation: {
       onSuccess() {
+        console.log("Success");
+
         toast({
           title: "Atualizando obras",
           action: "info",
@@ -43,12 +45,15 @@ export function SyncWorksButton() {
       await setNewDelay();
 
       syncAllWorksMutation.mutate();
+
       return;
     }
 
     const datePeriodDelay = parseISO(dateIso);
 
     const hasDelay = isBefore(new Date(), datePeriodDelay);
+
+    console.log({ hasDelay });
 
     if (hasDelay) {
       const formattedDate = formatDistance(datePeriodDelay, new Date(), {
@@ -63,6 +68,8 @@ export function SyncWorksButton() {
 
       return;
     }
+
+    syncAllWorksMutation.mutate();
 
     setNewDelay();
   }
