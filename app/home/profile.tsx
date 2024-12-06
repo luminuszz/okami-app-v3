@@ -1,11 +1,7 @@
 import { useAuthControllerGetMe } from "@/api/okami";
 import { Container } from "@/components/layout/container";
 import { ProfileLoading } from "@/components/profile/profile-loading";
-import {
-  Avatar,
-  AvatarFallbackText,
-  AvatarImage,
-} from "@/components/ui/avatar";
+import { Avatar, AvatarFallbackText, AvatarImage } from "@/components/ui/avatar";
 import { Heading } from "@/components/ui/heading";
 import { HStack } from "@/components/ui/hstack";
 import { Text } from "@/components/ui/text";
@@ -22,17 +18,9 @@ export default function ProfileScreen() {
     <Container classname="mt-10 px-10">
       <VStack space="lg">
         <VStack className="items-center" space="md">
-          <Avatar size="2xl">
-            {userDetails?.avatarImageUrl ? (
-              <AvatarImage source={{ uri: userDetails.avatarImageUrl }} />
-            ) : (
-              <AvatarFallbackText>{userDetails?.name}</AvatarFallbackText>
-            )}
-          </Avatar>
+          <Avatar size="2xl">{userDetails?.avatarImageUrl ? <AvatarImage source={{ uri: userDetails.avatarImageUrl ?? "" }} /> : <AvatarFallbackText>{userDetails?.name}</AvatarFallbackText>}</Avatar>
           <Heading className="text-xl">{userDetails?.name}</Heading>
-          <Text className="text-md text-typography-400">
-            {userDetails?.email}
-          </Text>
+          <Text className="text-md text-typography-400">{userDetails?.email}</Text>
         </VStack>
 
         <HStack className="mt-10 justify-between">
