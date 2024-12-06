@@ -7,7 +7,7 @@ type WorkFilters = {
 
 export const worksFiltersAtom = atom<WorkFilters>({
   search: null,
-  status: null,
+  status: "unread",
 });
 
 export const worksFiltersIsIsOpen = atom<boolean>(false);

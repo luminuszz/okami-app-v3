@@ -10,6 +10,7 @@ import { WorkCard } from "@/components/works/work-card";
 import { filtersLabels } from "@/constants/strings";
 import { worksFiltersAtom } from "@/store/works-filters";
 import { useAtomValue } from "jotai";
+import { useMemo } from "react";
 
 import { FlatList } from "react-native";
 
@@ -35,11 +36,13 @@ export default function WorkListScreen() {
 
   const canFetchNextPage = !isFetchingNextPage && hasNextPage;
 
+  const sortedWorks = useMemo(() => data?.pages.flatMap((page) => page.works), [data]);
+
   return (
     <Box className="mt-10 w-full flex-1 px-4">
       <Navbar />
 
-      <HStack className="mt-5" space="md">
+      <HStack className="mt-5 px-4" space="md">
         {hasFilters && <Text className="text-typography-400">Filtros</Text>}
 
         {status && (
@@ -55,7 +58,7 @@ export default function WorkListScreen() {
         )}
       </HStack>
 
-      <Box className="mt-10 pb-24">
+      <Box className="mt-5 pb-24">
         {isLoading ? (
           <Center className="flex h-full w-full">
             <Spinner />
@@ -65,7 +68,7 @@ export default function WorkListScreen() {
             onRefresh={refetch}
             refreshing={isFetching}
             keyExtractor={(item) => item.id}
-            data={data?.pages?.flatMap((page) => page.works) ?? []}
+            data={sortedWorks}
             onEndReached={() => canFetchNextPage && fetchNextPage()}
             renderItem={({ item: work }) => (
               <WorkCard

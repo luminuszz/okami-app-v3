@@ -70,7 +70,7 @@ type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
 export const workControllerCreateWork = (options?: SecondParameter<typeof customInstance>, signal?: AbortSignal) => {
   const formData = new FormData();
-  formData.append("data");
+  formData.append("data", JSON.stringify({}));
 
   return customInstance<void>({ url: `/work`, method: "POST", headers: { "Content-Type": "multipart/form-data" }, data: formData, signal }, options);
 };

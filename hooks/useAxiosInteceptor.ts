@@ -18,19 +18,17 @@ export function useAxiosInterceptor() {
   const storageService = useStorage();
 
   useEffect(() => {
-    const interceptorIdRequest = okamiHttpGateway.interceptors.request.use(
-      async (config) => {
-        if (config.headers) {
-          const token = await storage.getItem("TOKEN");
+    const interceptorIdRequest = okamiHttpGateway.interceptors.request.use(async (config) => {
+      if (config.headers) {
+        const token = await storage.getItem("TOKEN");
 
-          config.headers["Authorization"] = `Bearer ${token}`;
-        }
+        config.headers["Authorization"] = `Bearer ${token}`;
+      }
 
-        config.baseURL = process.env.EXPO_PUBLIC_API_URL;
+      config.baseURL = process.env.EXPO_PUBLIC_API_URL;
 
-        return config;
-      },
-    );
+      return config;
+    });
 
     const interceptorIdResponse = okamiHttpGateway.interceptors.response.use(
       (response) => response,
@@ -38,8 +36,6 @@ export function useAxiosInterceptor() {
         const refreshToken = await storageService.getString("REFRESH_TOKEN");
 
         if (isUnauthorizedError(error) && refreshToken) {
-          console.log("isRefreshing", isRefreshing);
-
           if (!isRefreshing) {
             isRefreshing = true;
 
