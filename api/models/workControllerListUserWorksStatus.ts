@@ -6,13 +6,12 @@
  * OpenAPI spec version: 1.0
  */
 
-export type WorkControllerListUserWorksStatus = typeof WorkControllerListUserWorksStatus[keyof typeof WorkControllerListUserWorksStatus];
-
+export type WorkControllerListUserWorksStatus = (typeof WorkControllerListUserWorksStatus)[keyof typeof WorkControllerListUserWorksStatus];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const WorkControllerListUserWorksStatus = {
-  unread: 'unread',
-  read: 'read',
-  finished: 'finished',
-  favorites: 'favorites',
+  unread: "unread",
+  read: "read",
+  finished: "finished",
+  favorites: "favorites",
 } as const;

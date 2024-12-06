@@ -5,7 +5,7 @@ import { profileDrawerIsOpen } from "@/store/profile-drawer";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { router } from "expo-router";
 import { useAtom } from "jotai";
-import { Crown, ExternalLinkIcon } from "lucide-react-native";
+import { BookCheck, Crown, ExternalLinkIcon } from "lucide-react-native";
 import { Avatar, AvatarFallbackText, AvatarImage } from "../../ui/avatar";
 import { Badge, BadgeIcon, BadgeText } from "../../ui/badge";
 import { Button, ButtonIcon, ButtonText } from "../../ui/button";
@@ -35,8 +35,8 @@ export function ProfileDrawer() {
       <DrawerContent>
         <DrawerBody>
           <Center className="mt-5">
-            <VStack space="md">
-              <Avatar size="2xl">{user?.avatarImageUrl ? <AvatarImage source={{ uri: user.avatarImageUrl }} /> : <AvatarFallbackText>{user?.name}</AvatarFallbackText>}</Avatar>
+            <VStack space="md" className="items-center">
+              <Avatar size="xl">{user?.avatarImageUrl ? <AvatarImage source={{ uri: user.avatarImageUrl }} /> : <AvatarFallbackText>{user?.name}</AvatarFallbackText>}</Avatar>
 
               <Text className="text-center text-xl text-typography-600">{user?.name}</Text>
 
@@ -52,6 +52,10 @@ export function ProfileDrawer() {
             <QueryClientProvider client={queryClient}>
               <SyncWorksButton />
               <SyncWorksToNotionButton />
+              <Button action="positive" onPress={() => router.push("/actions/mark-work-as-finish")}>
+                <ButtonIcon as={BookCheck} />
+                <ButtonText>Marcar obra como finalizada</ButtonText>
+              </Button>
             </QueryClientProvider>
           </VStack>
         </DrawerBody>
