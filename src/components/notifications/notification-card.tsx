@@ -45,20 +45,19 @@ export function NotificationCard({ notification }: NotificationCardProps) {
     };
   }
 
-  const { mutate: markNotificationAsRead, isPending } =
-    useNotificationControllerMarkNotificationAsRead({
-      mutation: {
-        onMutate({ notificationId }) {
-          return updateCache(notificationId);
-        },
-        onError(_, __, rollback) {
-          if (rollback) {
-            rollback();
-          }
-        },
-        mutationKey: ["markNotificationAsRead", notification.id],
+  const { mutate: markNotificationAsRead, isPending } = useNotificationControllerMarkNotificationAsRead({
+    mutation: {
+      onMutate({ notificationId }) {
+        return updateCache(notificationId);
       },
-    });
+      onError(_, __, rollback) {
+        if (rollback) {
+          rollback();
+        }
+      },
+      mutationKey: ["markNotificationAsRead", notification.id],
+    },
+  });
 
   return (
     <Pressable

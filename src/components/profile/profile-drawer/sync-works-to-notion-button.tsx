@@ -19,8 +19,7 @@ export function SyncWorksToNotionButton() {
         toast({
           title: "Erro ao sincronizar obras",
           action: "error",
-          description:
-            "Houve um erro ao sincronizar suas obras com o Notion. Tente novamente mais tarde.",
+          description: "Houve um erro ao sincronizar suas obras com o Notion. Tente novamente mais tarde.",
         });
       },
     },

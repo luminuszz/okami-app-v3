@@ -3,11 +3,7 @@ import { OkamiLogo } from "@/components/logo";
 import { useOkamiToast } from "@/components/okami-toast";
 import { Box } from "@/components/ui/box";
 import { Button, ButtonText } from "@/components/ui/button";
-import {
-  FormControl,
-  FormControlError,
-  FormControlErrorText,
-} from "@/components/ui/form-control";
+import { FormControl, FormControlError, FormControlErrorText } from "@/components/ui/form-control";
 import { Input, InputField } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import { Text } from "@/components/ui/text";
@@ -146,9 +142,7 @@ export default function SignUpScreen() {
 
           {errors.email && (
             <FormControlError>
-              <FormControlErrorText>
-                {errors.email.message}
-              </FormControlErrorText>
+              <FormControlErrorText>{errors.email.message}</FormControlErrorText>
             </FormControlError>
           )}
         </FormControl>
@@ -171,9 +165,7 @@ export default function SignUpScreen() {
           </Input>
           {errors.password && (
             <FormControlError>
-              <FormControlErrorText>
-                {errors.password.message}
-              </FormControlErrorText>
+              <FormControlErrorText>{errors.password.message}</FormControlErrorText>
             </FormControlError>
           )}
         </FormControl>
@@ -197,9 +189,7 @@ export default function SignUpScreen() {
           </Input>
           {errors.confirmPassword && (
             <FormControlError>
-              <FormControlErrorText>
-                {errors.confirmPassword.message}
-              </FormControlErrorText>
+              <FormControlErrorText>{errors.confirmPassword.message}</FormControlErrorText>
             </FormControlError>
           )}
         </FormControl>

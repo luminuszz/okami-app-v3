@@ -21,12 +21,7 @@ export function Navbar() {
             <ButtonIcon as={() => <Menu stroke="white" size={25} />} />
           </Button>
 
-          <Button
-            size="lg"
-            variant="link"
-            className="mr-4"
-            onPress={openFilterModal}
-          >
+          <Button size="lg" variant="link" className="mr-4" onPress={openFilterModal}>
             <ButtonIcon as={() => <Search stroke="white" size={25} />} />
           </Button>
         </HStack>

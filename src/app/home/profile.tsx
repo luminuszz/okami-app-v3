@@ -18,7 +18,13 @@ export default function ProfileScreen() {
     <Container classname="mt-10 px-10">
       <VStack space="lg">
         <VStack className="items-center" space="md">
-          <Avatar size="2xl">{userDetails?.avatarImageUrl ? <AvatarImage source={{ uri: userDetails.avatarImageUrl ?? "" }} /> : <AvatarFallbackText>{userDetails?.name}</AvatarFallbackText>}</Avatar>
+          <Avatar size="2xl">
+            {userDetails?.avatarImageUrl ? (
+              <AvatarImage source={{ uri: userDetails.avatarImageUrl ?? "" }} />
+            ) : (
+              <AvatarFallbackText>{userDetails?.name}</AvatarFallbackText>
+            )}
+          </Avatar>
           <Heading className="text-xl">{userDetails?.name}</Heading>
           <Text className="text-md text-typography-400">{userDetails?.email}</Text>
         </VStack>

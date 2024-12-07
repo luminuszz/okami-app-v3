@@ -11,7 +11,18 @@ import { FormControl } from "../ui/form-control";
 
 import { filtersLabels, filtersOptions } from "@/constants/strings";
 import { Input, InputField } from "../ui/input";
-import { Select, SelectBackdrop, SelectContent, SelectDragIndicator, SelectDragIndicatorWrapper, SelectIcon, SelectInput, SelectItem, SelectPortal, SelectTrigger } from "../ui/select";
+import {
+  Select,
+  SelectBackdrop,
+  SelectContent,
+  SelectDragIndicator,
+  SelectDragIndicatorWrapper,
+  SelectIcon,
+  SelectInput,
+  SelectItem,
+  SelectPortal,
+  SelectTrigger,
+} from "../ui/select";
 import { VStack } from "../ui/vstack";
 
 const workFiltersSchema = z.object({
@@ -68,7 +79,14 @@ export function WorkFilters() {
                 control={control}
                 render={({ field }) => (
                   <Input size="xl">
-                    <InputField onBlur={field.onBlur} onChangeText={field.onChange} value={field.value} className="w-full" type="text" placeholder="Nome da obra" />
+                    <InputField
+                      onBlur={field.onBlur}
+                      onChangeText={field.onChange}
+                      value={field.value}
+                      className="w-full"
+                      type="text"
+                      placeholder="Nome da obra"
+                    />
                   </Input>
                 )}
               />

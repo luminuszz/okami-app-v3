@@ -77,7 +77,13 @@ export function WorkCard({ work }: WorkCardProps) {
               })
             }
           >
-            {work.imageUrl && <Image className="mb-6 h-[200px] w-[300px] rounded-md" source={{ uri: work.imageUrl }} alt="Solo Leveling" />}
+            {work.imageUrl && (
+              <Image
+                className="mb-6 h-[200px] w-[300px] rounded-md"
+                source={{ uri: work.imageUrl }}
+                alt="Solo Leveling"
+              />
+            )}
           </Pressable>
         </VStack>
 
@@ -96,7 +102,12 @@ export function WorkCard({ work }: WorkCardProps) {
 
           <Box className="flex-row flex-wrap gap-1">
             {limitedTags.map((tag) => (
-              <Badge style={{ backgroundColor: tag.color }} key={tag.id} className={`rounded-lg text-sm`} variant="outline">
+              <Badge
+                style={{ backgroundColor: tag.color }}
+                key={tag.id}
+                className={`rounded-lg text-sm`}
+                variant="outline"
+              >
                 <BadgeText className="text-typography-900">{tag.name}</BadgeText>
               </Badge>
             ))}

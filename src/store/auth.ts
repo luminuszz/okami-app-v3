@@ -1,6 +1,6 @@
+import { storage, STORAGE_KEYS } from "@/lib/storage";
 import { atom } from "jotai";
 import { loadable } from "jotai/utils";
-import { storage, STORAGE_KEYS } from "@/lib/storage";
 
 export const refreshTokenAtom = atom(async () => storage.getItem(STORAGE_KEYS.REFRESH_TOKEN));
 export const tokenAtom = atom(async () => storage.getItem(STORAGE_KEYS.TOKEN));
