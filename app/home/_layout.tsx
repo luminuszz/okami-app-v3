@@ -1,14 +1,11 @@
 import { useNotificationControllerGetRecentNotifications } from "@/api/okami";
 import { Tabs } from "expo-router";
-import { Bell, BookMarked, UserRound } from "lucide-react-native";
+import { Bell, Book, UserRound } from "lucide-react-native";
 
 export default function ApplicationTabLayout() {
-  const { data: notifications = [] } =
-    useNotificationControllerGetRecentNotifications();
+  const { data: notifications = [] } = useNotificationControllerGetRecentNotifications();
 
-  const unreadNotificationsCount = notifications?.filter(
-    (notification) => !notification?.readAt,
-  ).length;
+  const unreadNotificationsCount = notifications?.filter((notification) => !notification?.readAt).length;
 
   return (
     <Tabs screenOptions={{ headerShown: false }} initialRouteName="index">
@@ -16,9 +13,7 @@ export default function ApplicationTabLayout() {
         name="index"
         options={{
           title: "Obras",
-          tabBarIcon: ({ color, size }) => (
-            <BookMarked size={size} stroke={color} className="size-4" />
-          ),
+          tabBarIcon: ({ color, size }) => <Book size={size} stroke={color} className="size-4" />,
         }}
       />
 
@@ -26,9 +21,7 @@ export default function ApplicationTabLayout() {
         name="profile"
         options={{
           title: "Perfil",
-          tabBarIcon: ({ color, size }) => (
-            <UserRound size={size} stroke={color} className="size-4" />
-          ),
+          tabBarIcon: ({ color, size }) => <UserRound size={size} stroke={color} className="size-4" />,
         }}
       />
 
@@ -36,9 +29,7 @@ export default function ApplicationTabLayout() {
         name="notifications"
         options={{
           title: "Notificações",
-          tabBarIcon: ({ color, size }) => (
-            <Bell size={size} stroke={color} className="size-4" />
-          ),
+          tabBarIcon: ({ color, size }) => <Bell size={size} stroke={color} className="size-4" />,
           tabBarBadge: unreadNotificationsCount || undefined,
         }}
       />

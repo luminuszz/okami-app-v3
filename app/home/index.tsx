@@ -8,29 +8,31 @@ import { Spinner } from "@/components/ui/spinner";
 import { Text } from "@/components/ui/text";
 import { WorkCard } from "@/components/works/work-card";
 import { filtersLabels } from "@/constants/strings";
-import { worksFiltersAtom } from "@/store/works-filters";
-import { useAtomValue } from "jotai";
+import { toggleWorkFilter, worksFiltersAtom } from "@/store/works-filters";
+import { useAtomValue, useSetAtom } from "jotai";
+import { Heading } from "lucide-react-native";
 import { useMemo } from "react";
 
-import { FlatList } from "react-native";
+import { FlatList, Pressable } from "react-native";
 
 export default function WorkListScreen() {
   const { search, status } = useAtomValue(worksFiltersAtom);
 
-  const { data, refetch, isFetching, isLoading, fetchNextPage, isFetchingNextPage, hasNextPage } = useWorkControllerListUserWorksPagedInfinite(
-    {
-      status: status ?? undefined,
-      search: search ?? undefined,
-      limit: 10,
-      page: 1,
-    },
-    {
-      query: {
-        initialPageParam: 1,
-        getNextPageParam: (lastPage) => lastPage.nextPage,
+  const { data, refetch, isFetching, isLoading, fetchNextPage, isFetchingNextPage, hasNextPage } =
+    useWorkControllerListUserWorksPagedInfinite(
+      {
+        status: status ?? undefined,
+        search: search ?? undefined,
+        limit: 10,
+        page: 1,
       },
-    },
-  );
+      {
+        query: {
+          initialPageParam: 1,
+          getNextPageParam: (lastPage) => lastPage.nextPage,
+        },
+      },
+    );
 
   const hasFilters = status || search;
 
@@ -38,25 +40,31 @@ export default function WorkListScreen() {
 
   const sortedWorks = useMemo(() => data?.pages.flatMap((page) => page.works), [data]);
 
+  const toggleFilters = useSetAtom(toggleWorkFilter);
+
   return (
     <Box className="mt-10 w-full flex-1 px-4">
       <Navbar />
 
-      <HStack className="mt-5 px-4" space="md">
-        {hasFilters && <Text className="text-typography-400">Filtros</Text>}
+      {hasFilters && (
+        <Pressable onPress={toggleFilters}>
+          <HStack className="mt-5 px-4" space="md">
+            <Text className="text-typography-400">Filtros</Text>
 
-        {status && (
-          <Badge variant="outline" action="info">
-            <BadgeText>{`Status: ${filtersLabels[status]} `}</BadgeText>
-          </Badge>
-        )}
+            {status && (
+              <Badge variant="outline" action="info">
+                <BadgeText>{`Status: ${filtersLabels[status]} `}</BadgeText>
+              </Badge>
+            )}
 
-        {search && (
-          <Badge variant="outline" action="info">
-            <BadgeText>{`Nome: ${search} `}</BadgeText>
-          </Badge>
-        )}
-      </HStack>
+            {search && (
+              <Badge variant="outline" action="info">
+                <BadgeText>{`Nome: ${search} `}</BadgeText>
+              </Badge>
+            )}
+          </HStack>
+        </Pressable>
+      )}
 
       <Box className="mt-5 pb-24">
         {isLoading ? (
@@ -65,6 +73,13 @@ export default function WorkListScreen() {
           </Center>
         ) : (
           <FlatList
+            ListEmptyComponent={() => {
+              return (
+                <Center>
+                  <Heading>Nada por aqui, adicione novas obras</Heading>
+                </Center>
+              );
+            }}
             onRefresh={refetch}
             refreshing={isFetching}
             keyExtractor={(item) => item.id}

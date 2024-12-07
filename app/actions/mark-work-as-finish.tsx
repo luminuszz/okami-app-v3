@@ -1,10 +1,10 @@
 import { useWorkControllerListUserWorks, useWorkControllerMarkFinished } from "@/api/okami";
 import { Container } from "@/components/layout/container";
+import { HeaderWithGoBack } from "@/components/navigation/header-with-go-back";
 import { useOkamiToast } from "@/components/okami-toast";
 import { Button, ButtonText } from "@/components/ui/button";
 import { Center } from "@/components/ui/center";
 import { Heading } from "@/components/ui/heading";
-import { HStack } from "@/components/ui/hstack";
 import { Image } from "@/components/ui/image";
 import {
   Select,
@@ -22,8 +22,8 @@ import {
 import { Skeleton, SkeletonText } from "@/components/ui/skeleton";
 import { Spinner } from "@/components/ui/spinner";
 import { VStack } from "@/components/ui/vstack";
-import { Link, router } from "expo-router";
-import { ChevronDown, ChevronLeft } from "lucide-react-native";
+import { router } from "expo-router";
+import { ChevronDown } from "lucide-react-native";
 
 import { useMemo, useState } from "react";
 
@@ -74,12 +74,7 @@ export default function MarkWorkAsFinishedScreen() {
 
   return (
     <Container classname="mt-10 px-10">
-      <HStack className="mt-10 w-full justify-between">
-        <Heading>Finalizar Obra</Heading>
-        <Link href="/home">
-          <ChevronLeft stroke="white" size={30} />
-        </Link>
-      </HStack>
+      <HeaderWithGoBack title="Finalizar obra" />
 
       <Center className="mt-5">
         <VStack space="md" className="w-full text-center">
@@ -87,7 +82,13 @@ export default function MarkWorkAsFinishedScreen() {
             {currentWork?.name}
           </Heading>
 
-          {currentWork?.imageUrl && <Image alt={currentWork?.name} className="mb-6 h-[200px] w-full rounded-md" source={{ uri: currentWork?.imageUrl ?? "" }} />}
+          {currentWork?.imageUrl && (
+            <Image
+              alt={currentWork?.name}
+              className="mb-6 h-[200px] w-full rounded-md"
+              source={{ uri: currentWork?.imageUrl ?? "" }}
+            />
+          )}
         </VStack>
       </Center>
       <VStack space="md">
@@ -102,7 +103,9 @@ export default function MarkWorkAsFinishedScreen() {
               <SelectDragIndicatorWrapper>
                 <SelectDragIndicator />
               </SelectDragIndicatorWrapper>
-              <SelectScrollView className="mt-10">{works?.map((option) => <SelectItem value={option.id} label={option.name} />)}</SelectScrollView>
+              <SelectScrollView className="mt-10">
+                {works?.map((option) => <SelectItem key={option.id} value={option.id} label={option.name} />)}
+              </SelectScrollView>
             </SelectContent>
           </SelectPortal>
         </Select>

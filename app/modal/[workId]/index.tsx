@@ -1,4 +1,8 @@
-import { getWorkControllerListUserWorksQueryKey, useWorkControllerGetById, useWorkControllerUpdateChapter } from "@/api/okami";
+import {
+  getWorkControllerListUserWorksQueryKey,
+  useWorkControllerGetById,
+  useWorkControllerUpdateChapter,
+} from "@/api/okami";
 import { Container } from "@/components/layout/container";
 import { useOkamiToast } from "@/components/okami-toast";
 import { Button, ButtonText } from "@/components/ui/button";
@@ -12,27 +16,30 @@ import { Skeleton, SkeletonText } from "@/components/ui/skeleton";
 import { Spinner } from "@/components/ui/spinner";
 import { VStack } from "@/components/ui/vstack";
 import { worksFiltersAtom } from "@/store/works-filters";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
-import { Link, router, useLocalSearchParams } from "expo-router";
+import { Redirect, router, useLocalSearchParams } from "expo-router";
 import { useAtomValue } from "jotai";
 import { ChevronLeft } from "lucide-react-native";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { Pressable } from "react-native";
 import { z } from "zod";
 
-const validChapter = z.coerce.number().positive();
+const schema = z.object({
+  chapter: z.coerce.number({ invalid_type_error: "Informe um valor válido" }).positive(),
+});
+
+type Schema = z.infer<typeof schema>;
 
 export default function UpdateWorkChapterScreen() {
-  const { workId } = useLocalSearchParams<{ workId: string }>();
-
-  const { data: currentWork, isLoading } = useWorkControllerGetById(workId);
-
   const client = useQueryClient();
   const toast = useOkamiToast();
-
-  const [error, setError] = useState("");
-  const [chapter, setChapter] = useState(String(currentWork?.nextChapter ?? 0));
-
   const filters = useAtomValue(worksFiltersAtom);
+
+  const { workId } = useLocalSearchParams<{ workId: string }>();
+
+  const { data: currentWork, isLoading, isError } = useWorkControllerGetById(workId);
 
   const { mutate: updateWorkChapter, isPending } = useWorkControllerUpdateChapter({
     mutation: {
@@ -64,30 +71,28 @@ export default function UpdateWorkChapterScreen() {
     },
   });
 
-  function handleUpdateChapter() {
-    const chapterResult = validChapter.safeParse(chapter);
+  const form = useForm<Schema>({
+    resolver: zodResolver(schema),
+    values: {
+      chapter: currentWork?.nextChapter ?? currentWork?.chapter ?? 0,
+    },
+    reValidateMode: "onSubmit",
+  });
 
-    if (!chapterResult.success) {
-      setError("Capítulo inválido");
-      return;
-    }
-
+  function handleUpdateChapter({ chapter }: Schema) {
     updateWorkChapter({
       id: workId,
       data: {
-        chapter: chapterResult.data,
+        chapter,
       },
     });
   }
 
   useEffect(() => {
-    if (currentWork?.nextChapter) {
-      setChapter(String(currentWork?.nextChapter));
-    }
     return () => {
-      setChapter(String(currentWork?.nextChapter));
+      form.reset();
     };
-  }, [currentWork?.nextChapter]);
+  }, [form]);
 
   if (isLoading) {
     return (
@@ -102,13 +107,22 @@ export default function UpdateWorkChapterScreen() {
     );
   }
 
+  if (isError) {
+    toast({
+      title: "Erro ao carregar obra",
+      action: "error",
+    });
+
+    return <Redirect href="/home" />;
+  }
+
   return (
     <Container classname="px-10 mt-10">
       <HStack className="mt-10 w-full justify-between">
         <Heading>Atualizar Obra</Heading>
-        <Link href="/home">
+        <Pressable onPress={() => router.push("/home")}>
           <ChevronLeft stroke="white" size={30} />
-        </Link>
+        </Pressable>
       </HStack>
 
       <Center className="mt-5">
@@ -117,33 +131,47 @@ export default function UpdateWorkChapterScreen() {
             {currentWork?.name}
           </Heading>
 
-          <Image alt={currentWork?.name} className="mb-6 h-[200px] w-full rounded-md" source={{ uri: currentWork?.imageUrl ?? "" }} />
+          <Image
+            alt={currentWork?.name}
+            className="mb-6 h-[200px] w-full rounded-md"
+            source={{ uri: currentWork?.imageUrl ?? "" }}
+          />
         </VStack>
       </Center>
 
       <VStack space="md">
-        <FormControl size="lg" isInvalid={!!error}>
-          <Input size="xl">
-            <InputField
-              value={chapter}
-              onChangeText={(vl) => {
-                setChapter(vl);
-              }}
-              className="w-full"
-              keyboardType="numbers-and-punctuation"
-              type="text"
-            />
-          </Input>
-
-          {error && (
-            <FormControlError>
-              <FormControlErrorText>{error}</FormControlErrorText>
-            </FormControlError>
+        <Controller
+          control={form.control}
+          name="chapter"
+          render={({ field, fieldState }) => (
+            <FormControl size="lg" isInvalid={fieldState.invalid} isDisabled={field.disabled}>
+              <Input size="xl">
+                <InputField
+                  onBlur={field.onBlur}
+                  value={String(field.value)}
+                  onChangeText={field.onChange}
+                  className="w-full"
+                  keyboardType="numbers-and-punctuation"
+                />
+              </Input>
+              {fieldState.invalid && (
+                <FormControlError>
+                  <FormControlErrorText>{fieldState.error?.message}</FormControlErrorText>
+                </FormControlError>
+              )}
+            </FormControl>
           )}
-        </FormControl>
-
-        <Button onPress={handleUpdateChapter} className="w-full" variant="solid" action="positive" isDisabled={isPending}>
-          <ButtonText>{isPending ? <Spinner /> : "Atualizar"}</ButtonText>
+        />
+        <Button
+          onPress={form.handleSubmit(handleUpdateChapter)}
+          className="w-full"
+          variant="solid"
+          action="positive"
+          isDisabled={isPending}
+        >
+          <ButtonText>
+            {isPending ? <Spinner /> : currentWork?.hasNewChapter ? "Marcar como lido" : "Atualizar"}
+          </ButtonText>
         </Button>
       </VStack>
     </Container>

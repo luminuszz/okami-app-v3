@@ -37,7 +37,13 @@ export function ProfileDrawer() {
         <DrawerBody>
           <Center className="mt-5">
             <VStack space="md" className="items-center">
-              <Avatar size="xl">{user?.avatarImageUrl ? <AvatarImage source={{ uri: user.avatarImageUrl }} /> : <AvatarFallbackText>{user?.name}</AvatarFallbackText>}</Avatar>
+              <Avatar size="xl">
+                {user?.avatarImageUrl ? (
+                  <AvatarImage source={{ uri: user.avatarImageUrl }} />
+                ) : (
+                  <AvatarFallbackText>{user?.name}</AvatarFallbackText>
+                )}
+              </Avatar>
 
               <Text className="text-center text-xl text-typography-600">{user?.name}</Text>
 
@@ -54,9 +60,15 @@ export function ProfileDrawer() {
               <QueryClientProvider client={queryClient}>
                 <SyncWorksButton />
                 <SyncWorksToNotionButton />
-                <Button action="positive" onPress={() => router.push("/actions/mark-work-as-finish")}>
+                <Button
+                  action="positive"
+                  onPress={() => {
+                    setIsIOpen(false);
+                    router.push("/actions/mark-work-as-finish");
+                  }}
+                >
                   <ButtonIcon as={BookCheck} />
-                  <ButtonText>Marcar obra como finalizada</ButtonText>
+                  <ButtonText>Finalizar uma obra</ButtonText>
                 </Button>
               </QueryClientProvider>
             </ToastProvider>
