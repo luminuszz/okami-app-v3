@@ -1,111 +1,22 @@
-import { useWorkControllerListUserWorksPagedInfinite } from "@/api/okami";
-import { Navbar } from "@/components/navbar";
-import { Badge, BadgeText } from "@/components/ui/badge";
-import { Box } from "@/components/ui/box";
-import { Center } from "@/components/ui/center";
-import { HStack } from "@/components/ui/hstack";
-import { Spinner } from "@/components/ui/spinner";
-import { Text } from "@/components/ui/text";
-import { WorkCard } from "@/components/works/work-card";
-import { filtersLabels } from "@/constants/strings";
-import { toggleWorkFilter, worksFiltersAtom } from "@/store/works-filters";
-import { useAtomValue, useSetAtom } from "jotai";
-import { Heading } from "lucide-react-native";
-import { useMemo } from "react";
+import { ContinuousReadingSection } from "@/components/home/continuous-reading-section";
+import { UnreadWorksSection } from "@/components/home/unread-works-section";
+import { UserWorksListSection } from "@/components/home/user-works-list-section";
+import { Container } from "@/components/layout/container";
+import { ScrollView } from "react-native";
 
-import { FlatList, Pressable } from "react-native";
+const imageUrl =
+  "https://okami-storage.daviribeiro.com/work-images/66fef92b0dacc255dfb5e916-40707c04-9c6e-43d9-bbcc-36b9afabad44.webp";
 
-export default function WorkListScreen() {
-  const { search, status } = useAtomValue(worksFiltersAtom);
-
-  const { data, refetch, isFetching, isLoading, fetchNextPage, isFetchingNextPage, hasNextPage } =
-    useWorkControllerListUserWorksPagedInfinite(
-      {
-        status: status ?? undefined,
-        search: search ?? undefined,
-        limit: 10,
-        page: 1,
-      },
-      {
-        query: {
-          initialPageParam: 1,
-          getNextPageParam: (lastPage) => lastPage.nextPage,
-        },
-      },
-    );
-
-  const hasFilters = status || search;
-
-  const canFetchNextPage = !isFetchingNextPage && hasNextPage;
-
-  const sortedWorks = useMemo(() => data?.pages.flatMap((page) => page.works), [data]);
-
-  const toggleFilters = useSetAtom(toggleWorkFilter);
-
+export default function HomeScreen() {
   return (
-    <Box className="mt-10 w-full flex-1 px-4">
-      <Navbar />
+    <ScrollView>
+      <Container classname="px-4 mb-10">
+        <ContinuousReadingSection />
 
-      {hasFilters && (
-        <Pressable onPress={toggleFilters}>
-          <HStack className="mt-5 px-4" space="md">
-            <Text className="text-typography-400">Filtros</Text>
+        <UnreadWorksSection />
 
-            {status && (
-              <Badge variant="outline" action="info">
-                <BadgeText>{`Status: ${filtersLabels[status]} `}</BadgeText>
-              </Badge>
-            )}
-
-            {search && (
-              <Badge variant="outline" action="info">
-                <BadgeText>{`Nome: ${search} `}</BadgeText>
-              </Badge>
-            )}
-          </HStack>
-        </Pressable>
-      )}
-
-      <Box className="mt-5 pb-24">
-        {isLoading ? (
-          <Center className="flex h-full w-full">
-            <Spinner />
-          </Center>
-        ) : (
-          <FlatList
-            ListEmptyComponent={() => {
-              return (
-                <Center>
-                  <Heading>Nada por aqui, adicione novas obras</Heading>
-                </Center>
-              );
-            }}
-            onRefresh={refetch}
-            refreshing={isFetching}
-            keyExtractor={(item) => item.id}
-            data={sortedWorks}
-            onEndReached={() => canFetchNextPage && fetchNextPage()}
-            renderItem={({ item: work }) => (
-              <WorkCard
-                work={{
-                  imageUrl: work.imageUrl ?? "",
-                  tags: work.tags,
-                  title: work.name,
-                  alternativeTitle: work.alternativeName ?? "",
-                  updatedAt: work.nextChapterUpdatedAt ?? work.updatedAt ?? work.createdAt,
-                  currentChapter: work.chapter,
-                  newChapter: work.nextChapter,
-                  type: work.category,
-                  isFinished: work.isFinished,
-                  id: work.id,
-                  url: work.url,
-                  isFavorite: work.isFavorite,
-                }}
-              />
-            )}
-          />
-        )}
-      </Box>
-    </Box>
+        <UserWorksListSection />
+      </Container>
+    </ScrollView>
   );
 }

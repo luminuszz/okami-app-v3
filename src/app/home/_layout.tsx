@@ -1,6 +1,6 @@
 import { useNotificationControllerGetRecentNotifications } from "@/api/okami";
 import { Tabs } from "expo-router";
-import { Bell, Book, UserRound } from "lucide-react-native";
+import { Bell, Book, House, UserRound } from "lucide-react-native";
 
 export default function ApplicationTabLayout() {
   const { data: notifications = [] } = useNotificationControllerGetRecentNotifications();
@@ -11,6 +11,14 @@ export default function ApplicationTabLayout() {
     <Tabs screenOptions={{ headerShown: false }} initialRouteName="index">
       <Tabs.Screen
         name="index"
+        options={{
+          title: "Home",
+          tabBarIcon: ({ color, size }) => <House size={size} stroke={color} className="size-4" />,
+        }}
+      />
+
+      <Tabs.Screen
+        name="works"
         options={{
           title: "Obras",
           tabBarIcon: ({ color, size }) => <Book size={size} stroke={color} className="size-4" />,

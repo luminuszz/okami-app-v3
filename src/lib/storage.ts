@@ -1,11 +1,10 @@
-import AsyncStorage, {
-  AsyncStorageStatic,
-} from "@react-native-async-storage/async-storage";
+import AsyncStorage, { AsyncStorageStatic } from "@react-native-async-storage/async-storage";
 
 export const STORAGE_KEYS = {
   REFRESH_TOKEN: "okami-refresh-token",
   TOKEN: "okami-token",
   SYNC_WORK_DELAY_DATE: "okami-sync-work-delay-date",
+  LAST_WORK_CLICKED: "okami-last-work-clicked",
 } as const;
 
 type KeyOfStorageKeys = keyof typeof STORAGE_KEYS;

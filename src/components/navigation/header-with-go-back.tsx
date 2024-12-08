@@ -4,12 +4,25 @@ import { Pressable } from "react-native";
 import { Heading } from "../ui/heading";
 import { HStack } from "../ui/hstack";
 
-export interface HeaderWithGoBackProps {
+export interface BaseHeaderWithGoBackProps {
   route?: Href;
+  title?: string;
+  children?: React.ReactNode;
+}
+
+interface HeaderWithChildrenProps extends BaseHeaderWithGoBackProps {
+  children: React.ReactNode;
+  title?: never;
+}
+
+interface HeaderWithTitleProps extends BaseHeaderWithGoBackProps {
+  children?: never;
   title: string;
 }
 
-export function HeaderWithGoBack({ title, route }: HeaderWithGoBackProps) {
+type HeaderWithGoBackProps = HeaderWithChildrenProps | HeaderWithTitleProps;
+
+export function HeaderWithGoBack({ title, route, children }: HeaderWithGoBackProps) {
   function handleRoute() {
     if (route) {
       return router.push(route);
@@ -20,7 +33,7 @@ export function HeaderWithGoBack({ title, route }: HeaderWithGoBackProps) {
 
   return (
     <HStack className="mt-10 w-full justify-between">
-      <Heading>{title}</Heading>
+      <Heading>{children || title}</Heading>
       <Pressable
         onPress={() => {
           handleRoute();

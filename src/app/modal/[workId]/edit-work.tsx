@@ -5,6 +5,7 @@ import {
   useWorkControllerUpdateWork,
 } from "@/api/okami";
 import { Container } from "@/components/layout/container";
+import { HeaderWithGoBack } from "@/components/navigation/header-with-go-back";
 import { useOkamiToast } from "@/components/okami-toast";
 import { Button, ButtonText } from "@/components/ui/button";
 import { Center } from "@/components/ui/center";
@@ -16,15 +17,13 @@ import {
   FormControlLabelText,
 } from "@/components/ui/form-control";
 import { Heading } from "@/components/ui/heading";
-import { HStack } from "@/components/ui/hstack";
 import { Image } from "@/components/ui/image";
 import { Input, InputField } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import { VStack } from "@/components/ui/vstack";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
-import { Link, router, useLocalSearchParams } from "expo-router";
-import { ChevronLeft } from "lucide-react-native";
+import { router, useLocalSearchParams } from "expo-router";
 import { Controller, useForm } from "react-hook-form";
 
 import { z } from "zod";
@@ -129,12 +128,7 @@ export default function EditWorkScreen() {
 
   return (
     <Container classname="px-10 mt-10">
-      <HStack className="mt-10 w-full justify-between">
-        <Heading>Editar Obra</Heading>
-        <Link href="/home">
-          <ChevronLeft stroke="white" size={30} />
-        </Link>
-      </HStack>
+      <HeaderWithGoBack>Editar Obra</HeaderWithGoBack>
 
       <Center className="mt-5">
         <VStack space="md" className="w-full text-center">
