@@ -52,11 +52,11 @@ export function ContinuousReadingSection() {
 
   if (isLoading || !work) {
     return (
-      <HStack space="md">
+      <HStack space="md" className="px-4">
         <Skeleton variant="rounded" className="h-[200px] w-[150px]" />
 
         <VStack>
-          <SkeletonText className="mb-2 h-[20px] w-[200px]" _lines={3} />
+          <SkeletonText className="mb-2 h-[20px] w-[200px]" _lines={5} />
         </VStack>
       </HStack>
     );

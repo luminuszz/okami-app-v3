@@ -27,18 +27,17 @@ export default function WorksScreen() {
       },
       {
         query: {
-          initialPageParam: 1,
           getNextPageParam: (lastPage) => lastPage.nextPage,
+          queryKey: ["works-list-infinite", { status, search }],
         },
       },
     );
 
-  const hasFilters = status || search;
-
   const canFetchNextPage = !isFetchingNextPage && hasNextPage;
 
-  const sortedWorks = useMemo(() => data?.pages.flatMap((page) => page.works), [data]);
+  const sortedWorks = useMemo(() => data?.pages?.flatMap((page) => page.works), [data]);
 
+  const hasFilters = status || search;
   const toggleFilters = useSetAtom(toggleWorkFilter);
 
   return (

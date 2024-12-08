@@ -45,7 +45,7 @@ export function UserWorksListSection() {
         showsHorizontalScrollIndicator={false}
       >
         {data?.works.map((work) => (
-          <Card variant="elevated" className="w-full max-w-[200px]">
+          <Card variant="elevated" className="w-full max-w-[200px]" key={work.id}>
             <VStack space="xs">
               <Image
                 className="h-[200px] w-full rounded-md"
