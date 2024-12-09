@@ -20,8 +20,7 @@ import { Redirect, router, useLocalSearchParams } from "expo-router";
 import { useSetAtom } from "jotai";
 import { BookOpen, ChevronLeft, Clock, Menu, Tv2 } from "lucide-react-native";
 
-import { Pressable } from "react-native";
-import { ScrollView } from "react-native-reanimated/lib/typescript/Animated";
+import { Pressable, ScrollView } from "react-native";
 
 export type WorkDetailsParams = {
   workId: string;
@@ -60,7 +59,7 @@ export default function WorkDetails() {
 
   return (
     <ScrollView>
-      <Container classname="mt-10 px-4">
+      <Container classname="mt-10 px-4 mt-2">
         <WorkActionsDrawler hasNewChapter={work.hasNewChapter} workId={work.id} />
 
         <HStack className="items-center justify-between">
