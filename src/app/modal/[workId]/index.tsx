@@ -21,6 +21,7 @@ import { useSetAtom } from "jotai";
 import { BookOpen, ChevronLeft, Clock, Menu, Tv2 } from "lucide-react-native";
 
 import { Pressable } from "react-native";
+import { ScrollView } from "react-native-reanimated/lib/typescript/Animated";
 
 export type WorkDetailsParams = {
   workId: string;
@@ -58,72 +59,74 @@ export default function WorkDetails() {
   const categoryLabel = work.category === "ANIME" ? "Episódio" : "Capítulo";
 
   return (
-    <Container classname="mt-10 px-4">
-      <WorkActionsDrawler hasNewChapter={work.hasNewChapter} workId={work.id} />
+    <ScrollView>
+      <Container classname="mt-10 px-4">
+        <WorkActionsDrawler hasNewChapter={work.hasNewChapter} workId={work.id} />
 
-      <HStack className="items-center justify-between">
-        <Pressable onPress={() => router.back()}>
-          <ChevronLeft stroke="white" size={30} />
-        </Pressable>
+        <HStack className="items-center justify-between">
+          <Pressable onPress={() => router.back()}>
+            <ChevronLeft stroke="white" size={30} />
+          </Pressable>
 
-        <Heading>Detalhes da obra</Heading>
+          <Heading>Detalhes da obra</Heading>
 
-        <Pressable onPress={toggleWorkActionsDrawer}>
-          <Menu stroke="white" size={30} />
-        </Pressable>
-      </HStack>
-
-      <VStack className="mt-10 px-4" space="md">
-        <VStack>
-          <Heading size="lg" className="text-center">
-            {work.name.trim()}
-          </Heading>
-          {work.alternativeName && (
-            <Text size="md" className="text-center">
-              "{work.alternativeName}"
-            </Text>
-          )}
-        </VStack>
-
-        <Box className="w-full">
-          <Image className="h-[300px] w-full rounded-lg" source={{ uri: work?.imageUrl ?? "" }} alt={work.name} />
-        </Box>
-
-        <Heading
-          className={`${work.hasNewChapter ? "text-emerald-500" : "text-typography-900"} `}
-        >{`${work.hasNewChapter ? "Novo" : "Ultimo"} ${categoryLabel}: ${work.nextChapter ?? work.chapter}`}</Heading>
-
-        <Box className="flex-row flex-wrap gap-1">
-          {parsedTags.map((tag) => {
-            return (
-              <Badge
-                style={{ backgroundColor: tag.color }}
-                key={tag.id}
-                className={`rounded-lg text-sm`}
-                variant="outline"
-              >
-                <BadgeText className="text-typography-900">{tag.name}</BadgeText>
-              </Badge>
-            );
-          })}
-        </Box>
-
-        <Text className="truncate text-typography-600" lineBreakMode="clip" numberOfLines={10} size="sm">
-          {work.description}
-        </Text>
-
-        <HStack space="sm">
-          <Clock size={20} stroke="white" />
-          <Text className="text-typography-600">{`Ultima atualização: ${formattedDate}`}</Text>
+          <Pressable onPress={toggleWorkActionsDrawer}>
+            <Menu stroke="white" size={30} />
+          </Pressable>
         </HStack>
 
-        <Button action="primary" className="mt-5 w-full items-center bg-yellow-400">
-          <ButtonIcon as={work.category === "ANIME" ? Tv2 : BookOpen} />
-          <ExternalLink className="font-medium text-gray-800" href={work.url ?? ""}>
-            {work.category === "ANIME" ? "Assistir" : "Ler"} Agora
-          </ExternalLink>
-        </Button>
-      </VStack>
-    </Container>
+        <VStack className="mt-10 px-4" space="md">
+          <VStack>
+            <Heading size="lg" className="text-center">
+              {work.name.trim()}
+            </Heading>
+            {work.alternativeName && (
+              <Text size="md" className="text-center">
+                "{work.alternativeName}"
+              </Text>
+            )}
+          </VStack>
+
+          <Box className="w-full">
+            <Image className="h-[300px] w-full rounded-lg" source={{ uri: work?.imageUrl ?? "" }} alt={work.name} />
+          </Box>
+
+          <Heading
+            className={`${work.hasNewChapter ? "text-emerald-500" : "text-typography-900"} `}
+          >{`${work.hasNewChapter ? "Novo" : "Ultimo"} ${categoryLabel}: ${work.nextChapter ?? work.chapter}`}</Heading>
+
+          <Box className="flex-row flex-wrap gap-1">
+            {parsedTags.map((tag) => {
+              return (
+                <Badge
+                  style={{ backgroundColor: tag.color }}
+                  key={tag.id}
+                  className={`rounded-lg text-sm`}
+                  variant="outline"
+                >
+                  <BadgeText className="text-typography-900">{tag.name}</BadgeText>
+                </Badge>
+              );
+            })}
+          </Box>
+
+          <Text className="truncate text-typography-600" lineBreakMode="clip" numberOfLines={8} size="sm">
+            {work.description}
+          </Text>
+
+          <HStack space="sm">
+            <Clock size={20} stroke="white" />
+            <Text className="text-typography-600">{`Ultima atualização: ${formattedDate}`}</Text>
+          </HStack>
+
+          <Button action="primary" className="mt-5 w-full items-center bg-yellow-400">
+            <ButtonIcon as={work.category === "ANIME" ? Tv2 : BookOpen} />
+            <ExternalLink className="font-medium text-gray-800" href={work.url ?? ""}>
+              {work.category === "ANIME" ? "Assistir" : "Ler"} Agora
+            </ExternalLink>
+          </Button>
+        </VStack>
+      </Container>
+    </ScrollView>
   );
 }

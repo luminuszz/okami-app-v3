@@ -37,7 +37,7 @@ export default function RootLayout() {
           </Stack>
         </ThemeProvider>
       </QueryClientProvider>
-      <StatusBar style="dark" />
+      <StatusBar style="inverted" />
     </GluestackUIProvider>
   );
 }
