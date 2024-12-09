@@ -59,7 +59,7 @@ export default function WorkDetails() {
 
   return (
     <ScrollView>
-      <Container classname="mt-10 px-4 mt-2">
+      <Container classname="mt-12 px-4">
         <WorkActionsDrawler hasNewChapter={work.hasNewChapter} workId={work.id} />
 
         <HStack className="items-center justify-between">

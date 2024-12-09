@@ -13,10 +13,11 @@ import { VStack } from "../ui/vstack";
 import { useWorkControllerListUserWorks } from "@/api/okami";
 import { STORAGE_KEYS } from "@/lib/storage";
 import { useAsyncStorage } from "@react-native-async-storage/async-storage";
-import { useFocusEffect } from "expo-router";
+import { router, useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
 import configColors from "tailwindcss/colors";
 import { ExternalLink } from "../ExternalLink";
+import { ProfileDrawer } from "../profile/profile-drawer";
 import { Box } from "../ui/box";
 import { Heading } from "../ui/heading";
 import { Skeleton, SkeletonText } from "../ui/skeleton";
@@ -64,6 +65,8 @@ export function ContinuousReadingSection() {
 
   return (
     <VStack>
+      <ProfileDrawer />
+
       <HStack className="justify-between px-4">
         <Heading size="xl">Agora</Heading>
 
@@ -79,7 +82,7 @@ export function ContinuousReadingSection() {
               <BadgeText className="text-typography-900">Lendo</BadgeText>
             </Badge>
 
-            <Pressable onPress={() => {}}>
+            <Pressable onPress={() => router.push({ pathname: "/modal/[workId]", params: { workId: work.id } })}>
               <Image
                 className="mb-6 h-[200px] w-[150px] rounded-md"
                 source={{ uri: work.imageUrl ?? "" }}
