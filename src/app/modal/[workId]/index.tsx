@@ -1,177 +1,127 @@
-import {
-  getWorkControllerListUserWorksQueryKey,
-  useWorkControllerGetById,
-  useWorkControllerUpdateChapter,
-} from "@/api/okami";
+import { useWorkControllerGetById } from "@/api/okami";
+import { ExternalLink } from "@/components/ExternalLink";
 import { Container } from "@/components/layout/container";
 import { useOkamiToast } from "@/components/okami-toast";
-import { Button, ButtonText } from "@/components/ui/button";
+import { Badge, BadgeText } from "@/components/ui/badge";
+import { Box } from "@/components/ui/box";
+import { Button, ButtonIcon } from "@/components/ui/button";
 import { Center } from "@/components/ui/center";
-import { FormControl, FormControlError, FormControlErrorText } from "@/components/ui/form-control";
 import { Heading } from "@/components/ui/heading";
 import { HStack } from "@/components/ui/hstack";
 import { Image } from "@/components/ui/image";
-import { Input, InputField } from "@/components/ui/input";
-import { Skeleton, SkeletonText } from "@/components/ui/skeleton";
 import { Spinner } from "@/components/ui/spinner";
+import { Text } from "@/components/ui/text";
 import { VStack } from "@/components/ui/vstack";
-import { worksFiltersAtom } from "@/store/works-filters";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useQueryClient } from "@tanstack/react-query";
+import { WorkActionsDrawler } from "@/components/works/work-actions";
+import { resolveTagColor } from "@/helpers/colors";
+import { parseDateDistance } from "@/helpers/date";
+import { toggleWorkActionsDrawerActionAtom } from "@/store/work-actions-drawer";
 import { Redirect, router, useLocalSearchParams } from "expo-router";
-import { useAtomValue } from "jotai";
-import { ChevronLeft } from "lucide-react-native";
-import { useEffect } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { useSetAtom } from "jotai";
+import { BookOpen, ChevronLeft, Clock, Menu, Tv2 } from "lucide-react-native";
+
 import { Pressable } from "react-native";
-import { z } from "zod";
 
-const schema = z.object({
-  chapter: z.coerce.number({ invalid_type_error: "Informe um valor válido" }).positive(),
-});
+export type WorkDetailsParams = {
+  workId: string;
+};
 
-type Schema = z.infer<typeof schema>;
-
-export default function UpdateWorkChapterScreen() {
-  const client = useQueryClient();
+export default function WorkDetails() {
+  const { workId } = useLocalSearchParams<WorkDetailsParams>();
   const toast = useOkamiToast();
-  const filters = useAtomValue(worksFiltersAtom);
 
-  const { workId } = useLocalSearchParams<{ workId: string }>();
+  const toggleWorkActionsDrawer = useSetAtom(toggleWorkActionsDrawerActionAtom);
 
-  const { data: currentWork, isLoading, isError } = useWorkControllerGetById(workId);
-
-  const { mutate: updateWorkChapter, isPending } = useWorkControllerUpdateChapter({
-    mutation: {
-      async onSuccess() {
-        toast({
-          title: "Obra atualizada com sucesso !",
-          action: "success",
-        });
-
-        const currentWorkListQuery = getWorkControllerListUserWorksQueryKey({
-          search: filters.search ?? undefined,
-          status: filters.status ?? undefined,
-        });
-
-        await client.invalidateQueries({
-          queryKey: currentWorkListQuery,
-        });
-
-        router.push("/home");
-      },
-
-      onError() {
-        toast({
-          title: "Erro ao atualizar obra",
-          action: "error",
-          description: "Verifique os dados e tente novamente",
-        });
-      },
-    },
-  });
-
-  const form = useForm<Schema>({
-    resolver: zodResolver(schema),
-    values: {
-      chapter: currentWork?.nextChapter ?? currentWork?.chapter ?? 0,
-    },
-    reValidateMode: "onSubmit",
-  });
-
-  function handleUpdateChapter({ chapter }: Schema) {
-    updateWorkChapter({
-      id: workId,
-      data: {
-        chapter,
-      },
-    });
-  }
-
-  useEffect(() => {
-    return () => {
-      form.reset();
-    };
-  }, [form]);
+  const { data: work, isLoading, isError } = useWorkControllerGetById(workId);
 
   if (isLoading) {
     return (
-      <Container>
-        <Center className="mt-10 w-full items-center gap-4 px-10">
-          <SkeletonText _lines={2} className="h-3" />
-          <Skeleton className="h-[200px]" variant="rounded" />
-
-          <SkeletonText _lines={1} className="mt-10 h-10" />
-        </Center>
-      </Container>
+      <Center className="h-full w-full flex-1">
+        <Spinner size="large" />
+      </Center>
     );
   }
 
-  if (isError) {
+  if (!work || isError) {
     toast({
-      title: "Erro ao carregar obra",
+      title: "Obra não encontrada",
       action: "error",
     });
 
-    return <Redirect href="/home" />;
+    return <Redirect href="/home/works" />;
   }
 
+  const parsedTags = work.tags.map(resolveTagColor);
+
+  const formattedDate = parseDateDistance(work.updatedAt ?? work.createdAt);
+
+  const categoryLabel = work.category === "ANIME" ? "Episódio" : "Capítulo";
+
   return (
-    <Container classname="px-10 mt-10">
-      <HStack className="mt-10 w-full justify-between">
-        <Heading>Atualizar Obra</Heading>
-        <Pressable onPress={() => router.push("/home")}>
+    <Container classname="mt-10 px-4">
+      <WorkActionsDrawler hasNewChapter={work.hasNewChapter} workId={work.id} />
+
+      <HStack className="items-center justify-between">
+        <Pressable onPress={() => router.back()}>
           <ChevronLeft stroke="white" size={30} />
+        </Pressable>
+
+        <Heading>Detalhes da obra</Heading>
+
+        <Pressable onPress={toggleWorkActionsDrawer}>
+          <Menu stroke="white" size={30} />
         </Pressable>
       </HStack>
 
-      <Center className="mt-5">
-        <VStack space="md" className="w-full text-center">
-          <Heading className="text-center" size="md">
-            {currentWork?.name}
+      <VStack className="mt-10 px-4" space="md">
+        <VStack>
+          <Heading size="lg" className="text-center">
+            {work.name.trim()}
           </Heading>
-
-          <Image
-            alt={currentWork?.name}
-            className="mb-6 h-[200px] w-full rounded-md"
-            source={{ uri: currentWork?.imageUrl ?? "" }}
-          />
-        </VStack>
-      </Center>
-
-      <VStack space="md">
-        <Controller
-          control={form.control}
-          name="chapter"
-          render={({ field, fieldState }) => (
-            <FormControl size="lg" isInvalid={fieldState.invalid} isDisabled={field.disabled}>
-              <Input size="xl">
-                <InputField
-                  onBlur={field.onBlur}
-                  value={String(field.value)}
-                  onChangeText={field.onChange}
-                  className="w-full"
-                  keyboardType="numbers-and-punctuation"
-                />
-              </Input>
-              {fieldState.invalid && (
-                <FormControlError>
-                  <FormControlErrorText>{fieldState.error?.message}</FormControlErrorText>
-                </FormControlError>
-              )}
-            </FormControl>
+          {work.alternativeName && (
+            <Text size="md" className="text-center">
+              "{work.alternativeName}"
+            </Text>
           )}
-        />
-        <Button
-          onPress={form.handleSubmit(handleUpdateChapter)}
-          className="w-full"
-          variant="solid"
-          action="positive"
-          isDisabled={isPending}
-        >
-          <ButtonText>
-            {isPending ? <Spinner /> : currentWork?.hasNewChapter ? "Marcar como lido" : "Atualizar"}
-          </ButtonText>
+        </VStack>
+
+        <Box className="w-full">
+          <Image className="h-[300px] w-full rounded-lg" source={{ uri: work?.imageUrl ?? "" }} alt={work.name} />
+        </Box>
+
+        <Heading
+          className={`${work.hasNewChapter ? "text-emerald-500" : "text-typography-900"} `}
+        >{`${work.hasNewChapter ? "Novo" : "Ultimo"} ${categoryLabel}: ${work.nextChapter ?? work.chapter}`}</Heading>
+
+        <Box className="flex-row flex-wrap gap-1">
+          {parsedTags.map((tag) => {
+            return (
+              <Badge
+                style={{ backgroundColor: tag.color }}
+                key={tag.id}
+                className={`rounded-lg text-sm`}
+                variant="outline"
+              >
+                <BadgeText className="text-typography-900">{tag.name}</BadgeText>
+              </Badge>
+            );
+          })}
+        </Box>
+
+        <Text className="truncate text-typography-600" lineBreakMode="clip" numberOfLines={10} size="sm">
+          {work.description}
+        </Text>
+
+        <HStack space="sm">
+          <Clock size={20} stroke="white" />
+          <Text className="text-typography-600">{`Ultima atualização: ${formattedDate}`}</Text>
+        </HStack>
+
+        <Button action="primary" className="mt-5 w-full items-center bg-yellow-400">
+          <ButtonIcon as={work.category === "ANIME" ? Tv2 : BookOpen} />
+          <ExternalLink className="font-medium text-gray-800" href={work.url ?? ""}>
+            {work.category === "ANIME" ? "Assistir" : "Ler"} Agora
+          </ExternalLink>
         </Button>
       </VStack>
     </Container>

@@ -20,6 +20,7 @@ import { Heading } from "@/components/ui/heading";
 import { Image } from "@/components/ui/image";
 import { Input, InputField } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
+import { Textarea, TextareaInput } from "@/components/ui/textarea";
 import { VStack } from "@/components/ui/vstack";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
@@ -41,6 +42,7 @@ const editWorkFormSchema = z.object({
     .max(255)
     .refine((item) => !isNaN(Number(item))),
   alternativeName: z.string().optional(),
+  description: z.string().optional(),
 });
 
 type EditFormValues = z.infer<typeof editWorkFormSchema>;
@@ -80,6 +82,7 @@ export default function EditWorkScreen() {
       name: currentWork?.name ?? "",
       url: currentWork?.url ?? "",
       alternativeName: currentWork?.alternativeName ?? "",
+      description: currentWork?.description ?? "",
     },
   });
 
@@ -190,6 +193,34 @@ export default function EditWorkScreen() {
                   type="text"
                 />
               </Input>
+
+              {fieldState.error && (
+                <FormControlError>
+                  <FormControlErrorText>{fieldState.error.message}</FormControlErrorText>
+                </FormControlError>
+              )}
+            </FormControl>
+          )}
+        />
+
+        <Controller
+          control={control}
+          name="description"
+          render={({ field, fieldState }) => (
+            <FormControl size="md" isInvalid={!!fieldState.error}>
+              <FormControlLabel>
+                <FormControlLabelText>Descrição</FormControlLabelText>
+              </FormControlLabel>
+
+              <Textarea size="xl">
+                <TextareaInput
+                  value={field.value}
+                  onChangeText={(vl) => field.onChange(vl)}
+                  onBlur={field.onBlur}
+                  className="text-md w-full"
+                  type="text"
+                />
+              </Textarea>
 
               {fieldState.error && (
                 <FormControlError>

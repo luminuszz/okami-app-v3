@@ -3,7 +3,7 @@ import { formatDistanceToNow } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { router } from "expo-router";
 import { ChevronRight } from "lucide-react-native";
-import { ScrollView } from "react-native";
+import { Pressable, ScrollView } from "react-native";
 import { Button, ButtonIcon } from "../ui/button";
 import { Card } from "../ui/card";
 import { Heading } from "../ui/heading";
@@ -64,30 +64,43 @@ export function UnreadWorksSection() {
 
       <ScrollView horizontal contentContainerStyle={{ marginLeft: -15, paddingRight: 1100 }}>
         {data?.works?.map((work) => (
-          <Card variant="elevated" className="w-full max-w-[400px]" key={work.id}>
-            <VStack space="xs">
-              <Image
-                className="h-[170px] w-full rounded-md"
-                source={{ uri: work.imageUrl ?? "" }}
-                alt="Solo Leveling"
-              />
-              <Heading size="lg" numberOfLines={1}>
-                {work.name.trim()}
-              </Heading>
+          <Pressable
+            key={work.id}
+            className="w-full max-w-[400px]"
+            onPress={() =>
+              router.push({
+                pathname: "/modal/[workId]",
+                params: {
+                  workId: work.id,
+                },
+              })
+            }
+          >
+            <Card variant="elevated">
+              <VStack space="xs">
+                <Image
+                  className="h-[170px] w-full rounded-md"
+                  source={{ uri: work.imageUrl ?? "" }}
+                  alt="Solo Leveling"
+                />
+                <Heading size="lg" numberOfLines={1}>
+                  {work.name.trim()}
+                </Heading>
 
-              <HStack space="md">
-                <Text className="font-medium text-emerald-500" size="lg">
-                  {`Novo ${work.category === "ANIME" ? "Episódio" : "Capítulo"} ${work.chapter}`}
-                </Text>
-
-                <HStack className="items-center" space="sm">
-                  <Text size="md" className="text-typography-500">
-                    {work.nextChapterUpdatedAt}
+                <HStack space="md">
+                  <Text className="font-medium text-emerald-500" size="lg">
+                    {`Novo ${work.category === "ANIME" ? "Episódio" : "Capítulo"} ${work.chapter}`}
                   </Text>
+
+                  <HStack className="items-center" space="sm">
+                    <Text size="md" className="text-typography-500">
+                      {work.nextChapterUpdatedAt}
+                    </Text>
+                  </HStack>
                 </HStack>
-              </HStack>
-            </VStack>
-          </Card>
+              </VStack>
+            </Card>
+          </Pressable>
         ))}
       </ScrollView>
     </VStack>

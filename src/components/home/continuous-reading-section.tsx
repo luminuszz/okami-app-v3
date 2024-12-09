@@ -113,7 +113,7 @@ export function ContinuousReadingSection() {
 
             <Button action="primary" className="w-full bg-yellow-400">
               <ExternalLink className="font-medium text-gray-800" href={work.url ?? ""}>
-                Continue lendo
+                Continue {work.category === "ANIME" ? "assistindo" : "lendo"}
               </ExternalLink>
             </Button>
           </VStack>

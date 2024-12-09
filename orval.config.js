@@ -11,12 +11,12 @@ module.exports = {
     },
 
     output: {
-      target: "api/okami.ts",
+      target: "src/api/okami.ts",
       schemas: "api/models",
       client: "react-query",
       override: {
         mutator: {
-          path: "./lib/axios.ts",
+          path: "src/lib/axios.ts",
           name: "customInstance",
         },
         query: {

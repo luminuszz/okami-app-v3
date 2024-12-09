@@ -1,6 +1,7 @@
 import { useWorkControllerListUserWorksPaged } from "@/api/okami";
+import { router } from "expo-router";
 import { ChevronRight } from "lucide-react-native";
-import { ScrollView } from "react-native";
+import { Pressable, ScrollView } from "react-native";
 import { Button, ButtonIcon } from "../ui/button";
 import { Card } from "../ui/card";
 import { Heading } from "../ui/heading";
@@ -20,7 +21,7 @@ export function UserWorksListSection() {
     return (
       <HStack>
         {Array.from({ length: 5 }).map((_, index) => (
-          <VStack>
+          <VStack key={index}>
             <Skeleton className="h-[170px] w-full rounded-md" variant="rounded" />
             <SkeletonText className="w-3/4" _lines={2} />
           </VStack>
@@ -39,27 +40,35 @@ export function UserWorksListSection() {
         </Button>
       </HStack>
 
-      <ScrollView
-        horizontal
-        contentContainerStyle={{ paddingRight: 500, marginLeft: -15 }}
-        showsHorizontalScrollIndicator={false}
-      >
+      <ScrollView horizontal contentContainerStyle={{ paddingRight: 500, marginLeft: -15 }}>
         {data?.works.map((work) => (
-          <Card variant="elevated" className="w-full max-w-[200px]" key={work.id}>
-            <VStack space="xs">
-              <Image
-                className="h-[200px] w-full rounded-md"
-                source={{ uri: work.imageUrl ?? "" }}
-                alt="Solo Leveling"
-              />
-              <Heading size="lg" isTruncated numberOfLines={2}>
-                {work.name}
-              </Heading>
-              <Text className="text-typography-600" size="lg">
-                {`${work.category === "ANIME" ? "Capítulo" : "Episódio"}  ${work.chapter}`}
-              </Text>
-            </VStack>
-          </Card>
+          <Pressable
+            className="w-full max-w-[200px]"
+            onPress={() =>
+              router.push({
+                pathname: "/modal/[workId]",
+                params: {
+                  workId: work.id,
+                },
+              })
+            }
+          >
+            <Card variant="elevated">
+              <VStack space="xs">
+                <Image
+                  className="h-[200px] w-full rounded-md"
+                  source={{ uri: work.imageUrl ?? "" }}
+                  alt="Solo Leveling"
+                />
+                <Heading size="lg" isTruncated numberOfLines={2}>
+                  {work.name}
+                </Heading>
+                <Text className="text-typography-600" size="lg">
+                  {`${work.category === "ANIME" ? "Capítulo" : "Episódio"}  ${work.chapter}`}
+                </Text>
+              </VStack>
+            </Card>
+          </Pressable>
         ))}
       </ScrollView>
     </VStack>

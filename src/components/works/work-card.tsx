@@ -93,7 +93,7 @@ export function WorkCard({ work }: WorkCardProps) {
           <Pressable
             onPress={() =>
               router.push({
-                pathname: "/modal/[workId]/edit-work",
+                pathname: "/modal/[workId]",
                 params: {
                   workId: work.id,
                 },
