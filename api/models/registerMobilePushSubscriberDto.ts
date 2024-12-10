@@ -6,4 +6,6 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface RegisterMobilePushSubscriberDto { [key: string]: unknown }
+export interface RegisterMobilePushSubscriberDto {
+  token: string;
+}

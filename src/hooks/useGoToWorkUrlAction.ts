@@ -1,7 +1,7 @@
 import { useOkamiToast } from "@/components/okami-toast";
 import { STORAGE_KEYS } from "@/lib/storage";
 import { useAsyncStorage } from "@react-native-async-storage/async-storage";
-import { Linking } from "react-native";
+import Linking from "expo-linking";
 
 export interface WorkParams {
   workUrl: string;

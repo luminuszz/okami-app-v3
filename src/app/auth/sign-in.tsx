@@ -30,7 +30,7 @@ export default function SignInScreen() {
           [STORAGE_KEYS.REFRESH_TOKEN, refreshToken],
         ]);
 
-        router.push("/home");
+        router.replace("/home");
       },
       onError(error) {
         toast({

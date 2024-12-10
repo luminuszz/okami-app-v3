@@ -89,7 +89,7 @@ export function UnreadWorksSection() {
 
                 <HStack space="md">
                   <Text className="font-medium text-emerald-500" size="lg">
-                    {`Novo ${work.category === "ANIME" ? "Episódio" : "Capítulo"} ${work.chapter}`}
+                    {`Novo ${work.category === "ANIME" ? "Episódio" : "Capítulo"} ${work.nextChapter}`}
                   </Text>
 
                   <HStack className="items-center" space="sm">
