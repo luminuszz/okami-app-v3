@@ -3,7 +3,7 @@ import { useSetAtom } from "jotai";
 import { Menu } from "lucide-react-native";
 import { Pressable } from "react-native";
 import { Badge, BadgeText } from "../ui/badge";
-import { Button, ButtonIcon } from "../ui/button";
+import { Button, ButtonIcon, ButtonText } from "../ui/button";
 import { Card } from "../ui/card";
 import { HStack } from "../ui/hstack";
 import { Image } from "../ui/image";
@@ -11,18 +11,20 @@ import { Text } from "../ui/text";
 import { VStack } from "../ui/vstack";
 
 import { useWorkControllerListUserWorks } from "@/api/okami";
+import { useGoToWorkUrlAction } from "@/hooks/useGoToWorkUrlAction";
 import { STORAGE_KEYS } from "@/lib/storage";
 import { useAsyncStorage } from "@react-native-async-storage/async-storage";
 import { router, useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
 import configColors from "tailwindcss/colors";
-import { ExternalLink } from "../ExternalLink";
 import { ProfileDrawer } from "../profile/profile-drawer";
 import { Box } from "../ui/box";
 import { Heading } from "../ui/heading";
 import { Skeleton, SkeletonText } from "../ui/skeleton";
 
 export function ContinuousReadingSection() {
+  const handlePushToUrl = useGoToWorkUrlAction();
+
   const openProfile = useSetAtom(toggleProfileDrawerActionAtom);
   const lastSelectedWorkStorage = useAsyncStorage(STORAGE_KEYS.LAST_WORK_CLICKED);
 
@@ -114,10 +116,14 @@ export function ContinuousReadingSection() {
               ))}
             </Box>
 
-            <Button action="primary" className="w-full bg-yellow-400">
-              <ExternalLink className="font-medium text-gray-800" href={work.url ?? ""}>
+            <Button
+              action="primary"
+              className="w-full bg-yellow-400"
+              onPress={() => handlePushToUrl({ workId: work.id, workUrl: work.url })}
+            >
+              <ButtonText className="font-medium text-gray-800">
                 Continue {work.category === "ANIME" ? "assistindo" : "lendo"}
-              </ExternalLink>
+              </ButtonText>
             </Button>
           </VStack>
         </HStack>

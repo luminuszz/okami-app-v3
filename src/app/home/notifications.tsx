@@ -23,10 +23,10 @@ export default function Notifications() {
   return (
     <Container classname="mt-10 ">
       <VStack className="px-4">
-        <HStack className="items-center justify-between">
-          <Heading size="2xl">Notificações</Heading>
+        <HStack className="items-center justify-between px-4">
+          <Heading size="xl">Notificações</Heading>
           <Link href="/home" className="mr-4">
-            <ChevronLeft stroke="white" size={30} />
+            <ChevronLeft stroke="white" size={25} />
           </Link>
         </HStack>
 

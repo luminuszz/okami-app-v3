@@ -9,14 +9,12 @@ import { Text } from "../ui/text";
 import { VStack } from "../ui/vstack";
 
 import { filtersLabels } from "@/constants/strings";
-import { STORAGE_KEYS } from "@/lib/storage";
-import { useAsyncStorage } from "@react-native-async-storage/async-storage";
+import { useGoToWorkUrlAction } from "@/hooks/useGoToWorkUrlAction";
 import { formatDistanceToNow, parseISO } from "date-fns";
 import { Link, router } from "expo-router";
 import { BookCheck, BookMarked, Clock } from "lucide-react-native";
-import { Linking, Pressable } from "react-native";
+import { Pressable } from "react-native";
 import configColors from "tailwindcss/colors";
-import { useOkamiToast } from "../okami-toast";
 import { Button, ButtonIcon } from "../ui/button";
 
 export interface WorkCardProps {
@@ -43,8 +41,7 @@ const statusColor = {
 };
 
 export function WorkCard({ work }: WorkCardProps) {
-  const lastWorkClickedStorage = useAsyncStorage(STORAGE_KEYS.LAST_WORK_CLICKED);
-  const toast = useOkamiToast();
+  const handlePushToUrl = useGoToWorkUrlAction();
 
   const limitedTags = work.tags.slice(0, 3).map((tag) => {
     const currentColor = tag.color as keyof typeof configColors;
@@ -63,24 +60,6 @@ export function WorkCard({ work }: WorkCardProps) {
   const categoryLabel = work.type === "ANIME" ? "Episódio" : "Capítulo";
 
   const status = work.isFinished ? "finished" : work.newChapter ? "unread" : "read";
-
-  async function handlePushToUrl() {
-    const canOpenUrl = await Linking.canOpenURL(work?.url);
-
-    if (!canOpenUrl) {
-      toast({
-        title: "Erro ao abrir link",
-        description: "Não foi possível abrir o link, tente novamente mais tarde.",
-        action: "error",
-      });
-
-      return;
-    }
-
-    await lastWorkClickedStorage.setItem(work.id);
-
-    Linking.openURL(work?.url);
-  }
 
   return (
     <Card variant="elevated" className="max-w-[200px]">
@@ -169,7 +148,7 @@ export function WorkCard({ work }: WorkCardProps) {
             <Text className="text-sm text-typography-400">{formattedUpdatedAt}</Text>
           </HStack>
 
-          <Pressable onPress={handlePushToUrl}>
+          <Pressable onPress={() => handlePushToUrl({ workId: work.id, workUrl: work.url })}>
             <Badge
               action={!!work.newChapter ? "success" : "muted"}
               style={{

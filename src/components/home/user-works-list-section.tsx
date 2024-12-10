@@ -43,6 +43,7 @@ export function UserWorksListSection() {
       <ScrollView horizontal contentContainerStyle={{ paddingRight: 500, marginLeft: -15 }}>
         {data?.works.map((work) => (
           <Pressable
+            key={work.id}
             className="w-full max-w-[200px]"
             onPress={() =>
               router.push({

@@ -1,10 +1,9 @@
 import { useWorkControllerGetById } from "@/api/okami";
-import { ExternalLink } from "@/components/ExternalLink";
 import { Container } from "@/components/layout/container";
 import { useOkamiToast } from "@/components/okami-toast";
 import { Badge, BadgeText } from "@/components/ui/badge";
 import { Box } from "@/components/ui/box";
-import { Button, ButtonIcon } from "@/components/ui/button";
+import { Button, ButtonIcon, ButtonText } from "@/components/ui/button";
 import { Center } from "@/components/ui/center";
 import { Heading } from "@/components/ui/heading";
 import { HStack } from "@/components/ui/hstack";
@@ -15,6 +14,7 @@ import { VStack } from "@/components/ui/vstack";
 import { WorkActionsDrawler } from "@/components/works/work-actions";
 import { resolveTagColor } from "@/helpers/colors";
 import { parseDateDistance } from "@/helpers/date";
+import { useGoToWorkUrlAction } from "@/hooks/useGoToWorkUrlAction";
 import { toggleWorkActionsDrawerActionAtom } from "@/store/work-actions-drawer";
 import { Redirect, router, useLocalSearchParams } from "expo-router";
 import { useSetAtom } from "jotai";
@@ -28,6 +28,7 @@ export type WorkDetailsParams = {
 
 export default function WorkDetails() {
   const { workId } = useLocalSearchParams<WorkDetailsParams>();
+  const handlePushToUrl = useGoToWorkUrlAction();
   const toast = useOkamiToast();
 
   const toggleWorkActionsDrawer = useSetAtom(toggleWorkActionsDrawerActionAtom);
@@ -118,11 +119,20 @@ export default function WorkDetails() {
             <Text className="text-typography-600">{`Ultima atualização: ${formattedDate}`}</Text>
           </HStack>
 
-          <Button action="primary" className="mt-5 w-full items-center bg-yellow-400">
+          <Button
+            action="primary"
+            className="mt-5 w-full items-center bg-yellow-400"
+            onPress={() => {
+              handlePushToUrl({
+                workId: work.id,
+                workUrl: work.url,
+              });
+            }}
+          >
             <ButtonIcon as={work.category === "ANIME" ? Tv2 : BookOpen} />
-            <ExternalLink className="font-medium text-gray-800" href={work.url ?? ""}>
+            <ButtonText className="font-medium text-gray-800">
               {work.category === "ANIME" ? "Assistir" : "Ler"} Agora
-            </ExternalLink>
+            </ButtonText>
           </Button>
         </VStack>
       </Container>

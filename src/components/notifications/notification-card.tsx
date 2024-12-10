@@ -4,6 +4,7 @@ import {
   useNotificationControllerMarkNotificationAsRead,
 } from "@/api/okami";
 import { useQueryClient } from "@tanstack/react-query";
+import { router } from "expo-router";
 import { MotiView } from "moti";
 import { Pressable } from "react-native";
 import { Card } from "../ui/card";
@@ -59,19 +60,28 @@ export function NotificationCard({ notification }: NotificationCardProps) {
     },
   });
 
+  const isChapter = notification.content.message.normalize("NFC").includes("Capítulo");
+
   return (
     <Pressable
       onPress={() => {
         if (!isPending && !notification.readAt) {
           markNotificationAsRead({ notificationId: notification.id });
         }
+
+        router.push({
+          pathname: "/modal/[workId]",
+          params: {
+            workId: notification.content.workId,
+          },
+        });
       }}
     >
       <Card variant="filled" className="mt-2">
         <VStack space="xs">
           <Text className="text-md text-typography-600">{`Obra atualizada: ${notification.content?.name}`}</Text>
           <Text className="text-sm text-typography-900">
-            {`${notification.content.category === "ANIME" ? "Episódio" : "Capítulo"} ${notification.content.chapter} disponível !`}
+            {`${isChapter ? " Capítulo" : "Episódio"} ${notification.content.chapter} disponível !`}
           </Text>
         </VStack>
         {!notification.readAt && (
