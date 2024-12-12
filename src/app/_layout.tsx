@@ -4,7 +4,6 @@ import "../../global.css";
 import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
 import { StatusBar } from "expo-status-bar";
 
-import { useAxiosInterceptor } from "@/hooks/useAxiosInteceptor";
 import { asyncStoragePersister, queryClient } from "@/lib/react-query";
 import { DarkTheme, ThemeProvider } from "@react-navigation/native";
 import { Stack } from "expo-router";
@@ -26,7 +25,6 @@ OneSignal.Notifications.requestPermission(true);
 void SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  useAxiosInterceptor();
   useAppListeners();
 
   const [fontsLoaded] = useFonts([Roboto_500Medium, Roboto_900Black, Roboto_400Regular]);

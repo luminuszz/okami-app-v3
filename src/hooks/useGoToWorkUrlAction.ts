@@ -1,7 +1,7 @@
 import { useOkamiToast } from "@/components/okami-toast";
 import { STORAGE_KEYS } from "@/lib/storage";
 import { useAsyncStorage } from "@react-native-async-storage/async-storage";
-import Linking from "expo-linking";
+import { Linking } from "react-native";
 
 export interface WorkParams {
   workUrl: string;
@@ -25,17 +25,18 @@ export function useGoToWorkUrlAction() {
       return;
     }
 
-    Linking.openURL(data?.workUrl)
-      .catch(() => {
-        toast({
-          title: "Erro ao abrir link",
-          description: "Não foi possível abrir o link, tente novamente mais tarde.",
-          action: "error",
-        });
-      })
-      .then(async () => {
-        await lastWorkClickedStorage.setItem(data.workId);
+    try {
+      await Linking.openURL(data.workUrl);
+      await lastWorkClickedStorage.setItem(data.workId);
+    } catch (e) {
+      console.log({ e });
+
+      toast({
+        title: "Erro ao abrir link",
+        description: "Não foi possível abrir o link, tente novamente mais tarde.",
+        action: "error",
       });
+    }
   }
 
   return handlePushToUrl;

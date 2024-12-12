@@ -62,7 +62,7 @@ export function UnreadWorksSection() {
         </Button>
       </HStack>
 
-      <ScrollView horizontal contentContainerStyle={{ marginLeft: -15, paddingRight: 1100 }}>
+      <ScrollView horizontal contentContainerStyle={{ marginLeft: -15, paddingRight: 1050 }}>
         {data?.works?.map((work) => (
           <Pressable
             key={work.id}

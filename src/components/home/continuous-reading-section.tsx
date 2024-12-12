@@ -98,8 +98,8 @@ export function ContinuousReadingSection() {
               <Heading size="lg" numberOfLines={2}>
                 {work.name}
               </Heading>
-              <Text size="md" className="text-typography-800">
-                {`${workLabel}  ${work?.chapter}`}
+              <Text size="md" className={work.hasNewChapter ? "text-emerald-500" : "text-typography-800"}>
+                {`${work.hasNewChapter ? "Novo" : "Ultimo"} ${workLabel}  ${work?.chapter}`}
               </Text>
             </VStack>
 
@@ -121,7 +121,7 @@ export function ContinuousReadingSection() {
               className="w-full bg-yellow-400"
               onPress={() => handlePushToUrl({ workId: work.id, workUrl: work.url })}
             >
-              <ButtonText className="font-medium text-gray-800">
+              <ButtonText className="text-sm font-medium text-gray-800">
                 Continue {work.category === "ANIME" ? "assistindo" : "lendo"}
               </ButtonText>
             </Button>

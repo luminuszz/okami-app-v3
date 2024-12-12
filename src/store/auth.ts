@@ -8,31 +8,43 @@ import { OneSignal } from "react-native-onesignal";
 export const refreshTokenAtom = atom(async () => storage.getItem(STORAGE_KEYS.REFRESH_TOKEN));
 export const tokenAtom = atom(async () => storage.getItem(STORAGE_KEYS.TOKEN));
 
-export const checksAuthByRefreshTokenAtom = atom(async (get) => {
+const checksUserSubscription = async (): Promise<[boolean, AxiosError | null]> => {
+  let error: AxiosError | null = null;
+
   try {
-    const refreshToken = await get(refreshTokenAtom);
-
-    if (!refreshToken) {
-      return false;
-    }
-
-    const user = await authControllerGetMe();
-
-    OneSignal.login(user.id);
-    OneSignal.User.addEmail(user.email);
-
     const subscriptionId = await OneSignal.User.pushSubscription.getIdAsync();
 
     if (subscriptionId) {
       await notificationControllerSubscribeInMobile({ token: subscriptionId });
     }
 
-    return !!refreshToken;
+    error = null;
+
+    return [true, error];
   } catch (e) {
     if (e instanceof AxiosError) {
-      console.log({ e });
+      error = e;
     }
+
+    return [false, error];
   }
+};
+
+export const checksAuthByRefreshTokenAtom = atom(async (get) => {
+  const refreshToken = await get(refreshTokenAtom);
+
+  if (!refreshToken) {
+    return false;
+  }
+
+  const user = await authControllerGetMe();
+
+  OneSignal.login(user.id);
+  OneSignal.User.addEmail(user.email);
+
+  await checksUserSubscription();
+
+  return !!refreshToken;
 });
 
 export const isAuthAction = loadable(checksAuthByRefreshTokenAtom);
