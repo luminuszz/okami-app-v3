@@ -18,11 +18,11 @@ import { useEffect } from "react";
 import { useAppListeners } from "@/hooks/useAppListeners";
 import { OneSignal } from "react-native-onesignal";
 
+void SplashScreen.preventAutoHideAsync();
+
 OneSignal.initialize(process.env.EXPO_PUBLIC_ONE_SIGNAL_APP_ID!);
 
 OneSignal.Notifications.requestPermission(true);
-
-void SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   useAppListeners();
