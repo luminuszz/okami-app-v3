@@ -81,7 +81,7 @@ export function NotificationCard({ notification }: NotificationCardProps) {
         <VStack space="xs">
           <Text className="text-md text-typography-600">{`Obra atualizada: ${notification.content?.name}`}</Text>
           <Text className="text-sm text-typography-900">
-            {`${isChapter ? " Capítulo" : "Episódio"} ${notification.content.chapter} disponível !`}
+            {`${isChapter ? " Capítulo" : "Episódio"} ${notification.content.nextChapter} disponível !`}
           </Text>
         </VStack>
         {!notification.readAt && (

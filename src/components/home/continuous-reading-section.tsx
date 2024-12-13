@@ -108,7 +108,7 @@ export function ContinuousReadingSection() {
                 <Badge
                   style={{ backgroundColor: tag.color }}
                   key={tag.id}
-                  className={`rounded-lg text-sm`}
+                  className="rounded-lg text-sm"
                   variant="outline"
                 >
                   <BadgeText className="text-typography-900">{tag.name}</BadgeText>
