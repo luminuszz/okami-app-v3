@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosRequestConfig } from "axios";
-import { storage, STORAGE_KEYS } from "../storage";
+import { STORAGE_KEYS } from "../storage";
 import { mmkvStorage } from "@/lib/storage/mmkv";
 import { router } from "expo-router";
 
