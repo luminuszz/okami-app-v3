@@ -5,13 +5,13 @@
  * The Okami rest api
  * OpenAPI spec version: 1.0
  */
-import type { UserHttpAvatarImageUrl } from './userHttpAvatarImageUrl';
-import type { UserHttpRole } from './userHttpRole';
+import type { UserHttpAvatarImageUrl } from "./userHttpAvatarImageUrl";
+import type { UserHttpRole } from "./userHttpRole";
 
 export interface UserHttp {
   avatarImageId: string;
   /** @nullable */
-  avatarImageUrl: UserHttpAvatarImageUrl;
+  avatarImageUrl: string;
   email: string;
   finishedWorksCount: number;
   id: string;

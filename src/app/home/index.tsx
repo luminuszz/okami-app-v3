@@ -9,9 +9,7 @@ export default function HomeScreen() {
     <ScrollView>
       <Container classname="px-4 mb-10">
         <ContinuousReadingSection />
-
         <UnreadWorksSection />
-
         <UserWorksListSection />
       </Container>
     </ScrollView>

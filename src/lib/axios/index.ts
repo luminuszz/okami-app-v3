@@ -1,5 +1,7 @@
 import axios, { AxiosError, AxiosRequestConfig } from "axios";
 import { storage, STORAGE_KEYS } from "../storage";
+import { mmkvStorage } from "@/lib/mmkv";
+import { router } from "expo-router";
 
 export const okamiHttpGateway = axios.create({
   baseURL: process.env.EXPO_PUBLIC_API_URL,
@@ -57,7 +59,7 @@ const refreshTokenCall = async (refreshToken: string) => {
 okamiHttpGateway.interceptors.response.use(
   (response) => response,
   async (error) => {
-    const refreshToken = await storage.getItem(STORAGE_KEYS.REFRESH_TOKEN);
+    const refreshToken = mmkvStorage.getString(STORAGE_KEYS.REFRESH_TOKEN);
 
     if (isUnauthorizedError(error) && refreshToken) {
       if (!isRefreshing) {
@@ -65,8 +67,7 @@ okamiHttpGateway.interceptors.response.use(
 
         refreshTokenCall(refreshToken)
           .then(({ token }) => {
-            storage.setItem(STORAGE_KEYS.TOKEN, token);
-
+            mmkvStorage.set(STORAGE_KEYS.TOKEN, token);
             failRequestQueue.forEach((request) => {
               request.onSuccess(token);
             });
@@ -74,6 +75,7 @@ okamiHttpGateway.interceptors.response.use(
           .catch((error) => {
             failRequestQueue.forEach((request) => {
               request.onFailure(error);
+              router.replace("/auth/sign-in");
             });
           })
           .finally(() => {

@@ -3,14 +3,15 @@ import { useOkamiToast } from "@/components/okami-toast";
 import { Button, ButtonIcon, ButtonText } from "@/components/ui/button";
 import { DELAY_FOR_SYNC_WORKS_IN_HOURS } from "@/constants/time";
 import { STORAGE_KEYS } from "@/lib/storage";
-import { useAsyncStorage } from "@react-native-async-storage/async-storage";
 import { addHours, formatDistance, isBefore, parseISO } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { RefreshCcw } from "lucide-react-native";
+import { useMMKVString } from "react-native-mmkv";
+import { mmkvStorage } from "@/lib/mmkv";
 
 export function SyncWorksButton() {
   const toast = useOkamiToast();
-  const syncWorkDelayStorage = useAsyncStorage(STORAGE_KEYS.SYNC_WORK_DELAY_DATE);
+  const [syncWorkDelayStorage, setSyncWorkDelayStorage] = useMMKVString(STORAGE_KEYS.SYNC_WORK_DELAY_DATE, mmkvStorage);
 
   const syncAllWorksMutation = useWorkControllerRefreshChapters({
     mutation: {
@@ -29,27 +30,25 @@ export function SyncWorksButton() {
           title: "Erro ao atualizar obras",
           action: "error",
         });
-        await syncWorkDelayStorage.removeItem();
+        setSyncWorkDelayStorage("");
       },
     },
   });
 
-  async function setNewDelay() {
-    await syncWorkDelayStorage.setItem(addHours(new Date(), DELAY_FOR_SYNC_WORKS_IN_HOURS).toISOString());
+  function setNewDelay() {
+    setSyncWorkDelayStorage(addHours(new Date(), DELAY_FOR_SYNC_WORKS_IN_HOURS).toISOString());
   }
 
   async function handleSyncWorks() {
-    const dateIso = await syncWorkDelayStorage.getItem();
-
-    if (!dateIso) {
-      await setNewDelay();
+    if (!syncWorkDelayStorage) {
+      setNewDelay();
 
       syncAllWorksMutation.mutate();
 
       return;
     }
 
-    const datePeriodDelay = parseISO(dateIso);
+    const datePeriodDelay = parseISO(syncWorkDelayStorage);
 
     const hasDelay = isBefore(new Date(), datePeriodDelay);
 

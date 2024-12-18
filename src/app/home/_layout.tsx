@@ -7,7 +7,6 @@ export default function ApplicationTabLayout() {
   useUpdateNotificationSubscriberId();
 
   const { data: notifications = [] } = useNotificationControllerGetRecentNotifications();
-
   const unreadNotificationsCount = notifications?.filter((notification) => !notification?.readAt).length;
 
   return (

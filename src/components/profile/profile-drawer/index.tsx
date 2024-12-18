@@ -1,6 +1,6 @@
 import { useAuthControllerGetMe } from "@/api/okami";
 import { queryClient } from "@/lib/react-query";
-import { STORAGE_KEYS, useStorage } from "@/lib/storage";
+import { STORAGE_KEYS } from "@/lib/storage";
 import { profileDrawerIsOpen } from "@/store/profile-drawer";
 import { ToastProvider } from "@gluestack-ui/toast";
 import { QueryClientProvider } from "@tanstack/react-query";
@@ -16,9 +16,10 @@ import { Text } from "../../ui/text";
 import { VStack } from "../../ui/vstack";
 import { SyncWorksButton } from "./sync-works-button";
 import { SyncWorksToNotionButton } from "./sync-works-to-notion-button";
+import { useAuth } from "@/hooks/useAuth";
 
 export function ProfileDrawer() {
-  const storage = useStorage();
+  const { logout } = useAuth();
 
   const [isOpen, setIsIOpen] = useAtom(profileDrawerIsOpen);
 
@@ -26,7 +27,9 @@ export function ProfileDrawer() {
 
   async function handleLogout() {
     setIsIOpen(false);
-    await storage.multiRemove([STORAGE_KEYS.REFRESH_TOKEN, STORAGE_KEYS.TOKEN]);
+
+    logout();
+
     router.replace("/auth/sign-in");
   }
 

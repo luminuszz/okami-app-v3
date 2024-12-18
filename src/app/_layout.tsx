@@ -22,8 +22,6 @@ void SplashScreen.preventAutoHideAsync();
 
 OneSignal.initialize(process.env.EXPO_PUBLIC_ONE_SIGNAL_APP_ID!);
 
-OneSignal.Notifications.requestPermission(true);
-
 export default function RootLayout() {
   useAppListeners();
 
