@@ -13,7 +13,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { router } from "expo-router";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
-import { mmkvStorage } from "@/lib/mmkv";
+import { mmkvStorage } from "@/lib/storage/mmkv";
 import { useAuth } from "@/hooks/useAuth";
 
 const formLoginSchema = z.object({

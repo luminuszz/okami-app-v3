@@ -7,7 +7,7 @@ import { addHours, formatDistance, isBefore, parseISO } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { RefreshCcw } from "lucide-react-native";
 import { useMMKVString } from "react-native-mmkv";
-import { mmkvStorage } from "@/lib/mmkv";
+import { mmkvStorage } from "@/lib/storage/mmkv";
 
 export function SyncWorksButton() {
   const toast = useOkamiToast();
@@ -16,8 +16,6 @@ export function SyncWorksButton() {
   const syncAllWorksMutation = useWorkControllerRefreshChapters({
     mutation: {
       onSuccess() {
-        console.log("Success");
-
         toast({
           title: "Atualizando obras",
           action: "info",

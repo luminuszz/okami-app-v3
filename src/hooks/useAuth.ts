@@ -3,7 +3,7 @@ import { useCallback, useMemo } from "react";
 import { useOkamiToast } from "@/components/okami-toast";
 import { useMMKVString } from "react-native-mmkv";
 import { STORAGE_KEYS } from "@/lib/storage";
-import { mmkvStorage } from "@/lib/mmkv";
+import { mmkvStorage } from "@/lib/storage/mmkv";
 import { router } from "expo-router";
 
 type MakeLoginParams = {
