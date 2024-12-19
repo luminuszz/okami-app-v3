@@ -13,7 +13,7 @@
     "postinstall": "patch-package",
     "glue-add": "pnpm dlx gluestack-ui add",
     "make:apk": "pnpm dlx eas-cli build -p android --profile preview --local",
-    "make:orval": "pnpm  orval generate --config ./orval.config.js"
+    "make:orval": " pnpm dlx ts-node --project tsconfig.json ./scripts/generate-api.ts"
   },
   "jest": {
     "preset": "jest-expo"

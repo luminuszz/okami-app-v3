@@ -6,6 +6,7 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface RefreshTokenOnlyModel {
-  refreshToken: string;
-}
+/**
+ * @nullable
+ */
+export type WorkHttpDescription = { [key: string]: unknown } | null;
