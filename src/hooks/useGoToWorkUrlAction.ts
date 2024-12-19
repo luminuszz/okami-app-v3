@@ -25,17 +25,18 @@ export function useGoToWorkUrlAction() {
       return;
     }
 
-    Linking.openURL(data?.workUrl)
-      .catch(() => {
-        toast({
-          title: "Erro ao abrir link",
-          description: "Não foi possível abrir o link, tente novamente mais tarde.",
-          action: "error",
-        });
-      })
-      .then(async () => {
-        await lastWorkClickedStorage.setItem(data.workId);
+    try {
+      await Linking.openURL(data.workUrl);
+      await lastWorkClickedStorage.setItem(data.workId);
+    } catch (e) {
+      console.log({ e });
+
+      toast({
+        title: "Erro ao abrir link",
+        description: "Não foi possível abrir o link, tente novamente mais tarde.",
+        action: "error",
       });
+    }
   }
 
   return handlePushToUrl;

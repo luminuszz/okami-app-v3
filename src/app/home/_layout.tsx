@@ -1,10 +1,12 @@
 import { useNotificationControllerGetRecentNotifications } from "@/api/okami";
+import { useUpdateNotificationSubscriberId } from "@/hooks/useUpdateNotificationSubscriberId";
 import { Tabs } from "expo-router";
 import { Bell, Book, House, UserRound } from "lucide-react-native";
 
 export default function ApplicationTabLayout() {
-  const { data: notifications = [] } = useNotificationControllerGetRecentNotifications();
+  useUpdateNotificationSubscriberId();
 
+  const { data: notifications = [] } = useNotificationControllerGetRecentNotifications();
   const unreadNotificationsCount = notifications?.filter((notification) => !notification?.readAt).length;
 
   return (

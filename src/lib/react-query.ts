@@ -1,23 +1,10 @@
-import {
-  QueryClient,
-  focusManager,
-  onlineManager,
-} from "@tanstack/react-query";
-import { addNetworkStateListener } from "expo-network";
-import { AppStateStatus, Platform } from "react-native";
+import { QueryClient } from "@tanstack/react-query";
+
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
 
 export const queryClient = new QueryClient();
 
-onlineManager.setEventListener((setOnline) => {
-  const subscription = addNetworkStateListener((state) => {
-    setOnline(state.isConnected ?? false);
-  });
-
-  return subscription.remove;
+export const asyncStoragePersister = createAsyncStoragePersister({
+  storage: AsyncStorage,
 });
-
-export function onAppStateChange(status: AppStateStatus) {
-  if (Platform.OS !== "web") {
-    focusManager.setFocused(status === "active");
-  }
-}

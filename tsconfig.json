@@ -7,5 +7,12 @@
       "tailwind.config": ["./tailwind.config.js"]
     }
   },
-  "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts", "src/app/modal/[workId]/indextsx"]
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    ".expo/types/**/*.ts",
+    "expo-env.d.ts",
+    "src/app/modal/[workId]/indextsx",
+    "scripts/generate-api.ts"
+  ]
 }

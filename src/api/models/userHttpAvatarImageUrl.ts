@@ -9,4 +9,4 @@
 /**
  * @nullable
  */
-export type UserHttpAvatarImageUrl = string | null;
+export type UserHttpAvatarImageUrl = { [key: string]: unknown } | null;

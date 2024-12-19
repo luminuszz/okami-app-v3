@@ -1,6 +1,5 @@
 import { useWorkControllerGetById } from "@/api/okami";
 import { Container } from "@/components/layout/container";
-import { useOkamiToast } from "@/components/okami-toast";
 import { Badge, BadgeText } from "@/components/ui/badge";
 import { Box } from "@/components/ui/box";
 import { Button, ButtonIcon, ButtonText } from "@/components/ui/button";
@@ -16,7 +15,7 @@ import { resolveTagColor } from "@/helpers/colors";
 import { parseDateDistance } from "@/helpers/date";
 import { useGoToWorkUrlAction } from "@/hooks/useGoToWorkUrlAction";
 import { toggleWorkActionsDrawerActionAtom } from "@/store/work-actions-drawer";
-import { Redirect, router, useLocalSearchParams } from "expo-router";
+import { Link, router, useLocalSearchParams } from "expo-router";
 import { useSetAtom } from "jotai";
 import { BookOpen, ChevronLeft, Clock, Menu, Tv2 } from "lucide-react-native";
 
@@ -29,7 +28,6 @@ export type WorkDetailsParams = {
 export default function WorkDetails() {
   const { workId } = useLocalSearchParams<WorkDetailsParams>();
   const handlePushToUrl = useGoToWorkUrlAction();
-  const toast = useOkamiToast();
 
   const toggleWorkActionsDrawer = useSetAtom(toggleWorkActionsDrawerActionAtom);
 
@@ -44,12 +42,16 @@ export default function WorkDetails() {
   }
 
   if (!work || isError) {
-    toast({
-      title: "Obra não encontrada",
-      action: "error",
-    });
-
-    return <Redirect href="/home/works" />;
+    return (
+      <Container>
+        <Center className="hf w-full flex-1 gap-2">
+          <Heading>Obra não encontrada</Heading>
+          <Button>
+            <Link href="/home">Voltar</Link>
+          </Button>
+        </Center>
+      </Container>
+    );
   }
 
   const parsedTags = work.tags.map(resolveTagColor);
@@ -64,7 +66,7 @@ export default function WorkDetails() {
         <WorkActionsDrawler hasNewChapter={work.hasNewChapter} workId={work.id} />
 
         <HStack className="items-center justify-between">
-          <Pressable onPress={() => router.back()}>
+          <Pressable onPress={() => (router.canGoBack() ? router.back() : router.push("/home"))}>
             <ChevronLeft stroke="white" size={30} />
           </Pressable>
 

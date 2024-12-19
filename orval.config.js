@@ -1,22 +1,16 @@
-require("dotenv").config();
-
 module.exports = {
   okami: {
     input: {
       target: "./swagger.json",
-      filers: {
-        mode: "exclude",
-        tags: [/health/],
-      },
     },
 
     output: {
       target: "src/api/okami.ts",
-      schemas: "api/models",
+      schemas: "src/api/models",
       client: "react-query",
       override: {
         mutator: {
-          path: "src/lib/axios.ts",
+          path: "src/lib/axios/index.ts",
           name: "customInstance",
         },
         query: {

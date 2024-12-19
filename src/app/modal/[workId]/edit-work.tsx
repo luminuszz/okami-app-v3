@@ -96,6 +96,7 @@ export default function EditWorkScreen() {
         name: values.name,
         url: values.url,
         tagsId: currentWork?.tags.map((tag) => tag.id) ?? [],
+        description: values.description ?? "",
       };
 
       if (currentWork?.hasNewChapter) {

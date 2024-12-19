@@ -5,10 +5,11 @@
  * The Okami rest api
  * OpenAPI spec version: 1.0
  */
-import type { WorkHttp } from "./workHttp";
+import type { WorkModelPagedNextPage } from './workModelPagedNextPage';
+import type { WorkHttp } from './workHttp';
 
 export interface WorkModelPaged {
-  nextPage: number | null;
+  nextPage: WorkModelPagedNextPage;
   totalOfPages: number;
   works: WorkHttp[];
 }

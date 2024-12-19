@@ -13,6 +13,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { router } from "expo-router";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
+import { mmkvStorage } from "@/lib/storage/mmkv";
+import { useAuth } from "@/hooks/useAuth";
 
 const formLoginSchema = z.object({
   email: z.string().email(),
@@ -22,27 +24,7 @@ const formLoginSchema = z.object({
 type FormSchema = z.infer<typeof formLoginSchema>;
 
 export default function SignInScreen() {
-  const { mutateAsync } = useAuthControllerLoginV2({
-    mutation: {
-      async onSuccess({ refreshToken, token }) {
-        await storage.multiSet([
-          [STORAGE_KEYS.TOKEN, token],
-          [STORAGE_KEYS.REFRESH_TOKEN, refreshToken],
-        ]);
-
-        router.push("/home");
-      },
-      onError(error) {
-        toast({
-          title: "Erro ao fazer login",
-          description: "Verifique suas credenciais e tente novamente" + error.message,
-          action: "error",
-        });
-      },
-    },
-  });
-  const storage = useStorage();
-  const toast = useOkamiToast();
+  const { login } = useAuth();
 
   const {
     control,
@@ -55,14 +37,6 @@ export default function SignInScreen() {
     },
     resolver: zodResolver(formLoginSchema),
   });
-
-  const handleMutate = (values: FormSchema) =>
-    mutateAsync({
-      data: {
-        email: values.email,
-        password: values.password,
-      },
-    });
 
   return (
     <Box className="flex-1 items-center justify-center gap-4">
@@ -118,13 +92,7 @@ export default function SignInScreen() {
           )}
         </FormControl>
 
-        <Button
-          disabled={isSubmitting}
-          onPress={handleSubmit(handleMutate)}
-          variant="solid"
-          className="w-full"
-          size="lg"
-        >
+        <Button disabled={isSubmitting} onPress={handleSubmit(login)} variant="solid" className="w-full" size="lg">
           {isSubmitting ? <Spinner /> : <ButtonText> Entrar</ButtonText>}
         </Button>
       </VStack>
