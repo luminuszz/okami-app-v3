@@ -22,7 +22,7 @@ import { Redirect, router, useLocalSearchParams } from "expo-router";
 import { useAtomValue } from "jotai";
 import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { ScrollView } from "react-native";
+import { SafeAreaView, ScrollView } from "react-native";
 import { z } from "zod";
 
 const schema = z.object({
@@ -116,60 +116,62 @@ export default function UpdateWorkChapterScreen() {
   }
 
   return (
-    <ScrollView>
-      <Container classname="px-10 mt-10">
-        <HeaderWithGoBack>Atualizar Obra</HeaderWithGoBack>
+    <SafeAreaView>
+      <ScrollView>
+        <Container classname="px-10 mt-10">
+          <HeaderWithGoBack>Atualizar Obra</HeaderWithGoBack>
 
-        <Center className="mt-5">
-          <VStack space="md" className="w-full text-center">
-            <Heading className="text-center" size="md">
-              {currentWork?.name}
-            </Heading>
+          <Center className="mt-5">
+            <VStack space="md" className="w-full text-center">
+              <Heading className="text-center" size="md">
+                {currentWork?.name}
+              </Heading>
 
-            <Image
-              alt={currentWork?.name}
-              className="mb-6 h-[200px] w-full rounded-md"
-              source={{ uri: currentWork?.imageUrl ?? "" }}
+              <Image
+                alt={currentWork?.name}
+                className="mb-6 h-[200px] w-full rounded-md"
+                source={{ uri: currentWork?.imageUrl ?? "" }}
+              />
+            </VStack>
+          </Center>
+
+          <VStack space="md">
+            <Controller
+              control={form.control}
+              name="chapter"
+              render={({ field, fieldState }) => (
+                <FormControl size="lg" isInvalid={fieldState.invalid} isDisabled={field.disabled}>
+                  <Input size="xl">
+                    <InputField
+                      onBlur={field.onBlur}
+                      value={String(field.value)}
+                      onChangeText={field.onChange}
+                      className="w-full"
+                      keyboardType="numbers-and-punctuation"
+                    />
+                  </Input>
+                  {fieldState.invalid && (
+                    <FormControlError>
+                      <FormControlErrorText>{fieldState.error?.message}</FormControlErrorText>
+                    </FormControlError>
+                  )}
+                </FormControl>
+              )}
             />
+            <Button
+              onPress={form.handleSubmit(handleUpdateChapter)}
+              className="w-full"
+              variant="solid"
+              action="positive"
+              isDisabled={isPending}
+            >
+              <ButtonText>
+                {isPending ? <Spinner /> : currentWork?.hasNewChapter ? "Marcar como lido" : "Atualizar"}
+              </ButtonText>
+            </Button>
           </VStack>
-        </Center>
-
-        <VStack space="md">
-          <Controller
-            control={form.control}
-            name="chapter"
-            render={({ field, fieldState }) => (
-              <FormControl size="lg" isInvalid={fieldState.invalid} isDisabled={field.disabled}>
-                <Input size="xl">
-                  <InputField
-                    onBlur={field.onBlur}
-                    value={String(field.value)}
-                    onChangeText={field.onChange}
-                    className="w-full"
-                    keyboardType="numbers-and-punctuation"
-                  />
-                </Input>
-                {fieldState.invalid && (
-                  <FormControlError>
-                    <FormControlErrorText>{fieldState.error?.message}</FormControlErrorText>
-                  </FormControlError>
-                )}
-              </FormControl>
-            )}
-          />
-          <Button
-            onPress={form.handleSubmit(handleUpdateChapter)}
-            className="w-full"
-            variant="solid"
-            action="positive"
-            isDisabled={isPending}
-          >
-            <ButtonText>
-              {isPending ? <Spinner /> : currentWork?.hasNewChapter ? "Marcar como lido" : "Atualizar"}
-            </ButtonText>
-          </Button>
-        </VStack>
-      </Container>
-    </ScrollView>
+        </Container>
+      </ScrollView>
+    </SafeAreaView>
   );
 }

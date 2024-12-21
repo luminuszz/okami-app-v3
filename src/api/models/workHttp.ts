@@ -5,8 +5,8 @@
  * The Okami rest api
  * OpenAPI spec version: 1.0
  */
-import type { WorkHttpCategory } from './workHttpCategory';
-import type { TagModel } from './tagModel';
+import type { TagModel } from "./tagModel";
+import type { WorkHttpCategory } from "./workHttpCategory";
 
 export interface WorkHttp {
   /** @nullable */
@@ -14,6 +14,8 @@ export interface WorkHttp {
   category: WorkHttpCategory;
   chapter: number;
   createdAt: string;
+  /** @nullable */
+  description: string | null;
   hasNewChapter: boolean;
   id: string;
   imageId: string;

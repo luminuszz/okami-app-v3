@@ -26,6 +26,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
 import { router, useLocalSearchParams } from "expo-router";
 import { Controller, useForm } from "react-hook-form";
+import { SafeAreaView, ScrollView } from "react-native";
+
 
 import { z } from "zod";
 
@@ -96,6 +98,7 @@ export default function EditWorkScreen() {
         name: values.name,
         url: values.url,
         tagsId: currentWork?.tags.map((tag) => tag.id) ?? [],
+        description: values.description ?? "",
       };
 
       if (currentWork?.hasNewChapter) {
@@ -130,180 +133,184 @@ export default function EditWorkScreen() {
   }
 
   return (
-    <Container classname="px-10 mt-10">
-      <HeaderWithGoBack>Editar Obra</HeaderWithGoBack>
+    <SafeAreaView>
+      <ScrollView>
+        <Container classname="px-10 mt-10">
+          <HeaderWithGoBack>Editar Obra</HeaderWithGoBack>
 
-      <Center className="mt-5">
-        <VStack space="md" className="w-full text-center">
-          <Heading className="text-center" size="lg">
-            {currentWork?.name}
-          </Heading>
+          <Center className="mt-5">
+            <VStack space="md" className="w-full text-center">
+              <Heading className="text-center" size="lg">
+                {currentWork?.name}
+              </Heading>
 
-          <Image
-            alt={currentWork?.name}
-            className="mb-6 h-[200px] w-full rounded-md"
-            source={{ uri: currentWork?.imageUrl ?? "" }}
-          />
-        </VStack>
-      </Center>
+              <Image
+                alt={currentWork?.name}
+                className="mb-6 h-[200px] w-full rounded-md"
+                source={{ uri: currentWork?.imageUrl ?? "" }}
+              />
+            </VStack>
+          </Center>
 
-      <VStack space="md">
-        <Controller
-          control={control}
-          name="name"
-          render={({ field, fieldState }) => (
-            <FormControl size="md" isInvalid={!!fieldState.error}>
-              <FormControlLabel>
-                <FormControlLabelText>Nome da obra</FormControlLabelText>
-              </FormControlLabel>
-              <Input size="xl">
-                <InputField
-                  value={field.value}
-                  onChangeText={(vl) => field.onChange(vl)}
-                  onBlur={field.onBlur}
-                  className="text-md w-full"
-                  type="text"
-                />
-              </Input>
+          <VStack space="md">
+            <Controller
+              control={control}
+              name="name"
+              render={({ field, fieldState }) => (
+                <FormControl size="md" isInvalid={!!fieldState.error}>
+                  <FormControlLabel>
+                    <FormControlLabelText>Nome da obra</FormControlLabelText>
+                  </FormControlLabel>
+                  <Input size="xl">
+                    <InputField
+                      value={field.value}
+                      onChangeText={(vl) => field.onChange(vl)}
+                      onBlur={field.onBlur}
+                      className="text-md w-full"
+                      type="text"
+                    />
+                  </Input>
 
-              {fieldState.error && (
-                <FormControlError>
-                  <FormControlErrorText>{fieldState.error.message}</FormControlErrorText>
-                </FormControlError>
+                  {fieldState.error && (
+                    <FormControlError>
+                      <FormControlErrorText>{fieldState.error.message}</FormControlErrorText>
+                    </FormControlError>
+                  )}
+                </FormControl>
               )}
-            </FormControl>
-          )}
-        />
+            />
 
-        <Controller
-          control={control}
-          name="alternativeName"
-          render={({ field, fieldState }) => (
-            <FormControl size="md" isInvalid={!!fieldState.error}>
-              <FormControlLabel>
-                <FormControlLabelText>Nome alternativo</FormControlLabelText>
-              </FormControlLabel>
+            <Controller
+              control={control}
+              name="alternativeName"
+              render={({ field, fieldState }) => (
+                <FormControl size="md" isInvalid={!!fieldState.error}>
+                  <FormControlLabel>
+                    <FormControlLabelText>Nome alternativo</FormControlLabelText>
+                  </FormControlLabel>
 
-              <Input size="xl">
-                <InputField
-                  value={field.value}
-                  onChangeText={(vl) => field.onChange(vl)}
-                  onBlur={field.onBlur}
-                  className="text-md w-full"
-                  type="text"
-                />
-              </Input>
+                  <Input size="xl">
+                    <InputField
+                      value={field.value}
+                      onChangeText={(vl) => field.onChange(vl)}
+                      onBlur={field.onBlur}
+                      className="text-md w-full"
+                      type="text"
+                    />
+                  </Input>
 
-              {fieldState.error && (
-                <FormControlError>
-                  <FormControlErrorText>{fieldState.error.message}</FormControlErrorText>
-                </FormControlError>
+                  {fieldState.error && (
+                    <FormControlError>
+                      <FormControlErrorText>{fieldState.error.message}</FormControlErrorText>
+                    </FormControlError>
+                  )}
+                </FormControl>
               )}
-            </FormControl>
-          )}
-        />
+            />
 
-        <Controller
-          control={control}
-          name="description"
-          render={({ field, fieldState }) => (
-            <FormControl size="md" isInvalid={!!fieldState.error}>
-              <FormControlLabel>
-                <FormControlLabelText>Descrição</FormControlLabelText>
-              </FormControlLabel>
+            <Controller
+              control={control}
+              name="description"
+              render={({ field, fieldState }) => (
+                <FormControl size="md" isInvalid={!!fieldState.error}>
+                  <FormControlLabel>
+                    <FormControlLabelText>Descrição</FormControlLabelText>
+                  </FormControlLabel>
 
-              <Textarea size="xl">
-                <TextareaInput
-                  value={field.value}
-                  onChangeText={(vl) => field.onChange(vl)}
-                  onBlur={field.onBlur}
-                  className="text-md w-full"
-                  type="text"
-                />
-              </Textarea>
+                  <Textarea size="xl">
+                    <TextareaInput
+                      value={field.value}
+                      onChangeText={(vl) => field.onChange(vl)}
+                      onBlur={field.onBlur}
+                      className="text-md w-full"
+                      type="text"
+                    />
+                  </Textarea>
 
-              {fieldState.error && (
-                <FormControlError>
-                  <FormControlErrorText>{fieldState.error.message}</FormControlErrorText>
-                </FormControlError>
+                  {fieldState.error && (
+                    <FormControlError>
+                      <FormControlErrorText>{fieldState.error.message}</FormControlErrorText>
+                    </FormControlError>
+                  )}
+                </FormControl>
               )}
-            </FormControl>
-          )}
-        />
+            />
 
-        <Controller
-          disabled={currentWork?.hasNewChapter}
-          control={control}
-          name="chapter"
-          render={({ field, fieldState }) => (
-            <FormControl size="md" isInvalid={!!fieldState.error} isDisabled={currentWork?.hasNewChapter}>
-              <FormControlLabel>
-                <FormControlLabelText>{categoryLabel}</FormControlLabelText>
-              </FormControlLabel>
+            <Controller
+              disabled={currentWork?.hasNewChapter}
+              control={control}
+              name="chapter"
+              render={({ field, fieldState }) => (
+                <FormControl size="md" isInvalid={!!fieldState.error} isDisabled={currentWork?.hasNewChapter}>
+                  <FormControlLabel>
+                    <FormControlLabelText>{categoryLabel}</FormControlLabelText>
+                  </FormControlLabel>
 
-              <Input
-                size="xl"
-                isDisabled={currentWork?.hasNewChapter}
-                className={currentWork?.hasNewChapter ? "bg-typography-100" : ""}
-              >
-                <InputField
-                  value={field.value}
-                  onChangeText={(vl) => field.onChange(vl)}
-                  onBlur={field.onBlur}
-                  className="text-md w-full"
-                  type="text"
-                  keyboardType="numbers-and-punctuation"
-                />
-              </Input>
+                  <Input
+                    size="xl"
+                    isDisabled={currentWork?.hasNewChapter}
+                    className={currentWork?.hasNewChapter ? "bg-typography-100" : ""}
+                  >
+                    <InputField
+                      value={field.value}
+                      onChangeText={(vl) => field.onChange(vl)}
+                      onBlur={field.onBlur}
+                      className="text-md w-full"
+                      type="text"
+                      keyboardType="numbers-and-punctuation"
+                    />
+                  </Input>
 
-              {fieldState.error && (
-                <FormControlError>
-                  <FormControlErrorText>{fieldState.error.message}</FormControlErrorText>
-                </FormControlError>
+                  {fieldState.error && (
+                    <FormControlError>
+                      <FormControlErrorText>{fieldState.error.message}</FormControlErrorText>
+                    </FormControlError>
+                  )}
+                </FormControl>
               )}
-            </FormControl>
-          )}
-        />
+            />
 
-        <Controller
-          control={control}
-          name="url"
-          render={({ field, fieldState }) => (
-            <FormControl size="md" isInvalid={!!fieldState.error}>
-              <FormControlLabel>
-                <FormControlLabelText>Url da obra</FormControlLabelText>
-              </FormControlLabel>
+            <Controller
+              control={control}
+              name="url"
+              render={({ field, fieldState }) => (
+                <FormControl size="md" isInvalid={!!fieldState.error}>
+                  <FormControlLabel>
+                    <FormControlLabelText>Url da obra</FormControlLabelText>
+                  </FormControlLabel>
 
-              <Input size="xl">
-                <InputField
-                  value={field.value}
-                  onChangeText={(vl) => field.onChange(vl)}
-                  onBlur={field.onBlur}
-                  className="text-md w-full"
-                  type="text"
-                  keyboardType="numbers-and-punctuation"
-                />
-              </Input>
+                  <Input size="xl">
+                    <InputField
+                      value={field.value}
+                      onChangeText={(vl) => field.onChange(vl)}
+                      onBlur={field.onBlur}
+                      className="text-md w-full"
+                      type="text"
+                      keyboardType="numbers-and-punctuation"
+                    />
+                  </Input>
 
-              {fieldState.error && (
-                <FormControlError>
-                  <FormControlErrorText>{fieldState.error.message}</FormControlErrorText>
-                </FormControlError>
+                  {fieldState.error && (
+                    <FormControlError>
+                      <FormControlErrorText>{fieldState.error.message}</FormControlErrorText>
+                    </FormControlError>
+                  )}
+                </FormControl>
               )}
-            </FormControl>
-          )}
-        />
+            />
 
-        <Button
-          onPress={handleSubmit(handleEditWork)}
-          className="w-full"
-          variant="solid"
-          action="positive"
-          isDisabled={isSubmitting || isLoading}
-        >
-          <ButtonText>{isPending || isSubmitting ? <Spinner /> : "Salvar"}</ButtonText>
-        </Button>
-      </VStack>
-    </Container>
+            <Button
+              onPress={handleSubmit(handleEditWork)}
+              className="w-full"
+              variant="solid"
+              action="positive"
+              isDisabled={isSubmitting || isLoading}
+            >
+              <ButtonText>{isPending || isSubmitting ? <Spinner /> : "Salvar"}</ButtonText>
+            </Button>
+          </VStack>
+        </Container>
+      </ScrollView>
+    </SafeAreaView>
   );
 }

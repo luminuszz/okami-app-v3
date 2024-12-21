@@ -13,7 +13,7 @@ import { VStack } from "../ui/vstack";
 
 export function UserWorksListSection() {
   const { data, isLoading } = useWorkControllerListUserWorksPaged({
-    limit: 20,
+    limit: 10,
     page: 1,
   });
 
@@ -65,7 +65,7 @@ export function UserWorksListSection() {
                   {work.name}
                 </Heading>
                 <Text className="text-typography-600" size="lg">
-                  {`${work.category === "ANIME" ? "Capítulo" : "Episódio"}  ${work.chapter}`}
+                  {`${work.category === "MANGA" ? "Capítulo" : "Episódio"}  ${work.chapter}`}
                 </Text>
               </VStack>
             </Card>

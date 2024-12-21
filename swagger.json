@@ -11,82 +11,202 @@
             "multipart/form-data": {
               "schema": {
                 "properties": {
-                  "file": { "type": "string", "format": "binary" },
-                  "name": { "type": "string" },
-                  "chapter": { "type": "number" },
-                  "url": { "type": "string" },
-                  "category": { "type": "string", "enum": ["ANIME", "MANGA"] },
-                  "alternativeName": { "type": "string" },
-                  "tagsId": { "type": "string" }
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "chapter": {
+                    "type": "number"
+                  },
+                  "url": {
+                    "type": "string"
+                  },
+                  "category": {
+                    "type": "string",
+                    "enum": [
+                      "ANIME",
+                      "MANGA"
+                    ]
+                  },
+                  "alternativeName": {
+                    "type": "string"
+                  },
+                  "tagsId": {
+                    "type": "string"
+                  }
                 },
                 "$ref": "#/components/schemas/"
               }
             }
           }
         },
-        "responses": { "201": { "description": "" } },
-        "tags": ["work"]
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "work"
+        ]
       }
     },
     "/work/{id}": {
       "delete": {
         "operationId": "WorkController_deleteWork",
-        "parameters": [{ "name": "id", "required": true, "in": "path", "schema": { "type": "string" } }],
-        "responses": { "200": { "description": "" } },
-        "tags": ["work"]
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "work"
+        ]
       }
     },
     "/work/find/{id}": {
       "get": {
         "operationId": "WorkController_getById",
-        "parameters": [{ "name": "id", "required": true, "in": "path", "schema": { "type": "string" } }],
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "",
-            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/WorkHttp" } } }
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkHttp"
+                }
+              }
+            }
           }
         },
-        "tags": ["work"]
+        "tags": [
+          "work"
+        ]
       }
     },
     "/work/{id}/update-chapter": {
       "patch": {
         "operationId": "WorkController_updateChapter",
-        "parameters": [{ "name": "id", "required": true, "in": "path", "schema": { "type": "string" } }],
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "required": true,
-          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/UpdateChapterDto" } } }
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateChapterDto"
+              }
+            }
+          }
         },
-        "responses": { "200": { "description": "" } },
-        "tags": ["work"]
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "work"
+        ]
       }
     },
     "/work/{id}/mark-read": {
       "patch": {
         "operationId": "WorkController_markRead",
-        "parameters": [{ "name": "id", "required": true, "in": "path", "schema": { "type": "string" } }],
-        "responses": { "200": { "description": "" } },
-        "tags": ["work"]
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "work"
+        ]
       }
     },
     "/work/{id}/mark-unread": {
       "patch": {
         "operationId": "WorkController_markUnread",
-        "parameters": [{ "name": "id", "required": true, "in": "path", "schema": { "type": "string" } }],
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "required": true,
-          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/MarkWorkUnreadDto" } } }
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MarkWorkUnreadDto"
+              }
+            }
+          }
         },
-        "responses": { "200": { "description": "" } },
-        "tags": ["work"]
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "work"
+        ]
       }
     },
     "/work/sync-to-notion": {
       "post": {
         "operationId": "WorkController_syncToNotion",
         "parameters": [],
-        "responses": { "201": { "description": "" } },
-        "tags": ["work"]
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "work"
+        ]
       }
     },
     "/work/fetch-for-workers-read": {
@@ -98,12 +218,19 @@
             "description": "",
             "content": {
               "application/json": {
-                "schema": { "type": "array", "items": { "$ref": "#/components/schemas/WorkHttp" } }
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WorkHttp"
+                  }
+                }
               }
             }
           }
         },
-        "tags": ["work"]
+        "tags": [
+          "work"
+        ]
       }
     },
     "/work/fetch-for-workers-unread": {
@@ -115,89 +242,198 @@
             "description": "",
             "content": {
               "application/json": {
-                "schema": { "type": "array", "items": { "$ref": "#/components/schemas/WorkHttp" } }
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WorkHttp"
+                  }
+                }
               }
             }
           }
         },
-        "tags": ["work"]
+        "tags": [
+          "work"
+        ]
       }
     },
     "/work/refresh-chapters": {
       "post": {
         "operationId": "WorkController_refreshChapters",
         "parameters": [],
-        "responses": { "201": { "description": "" } },
-        "tags": ["work"]
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "work"
+        ]
       }
     },
     "/work/update-work/{id}": {
       "put": {
         "operationId": "WorkController_updateWork",
-        "parameters": [{ "name": "id", "required": true, "in": "path", "schema": { "type": "string" } }],
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "required": true,
-          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/UpdateWorkDto" } } }
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateWorkDto"
+              }
+            }
+          }
         },
-        "responses": { "200": { "description": "" } },
-        "tags": ["work"]
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "work"
+        ]
       }
     },
     "/work/mark-finished/{id}": {
       "patch": {
         "operationId": "WorkController_markFinished",
-        "parameters": [{ "name": "id", "required": true, "in": "path", "schema": { "type": "string" } }],
-        "responses": { "200": { "description": "" } },
-        "tags": ["work"]
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "work"
+        ]
       }
     },
     "/work/upload-work-image/{id}": {
       "post": {
         "operationId": "WorkController_uploadWorkImage",
-        "parameters": [{ "name": "id", "required": true, "in": "path", "schema": { "type": "string" } }],
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
             "multipart/form-data": {
               "schema": {
-                "properties": { "file": { "type": "string", "format": "binary" } },
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                },
                 "$ref": "#/components/schemas/"
               }
             }
           }
         },
-        "responses": { "201": { "description": "" } },
-        "tags": ["work"]
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "work"
+        ]
       }
     },
     "/work/replace-image-from-notion/{databaseId}": {
       "post": {
         "operationId": "WorkController_setWorkImageFromNotion",
-        "parameters": [{ "name": "databaseId", "required": true, "in": "path", "schema": { "type": "string" } }],
-        "responses": { "201": { "description": "" } },
-        "tags": ["work"]
+        "parameters": [
+          {
+            "name": "databaseId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "work"
+        ]
       }
     },
     "/work/fetch-for-works-scraping-report": {
       "get": {
         "operationId": "WorkController_fetchForWorksScrapingReportPaginated",
         "parameters": [
-          { "name": "page", "required": true, "in": "query", "schema": { "minimum": 0, "type": "number" } },
+          {
+            "name": "page",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "minimum": 0,
+              "type": "number"
+            }
+          },
           {
             "name": "filter",
             "required": false,
             "in": "query",
-            "schema": { "$ref": "#/components/schemas/RefreshStatus" }
+            "schema": {
+              "$ref": "#/components/schemas/RefreshStatus"
+            }
           },
-          { "name": "search", "required": false, "in": "query", "schema": { "type": "string" } }
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
         "responses": {
           "200": {
             "description": "",
-            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/WorkModelPaged" } } }
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkModelPaged"
+                }
+              }
+            }
           }
         },
-        "tags": ["work"]
+        "tags": [
+          "work"
+        ]
       }
     },
     "/work/scrapping-report": {
@@ -206,18 +442,36 @@
         "parameters": [],
         "requestBody": {
           "required": true,
-          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ScrappingReportDto" } } }
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScrappingReportDto"
+              }
+            }
+          }
         },
-        "responses": { "201": { "description": "" } },
-        "tags": ["work"]
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "work"
+        ]
       }
     },
     "/work/sync-work": {
       "post": {
         "operationId": "WorkController_syncWork",
         "parameters": [],
-        "responses": { "201": { "description": "" } },
-        "tags": ["work"]
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "work"
+        ]
       }
     },
     "/work/list": {
@@ -228,21 +482,43 @@
             "name": "status",
             "required": false,
             "in": "query",
-            "schema": { "enum": ["unread", "read", "finished", "favorites"], "type": "string" }
+            "schema": {
+              "enum": [
+                "unread",
+                "read",
+                "finished",
+                "favorites"
+              ],
+              "type": "string"
+            }
           },
-          { "name": "search", "required": false, "in": "query", "schema": { "type": "string" } }
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
         "responses": {
           "200": {
             "description": "",
             "content": {
               "application/json": {
-                "schema": { "type": "array", "items": { "$ref": "#/components/schemas/WorkHttp" } }
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WorkHttp"
+                  }
+                }
               }
             }
           }
         },
-        "tags": ["work"]
+        "tags": [
+          "work"
+        ]
       }
     },
     "/work/list/paged": {
@@ -253,27 +529,84 @@
             "name": "status",
             "required": false,
             "in": "query",
-            "schema": { "enum": ["unread", "read", "finished", "favorites"], "type": "string" }
+            "schema": {
+              "enum": [
+                "unread",
+                "read",
+                "finished",
+                "favorites"
+              ],
+              "type": "string"
+            }
           },
-          { "name": "search", "required": false, "in": "query", "schema": { "type": "string" } },
-          { "name": "page", "required": true, "in": "query", "schema": { "type": "number" } },
-          { "name": "limit", "required": true, "in": "query", "schema": { "enum": [10, 20, 30], "type": "number" } }
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "enum": [
+                10,
+                20,
+                30
+              ],
+              "type": "number"
+            }
+          }
         ],
         "responses": {
           "200": {
             "description": "",
-            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/WorkModelPaged" } } }
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkModelPaged"
+                }
+              }
+            }
           }
         },
-        "tags": ["work"]
+        "tags": [
+          "work"
+        ]
       }
     },
     "/work/{id}/toggle-favorite": {
       "patch": {
         "operationId": "WorkController_toggleFavorite",
-        "parameters": [{ "name": "id", "required": true, "in": "path", "schema": { "type": "string" } }],
-        "responses": { "201": { "description": "" } },
-        "tags": ["work"]
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "work"
+        ]
       }
     },
     "/work/favorites": {
@@ -285,12 +618,19 @@
             "description": "",
             "content": {
               "application/json": {
-                "schema": { "type": "array", "items": { "$ref": "#/components/schemas/WorkHttp" } }
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WorkHttp"
+                  }
+                }
               }
             }
           }
         },
-        "tags": ["work"]
+        "tags": [
+          "work"
+        ]
       }
     },
     "/auth/login": {
@@ -299,15 +639,29 @@
         "parameters": [],
         "requestBody": {
           "required": true,
-          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/MakeSessionDto" } } }
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MakeSessionDto"
+              }
+            }
+          }
         },
         "responses": {
           "201": {
             "description": "",
-            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/TokenModel" } } }
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenModel"
+                }
+              }
+            }
           }
         },
-        "tags": ["auth"]
+        "tags": [
+          "auth"
+        ]
       }
     },
     "/auth/v2/login": {
@@ -316,15 +670,29 @@
         "parameters": [],
         "requestBody": {
           "required": true,
-          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/MakeSessionDto" } } }
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MakeSessionDto"
+              }
+            }
+          }
         },
         "responses": {
           "200": {
             "description": "",
-            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/RefreshTokenModel" } } }
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RefreshTokenModel"
+                }
+              }
+            }
           }
         },
-        "tags": ["auth"]
+        "tags": [
+          "auth"
+        ]
       }
     },
     "/auth/v2/refresh-token": {
@@ -333,15 +701,29 @@
         "parameters": [],
         "requestBody": {
           "required": true,
-          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/RefreshTokenDto" } } }
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefreshTokenDto"
+              }
+            }
+          }
         },
         "responses": {
           "200": {
             "description": "",
-            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/RefreshTokenOnlyModel" } } }
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RefreshTokenOnlyModel"
+                }
+              }
+            }
           }
         },
-        "tags": ["auth"]
+        "tags": [
+          "auth"
+        ]
       }
     },
     "/auth/user/avatar/upload": {
@@ -350,10 +732,23 @@
         "parameters": [],
         "requestBody": {
           "required": true,
-          "content": { "multipart/form-data": { "schema": { "type": "file", "$ref": "#/components/schemas/" } } }
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "file",
+                "$ref": "#/components/schemas/"
+              }
+            }
+          }
         },
-        "responses": { "201": { "description": "" } },
-        "tags": ["auth"]
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "auth"
+        ]
       }
     },
     "/auth/user/me": {
@@ -363,10 +758,18 @@
         "responses": {
           "200": {
             "description": "",
-            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/UserHttp" } } }
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserHttp"
+                }
+              }
+            }
           }
         },
-        "tags": ["auth"]
+        "tags": [
+          "auth"
+        ]
       }
     },
     "/auth/access-token": {
@@ -376,10 +779,18 @@
         "responses": {
           "201": {
             "description": "",
-            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/AccessToken" } } }
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessToken"
+                }
+              }
+            }
           }
         },
-        "tags": ["auth"]
+        "tags": [
+          "auth"
+        ]
       }
     },
     "/auth/register": {
@@ -388,10 +799,22 @@
         "parameters": [],
         "requestBody": {
           "required": true,
-          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CreateUserDto" } } }
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUserDto"
+              }
+            }
+          }
         },
-        "responses": { "201": { "description": "" } },
-        "tags": ["auth"]
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "auth"
+        ]
       }
     },
     "/auth/admin-hash-code": {
@@ -400,10 +823,22 @@
         "parameters": [],
         "requestBody": {
           "required": true,
-          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CreateAdminHashCodeDto" } } }
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAdminHashCodeDto"
+              }
+            }
+          }
         },
-        "responses": { "201": { "description": "" } },
-        "tags": ["auth"]
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "auth"
+        ]
       }
     },
     "/auth/reset-password": {
@@ -412,18 +847,36 @@
         "parameters": [],
         "requestBody": {
           "required": true,
-          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ResetPasswordDto" } } }
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResetPasswordDto"
+              }
+            }
+          }
         },
-        "responses": { "201": { "description": "" } },
-        "tags": ["auth"]
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "auth"
+        ]
       }
     },
     "/auth/logout": {
       "post": {
         "operationId": "AuthController_logout",
         "parameters": [],
-        "responses": { "201": { "description": "" } },
-        "tags": ["auth"]
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "auth"
+        ]
       }
     },
     "/auth/login-mobile": {
@@ -432,10 +885,22 @@
         "parameters": [],
         "requestBody": {
           "required": true,
-          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/MakeSessionDto" } } }
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MakeSessionDto"
+              }
+            }
+          }
         },
-        "responses": { "201": { "description": "" } },
-        "tags": ["auth"]
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "auth"
+        ]
       }
     },
     "/auth/notion/update-database-id": {
@@ -444,34 +909,64 @@
         "parameters": [],
         "requestBody": {
           "required": true,
-          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/UpdateNotionDatabaseIdDto" } } }
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateNotionDatabaseIdDto"
+              }
+            }
+          }
         },
-        "responses": { "201": { "description": "" } },
-        "tags": ["auth"]
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "auth"
+        ]
       }
     },
     "/auth/user/analytics": {
       "get": {
         "operationId": "AuthController_fetchUserAnalytics",
         "parameters": [],
-        "responses": { "200": { "description": "" } },
-        "tags": ["auth"]
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "auth"
+        ]
       }
     },
     "/auth/user/trial-quote": {
       "get": {
         "operationId": "AuthController_getUserTrialQuoteGet",
         "parameters": [],
-        "responses": { "200": { "description": "" } },
-        "tags": ["auth"]
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "auth"
+        ]
       }
     },
     "/auth/user/telegram-status": {
       "get": {
         "operationId": "AuthController_getTelegramStatus",
         "parameters": [],
-        "responses": { "200": { "description": "" } },
-        "tags": ["auth"]
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "auth"
+        ]
       }
     },
     "/auth/password/send-reset-email": {
@@ -480,10 +975,22 @@
         "parameters": [],
         "requestBody": {
           "required": true,
-          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/SendResetPasswordEmailDto" } } }
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendResetPasswordEmailDto"
+              }
+            }
+          }
         },
-        "responses": { "201": { "description": "" } },
-        "tags": ["auth"]
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "auth"
+        ]
       }
     },
     "/auth/password/reset": {
@@ -492,10 +999,22 @@
         "parameters": [],
         "requestBody": {
           "required": true,
-          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ResetUserPasswordDto" } } }
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResetUserPasswordDto"
+              }
+            }
+          }
         },
-        "responses": { "201": { "description": "" } },
-        "tags": ["auth"]
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "auth"
+        ]
       }
     },
     "/auth/user": {
@@ -504,18 +1023,36 @@
         "parameters": [],
         "requestBody": {
           "required": true,
-          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/UpdateUserDto" } } }
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserDto"
+              }
+            }
+          }
         },
-        "responses": { "200": { "description": "" } },
-        "tags": ["auth"]
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "auth"
+        ]
       }
     },
     "/auth/user/send-confirm-email": {
       "post": {
         "operationId": "AuthController_sendConfirmEmail",
         "parameters": [],
-        "responses": { "201": { "description": "" } },
-        "tags": ["auth"]
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "auth"
+        ]
       }
     },
     "/auth/user/validate-email": {
@@ -524,10 +1061,22 @@
         "parameters": [],
         "requestBody": {
           "required": true,
-          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ValidateEmailDto" } } }
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValidateEmailDto"
+              }
+            }
+          }
         },
-        "responses": { "201": { "description": "" } },
-        "tags": ["auth"]
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "auth"
+        ]
       }
     },
     "/notification/push/browser/subscribe": {
@@ -537,19 +1086,35 @@
         "requestBody": {
           "required": true,
           "content": {
-            "application/json": { "schema": { "$ref": "#/components/schemas/SubscribeUserBrowserNotificationDto" } }
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubscribeUserBrowserNotificationDto"
+              }
+            }
           }
         },
-        "responses": { "201": { "description": "" } },
-        "tags": ["notification"]
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "notification"
+        ]
       }
     },
     "/notification/push/browser/public-key": {
       "get": {
         "operationId": "NotificationController_getPublicKey",
         "parameters": [],
-        "responses": { "200": { "description": "" } },
-        "tags": ["notification"]
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "notification"
+        ]
       }
     },
     "/notification/push/mobile/subscribe": {
@@ -559,11 +1124,21 @@
         "requestBody": {
           "required": true,
           "content": {
-            "application/json": { "schema": { "$ref": "#/components/schemas/RegisterMobilePushSubscriberDto" } }
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterMobilePushSubscriberDto"
+              }
+            }
           }
         },
-        "responses": { "201": { "description": "" } },
-        "tags": ["notification"]
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "notification"
+        ]
       }
     },
     "/notification/recent": {
@@ -575,36 +1150,70 @@
             "description": "",
             "content": {
               "application/json": {
-                "schema": { "type": "array", "items": { "$ref": "#/components/schemas/NotificationHttp" } }
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/NotificationHttp"
+                  }
+                }
               }
             }
           }
         },
-        "tags": ["notification"]
+        "tags": [
+          "notification"
+        ]
       }
     },
     "/notification/mark-read/{notificationId}": {
       "post": {
         "operationId": "NotificationController_markNotificationAsRead",
-        "parameters": [{ "name": "notificationId", "required": true, "in": "path", "schema": { "type": "string" } }],
-        "responses": { "201": { "description": "" } },
-        "tags": ["notification"]
+        "parameters": [
+          {
+            "name": "notificationId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "notification"
+        ]
       }
     },
     "/payment/checkout": {
       "post": {
         "operationId": "PaymentController_createIntentPayment",
         "parameters": [],
-        "responses": { "201": { "description": "" } },
-        "tags": ["payment"]
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "payment"
+        ]
       }
     },
     "/payment/webhook": {
       "post": {
         "operationId": "PaymentController_webhook",
         "parameters": [],
-        "responses": { "201": { "description": "" } },
-        "tags": ["payment"]
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "payment"
+        ]
       }
     },
     "/tags": {
@@ -613,47 +1222,127 @@
         "parameters": [],
         "requestBody": {
           "required": true,
-          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CreateTagDto" } } }
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTagDto"
+              }
+            }
+          }
         },
-        "responses": { "201": { "description": "" } },
-        "tags": ["tags"]
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "tags"
+        ]
       },
       "get": {
         "operationId": "TagController_listTags",
-        "parameters": [{ "name": "page", "required": true, "in": "query", "schema": { "type": "number" } }],
+        "parameters": [
+          {
+            "name": "page",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "",
-            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/TagModelPaged" } } }
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TagModelPaged"
+                }
+              }
+            }
           }
         },
-        "tags": ["tags"]
+        "tags": [
+          "tags"
+        ]
       }
     },
     "/tags/{id}": {
       "put": {
         "operationId": "TagController_updateTag",
-        "parameters": [{ "name": "id", "required": true, "in": "path", "schema": { "type": "string" } }],
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "required": true,
-          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/UpdateTagDto" } } }
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTagDto"
+              }
+            }
+          }
         },
-        "responses": { "200": { "description": "" } },
-        "tags": ["tags"]
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "tags"
+        ]
       },
       "delete": {
         "operationId": "TagController_deleteTag",
-        "parameters": [{ "name": "id", "required": true, "in": "path", "schema": { "type": "string" } }],
-        "responses": { "200": { "description": "" } },
-        "tags": ["tags"]
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "tags"
+        ]
       }
     },
     "/tags/filter": {
       "get": {
         "operationId": "TagController_filterTag",
-        "parameters": [{ "name": "search", "required": true, "in": "query", "schema": { "type": "string" } }],
-        "responses": { "200": { "description": "" } },
-        "tags": ["tags"]
+        "parameters": [
+          {
+            "name": "search",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "tags"
+        ]
       }
     },
     "/search-token": {
@@ -662,10 +1351,22 @@
         "parameters": [],
         "requestBody": {
           "required": true,
-          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CreateSearchTokenDto" } } }
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSearchTokenDto"
+              }
+            }
+          }
         },
-        "responses": { "201": { "description": "" } },
-        "tags": ["search-token"]
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "search-token"
+        ]
       },
       "get": {
         "operationId": "SearchTokenController_listSearchTokens",
@@ -674,7 +1375,13 @@
             "name": "type",
             "required": true,
             "in": "query",
-            "schema": { "enum": ["ANIME", "MANGA"], "type": "string" }
+            "schema": {
+              "enum": [
+                "ANIME",
+                "MANGA"
+              ],
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -682,12 +1389,19 @@
             "description": "",
             "content": {
               "application/json": {
-                "schema": { "type": "array", "items": { "$ref": "#/components/schemas/SearchTokenHttp" } }
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SearchTokenHttp"
+                  }
+                }
               }
             }
           }
         },
-        "tags": ["search-token"]
+        "tags": [
+          "search-token"
+        ]
       }
     },
     "/search-token/batch": {
@@ -696,25 +1410,56 @@
         "parameters": [],
         "requestBody": {
           "required": true,
-          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CreateManySearchTokensDto" } } }
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateManySearchTokensDto"
+              }
+            }
+          }
         },
-        "responses": { "201": { "description": "" } },
-        "tags": ["search-token"]
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "search-token"
+        ]
       }
     },
     "/search-token/{id}": {
       "delete": {
         "operationId": "SearchTokenController_deleteSearchToken",
-        "parameters": [{ "name": "id", "required": true, "in": "path", "schema": { "type": "string" } }],
-        "responses": { "200": { "description": "" } },
-        "tags": ["search-token"]
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "search-token"
+        ]
       }
     },
     "/static/swagger": {
       "get": {
         "operationId": "AppController_getSwagger",
         "parameters": [],
-        "responses": { "200": { "description": "" } }
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
       }
     },
     "/health": {
@@ -729,14 +1474,27 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "status": { "type": "string", "example": "ok" },
+                    "status": {
+                      "type": "string",
+                      "example": "ok"
+                    },
                     "info": {
                       "type": "object",
-                      "example": { "database": { "status": "up" } },
+                      "example": {
+                        "database": {
+                          "status": "up"
+                        }
+                      },
                       "additionalProperties": {
                         "type": "object",
-                        "required": ["status"],
-                        "properties": { "status": { "type": "string" } },
+                        "required": [
+                          "status"
+                        ],
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
                         "additionalProperties": true
                       },
                       "nullable": true
@@ -746,19 +1504,35 @@
                       "example": {},
                       "additionalProperties": {
                         "type": "object",
-                        "required": ["status"],
-                        "properties": { "status": { "type": "string" } },
+                        "required": [
+                          "status"
+                        ],
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
                         "additionalProperties": true
                       },
                       "nullable": true
                     },
                     "details": {
                       "type": "object",
-                      "example": { "database": { "status": "up" } },
+                      "example": {
+                        "database": {
+                          "status": "up"
+                        }
+                      },
                       "additionalProperties": {
                         "type": "object",
-                        "required": ["status"],
-                        "properties": { "status": { "type": "string" } },
+                        "required": [
+                          "status"
+                        ],
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
                         "additionalProperties": true
                       }
                     }
@@ -774,25 +1548,49 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "status": { "type": "string", "example": "error" },
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
                     "info": {
                       "type": "object",
-                      "example": { "database": { "status": "up" } },
+                      "example": {
+                        "database": {
+                          "status": "up"
+                        }
+                      },
                       "additionalProperties": {
                         "type": "object",
-                        "required": ["status"],
-                        "properties": { "status": { "type": "string" } },
+                        "required": [
+                          "status"
+                        ],
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
                         "additionalProperties": true
                       },
                       "nullable": true
                     },
                     "error": {
                       "type": "object",
-                      "example": { "redis": { "status": "down", "message": "Could not connect" } },
+                      "example": {
+                        "redis": {
+                          "status": "down",
+                          "message": "Could not connect"
+                        }
+                      },
                       "additionalProperties": {
                         "type": "object",
-                        "required": ["status"],
-                        "properties": { "status": { "type": "string" } },
+                        "required": [
+                          "status"
+                        ],
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
                         "additionalProperties": true
                       },
                       "nullable": true
@@ -800,13 +1598,24 @@
                     "details": {
                       "type": "object",
                       "example": {
-                        "database": { "status": "up" },
-                        "redis": { "status": "down", "message": "Could not connect" }
+                        "database": {
+                          "status": "up"
+                        },
+                        "redis": {
+                          "status": "down",
+                          "message": "Could not connect"
+                        }
                       },
                       "additionalProperties": {
                         "type": "object",
-                        "required": ["status"],
-                        "properties": { "status": { "type": "string" } },
+                        "required": [
+                          "status"
+                        ],
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
                         "additionalProperties": true
                       }
                     }
@@ -822,48 +1631,129 @@
       "get": {
         "operationId": "PrometheusController_getMetrics",
         "parameters": [],
-        "responses": { "200": { "description": "" } }
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
       }
     }
   },
-  "info": { "title": "Okami API", "description": "The Okami rest api", "version": "1.0", "contact": {} },
-  "tags": [{ "name": "okami", "description": "" }],
+  "info": {
+    "title": "Okami API",
+    "description": "The Okami rest api",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [
+    {
+      "name": "okami",
+      "description": ""
+    }
+  ],
   "servers": [],
   "components": {
     "schemas": {
       "TagModel": {
         "type": "object",
         "properties": {
-          "id": { "type": "string" },
-          "name": { "type": "string" },
-          "slug": { "type": "string" },
-          "color": { "type": "string" }
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "color": {
+            "type": "string"
+          }
         },
-        "required": ["id", "name", "slug", "color"]
+        "required": [
+          "id",
+          "name",
+          "slug",
+          "color"
+        ]
       },
       "WorkHttp": {
         "type": "object",
         "properties": {
-          "chapter": { "type": "number" },
-          "hasNewChapter": { "type": "boolean" },
-          "id": { "type": "string" },
-          "imageId": { "type": "string" },
-          "imageUrl": { "type": "string", "nullable": true },
-          "isFinished": { "type": "boolean" },
-          "name": { "type": "string" },
-          "url": { "type": "string" },
-          "updatedAt": { "format": "date-time", "type": "string" },
-          "alternativeName": { "type": "string", "nullable": true },
-          "category": { "type": "string", "enum": ["ANIME", "MANGA"] },
-          "isDropped": { "type": "boolean" },
-          "nextChapterUpdatedAt": { "format": "date-time", "type": "string", "nullable": true },
-          "nextChapter": { "type": "number", "nullable": true },
-          "refreshStatus": { "type": "string" },
-          "userId": { "type": "string" },
-          "createdAt": { "type": "string" },
-          "isFavorite": { "type": "boolean" },
-          "tags": { "type": "array", "items": { "$ref": "#/components/schemas/TagModel" } },
-          "description": { "type": "object", "nullable": true }
+          "chapter": {
+            "type": "number"
+          },
+          "hasNewChapter": {
+            "type": "boolean"
+          },
+          "id": {
+            "type": "string"
+          },
+          "imageId": {
+            "type": "string"
+          },
+          "imageUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "isFinished": {
+            "type": "boolean"
+          },
+          "name": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "alternativeName": {
+            "type": "string",
+            "nullable": true
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "ANIME",
+              "MANGA"
+            ]
+          },
+          "isDropped": {
+            "type": "boolean"
+          },
+          "nextChapterUpdatedAt": {
+            "format": "date-time",
+            "type": "string",
+            "nullable": true
+          },
+          "nextChapter": {
+            "type": "number",
+            "nullable": true
+          },
+          "refreshStatus": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "isFavorite": {
+            "type": "boolean"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TagModel"
+            }
+          },
+          "description": {
+            "type": "object",
+            "nullable": true
+          }
         },
         "required": [
           "chapter",
@@ -890,71 +1780,188 @@
       },
       "UpdateChapterDto": {
         "type": "object",
-        "properties": { "chapter": { "type": "number" } },
-        "required": ["chapter"]
+        "properties": {
+          "chapter": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "chapter"
+        ]
       },
-      "MarkWorkUnreadDto": { "type": "object", "properties": {} },
+      "MarkWorkUnreadDto": {
+        "type": "object",
+        "properties": {}
+      },
       "UpdateWorkDto": {
         "type": "object",
         "properties": {
-          "chapter": { "type": "number" },
-          "url": { "type": "string" },
-          "name": { "type": "string" },
-          "alternativeName": { "type": "string" }
+          "chapter": {
+            "type": "number"
+          },
+          "url": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "alternativeName": {
+            "type": "string"
+          }
         },
-        "required": ["chapter", "url", "name", "alternativeName"]
+        "required": [
+          "chapter",
+          "url",
+          "name",
+          "alternativeName"
+        ]
       },
-      "RefreshStatus": { "type": "string", "enum": ["SUCCESS", "FAILED", "PENDING"] },
+      "RefreshStatus": {
+        "type": "string",
+        "enum": [
+          "SUCCESS",
+          "FAILED",
+          "PENDING"
+        ]
+      },
       "WorkModelPaged": {
         "type": "object",
         "properties": {
-          "works": { "type": "array", "items": { "$ref": "#/components/schemas/WorkHttp" } },
-          "totalOfPages": { "type": "number" },
-          "nextPage": { "type": "object" }
+          "works": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WorkHttp"
+            }
+          },
+          "totalOfPages": {
+            "type": "number"
+          },
+          "nextPage": {
+            "type": "object"
+          }
         },
-        "required": ["works", "totalOfPages", "nextPage"]
+        "required": [
+          "works",
+          "totalOfPages",
+          "nextPage"
+        ]
       },
       "ScrappingReportDto": {
         "type": "object",
-        "properties": { "status": { "type": "string" }, "workId": { "type": "string" } },
-        "required": ["status", "workId"]
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "workId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "status",
+          "workId"
+        ]
       },
       "MakeSessionDto": {
         "type": "object",
         "properties": {
-          "email": { "type": "string", "format": "email" },
-          "password": { "type": "string", "format": "password" }
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "format": "password"
+          }
         },
-        "required": ["email", "password"]
+        "required": [
+          "email",
+          "password"
+        ]
       },
-      "TokenModel": { "type": "object", "properties": { "token": { "type": "string" } }, "required": ["token"] },
+      "TokenModel": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "token"
+        ]
+      },
       "RefreshTokenModel": {
         "type": "object",
-        "properties": { "token": { "type": "string" }, "refreshToken": { "type": "string" } },
-        "required": ["token", "refreshToken"]
+        "properties": {
+          "token": {
+            "type": "string"
+          },
+          "refreshToken": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "token",
+          "refreshToken"
+        ]
       },
       "RefreshTokenDto": {
         "type": "object",
-        "properties": { "refreshToken": { "type": "string" } },
-        "required": ["refreshToken"]
+        "properties": {
+          "refreshToken": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "refreshToken"
+        ]
       },
       "RefreshTokenOnlyModel": {
         "type": "object",
-        "properties": { "refreshToken": { "type": "string" } },
-        "required": ["refreshToken"]
+        "properties": {
+          "refreshToken": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "refreshToken"
+        ]
       },
       "UserHttp": {
         "type": "object",
         "properties": {
-          "id": { "type": "string" },
-          "name": { "type": "string" },
-          "email": { "type": "string" },
-          "avatarImageUrl": { "type": "object", "nullable": true },
-          "avatarImageId": { "type": "string" },
-          "finishedWorksCount": { "type": "number" },
-          "readingWorksCount": { "type": "number" },
-          "notionDatabaseId": { "type": "string" },
-          "role": { "type": "string", "enum": ["ADMIN", "USER", "SUBSCRIBED_USER"] }
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "avatarImageUrl": {
+            "type": "object",
+            "nullable": true
+          },
+          "avatarImageId": {
+            "type": "string"
+          },
+          "finishedWorksCount": {
+            "type": "number"
+          },
+          "readingWorksCount": {
+            "type": "number"
+          },
+          "notionDatabaseId": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "ADMIN",
+              "USER",
+              "SUBSCRIBED_USER"
+            ]
+          }
         },
         "required": [
           "id",
@@ -969,90 +1976,241 @@
       },
       "AccessToken": {
         "type": "object",
-        "properties": { "accessToken": { "type": "string" } },
-        "required": ["accessToken"]
+        "properties": {
+          "accessToken": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "accessToken"
+        ]
       },
-      "CreateUserDto": { "type": "object", "properties": {} },
+      "CreateUserDto": {
+        "type": "object",
+        "properties": {}
+      },
       "CreateAdminHashCodeDto": {
         "type": "object",
-        "properties": { "hashCodeKey": { "type": "string" } },
-        "required": ["hashCodeKey"]
+        "properties": {
+          "hashCodeKey": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "hashCodeKey"
+        ]
       },
       "ResetPasswordDto": {
         "type": "object",
         "properties": {
-          "email": { "type": "string" },
-          "newPassword": { "type": "string" },
-          "adminHashCode": { "type": "string" }
+          "email": {
+            "type": "string"
+          },
+          "newPassword": {
+            "type": "string"
+          },
+          "adminHashCode": {
+            "type": "string"
+          }
         },
-        "required": ["email", "newPassword", "adminHashCode"]
+        "required": [
+          "email",
+          "newPassword",
+          "adminHashCode"
+        ]
       },
       "UpdateNotionDatabaseIdDto": {
         "type": "object",
-        "properties": { "notionDatabaseId": { "type": "string" } },
-        "required": ["notionDatabaseId"]
+        "properties": {
+          "notionDatabaseId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "notionDatabaseId"
+        ]
       },
       "SendResetPasswordEmailDto": {
         "type": "object",
-        "properties": { "email": { "type": "string" } },
-        "required": ["email"]
+        "properties": {
+          "email": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "email"
+        ]
       },
       "ResetUserPasswordDto": {
         "type": "object",
-        "properties": { "code": { "type": "string" }, "newPassword": { "type": "string" } },
-        "required": ["code", "newPassword"]
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "newPassword": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "newPassword"
+        ]
       },
       "UpdateUserDto": {
         "type": "object",
-        "properties": { "email": { "type": "string" }, "name": { "type": "string" } },
-        "required": ["email", "name"]
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "email",
+          "name"
+        ]
       },
-      "ValidateEmailDto": { "type": "object", "properties": {} },
-      "SubscribeUserBrowserNotificationDto": { "type": "object", "properties": {} },
-      "RegisterMobilePushSubscriberDto": { "type": "object", "properties": {} },
+      "ValidateEmailDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "SubscribeUserBrowserNotificationDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "RegisterMobilePushSubscriberDto": {
+        "type": "object",
+        "properties": {}
+      },
       "NotificationHttp": {
         "type": "object",
-        "properties": { "content": { "type": "object" }, "id": { "type": "string" }, "readAt": { "type": "string" } },
-        "required": ["content", "id", "readAt"]
+        "properties": {
+          "content": {
+            "type": "object"
+          },
+          "id": {
+            "type": "string"
+          },
+          "readAt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "content",
+          "id",
+          "readAt"
+        ]
       },
       "CreateTagDto": {
         "type": "object",
-        "properties": { "name": { "type": "string" }, "workId": { "type": "string" }, "color": { "type": "string" } },
-        "required": ["name"]
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "workId": {
+            "type": "string"
+          },
+          "color": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name"
+        ]
       },
       "UpdateTagDto": {
         "type": "object",
-        "properties": { "name": { "type": "string" }, "workId": { "type": "string" }, "color": { "type": "string" } }
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "workId": {
+            "type": "string"
+          },
+          "color": {
+            "type": "string"
+          }
+        }
       },
       "TagModelPaged": {
         "type": "object",
         "properties": {
-          "data": { "type": "array", "items": { "$ref": "#/components/schemas/TagModel" } },
-          "totalOfPages": { "type": "number" }
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TagModel"
+            }
+          },
+          "totalOfPages": {
+            "type": "number"
+          }
         },
-        "required": ["data", "totalOfPages"]
+        "required": [
+          "data",
+          "totalOfPages"
+        ]
       },
       "CreateSearchTokenDto": {
         "type": "object",
-        "properties": { "token": { "type": "string" }, "type": { "type": "string", "enum": ["ANIME", "MANGA"] } },
-        "required": ["token", "type"]
+        "properties": {
+          "token": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "ANIME",
+              "MANGA"
+            ]
+          }
+        },
+        "required": [
+          "token",
+          "type"
+        ]
       },
       "CreateManySearchTokensDto": {
         "type": "object",
         "properties": {
-          "tokens": { "type": "array", "items": { "$ref": "#/components/schemas/CreateSearchTokenDto" } }
+          "tokens": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CreateSearchTokenDto"
+            }
+          }
         },
-        "required": ["tokens"]
+        "required": [
+          "tokens"
+        ]
       },
       "SearchTokenHttp": {
         "type": "object",
         "properties": {
-          "id": { "type": "string" },
-          "type": { "type": "string", "enum": ["ANIME", "MANGA"] },
-          "token": { "type": "string" },
-          "createdAt": { "format": "date-time", "type": "string" }
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "ANIME",
+              "MANGA"
+            ]
+          },
+          "token": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          }
         },
-        "required": ["id", "type", "token", "createdAt"]
+        "required": [
+          "id",
+          "type",
+          "token",
+          "createdAt"
+        ]
       }
     }
   }
