@@ -1,7 +1,7 @@
-import axios, { AxiosError, AxiosRequestConfig } from "axios";
-import { STORAGE_KEYS } from "../storage";
 import { mmkvStorage } from "@/lib/storage/mmkv";
+import axios, { AxiosError, AxiosRequestConfig } from "axios";
 import { router } from "expo-router";
+import { STORAGE_KEYS } from "../storage";
 
 export const okamiHttpGateway = axios.create({
   baseURL: process.env.EXPO_PUBLIC_API_URL,
@@ -38,6 +38,7 @@ const failRequestQueue: FailRequestQueue = [];
 okamiHttpGateway.interceptors.request.use(async (config) => {
   if (config.headers) {
     const token = mmkvStorage.getString(STORAGE_KEYS.TOKEN);
+
     config.headers["Authorization"] = `Bearer ${token}`;
   }
 
@@ -58,7 +59,7 @@ const refreshTokenCall = async (refreshToken: string) => {
 
 okamiHttpGateway.interceptors.response.use(
   (response) => response,
-  async (error) => {
+  async (error: AxiosError) => {
     const refreshToken = mmkvStorage.getString(STORAGE_KEYS.REFRESH_TOKEN);
 
     if (isUnauthorizedError(error) && refreshToken) {
@@ -68,6 +69,7 @@ okamiHttpGateway.interceptors.response.use(
         refreshTokenCall(refreshToken)
           .then(({ token }) => {
             mmkvStorage.set(STORAGE_KEYS.TOKEN, token);
+
             failRequestQueue.forEach((request) => {
               request.onSuccess(token);
             });
@@ -87,15 +89,10 @@ okamiHttpGateway.interceptors.response.use(
       return new Promise((resolve, reject) => {
         failRequestQueue.push({
           onFailure: (error) => {
+            console.log({ error });
             reject(error);
           },
-          onSuccess: (token) => {
-            if (!error.config?.headers) return;
-
-            error.config.headers.Authorization = `Bearer ${token}`;
-
-            resolve(axios(error.config));
-          },
+          onSuccess: (token) => { },
         });
       });
     }

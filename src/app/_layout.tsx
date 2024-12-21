@@ -42,7 +42,7 @@ export default function RootLayout() {
           </Stack>
         </ThemeProvider>
       </PersistQueryClientProvider>
-      <StatusBar style="dark" />
+      <StatusBar style="auto" />
     </GluestackUIProvider>
   );
 }

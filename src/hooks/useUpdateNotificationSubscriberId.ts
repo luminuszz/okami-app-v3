@@ -1,7 +1,7 @@
 import { useAuthControllerGetMe, useNotificationControllerSubscribeInMobile } from "@/api/okami";
+import { useOkamiToast } from "@/components/okami-toast";
 import { useCallback, useEffect } from "react";
 import { OneSignal } from "react-native-onesignal";
-import { useOkamiToast } from "@/components/okami-toast";
 
 export function useUpdateNotificationSubscriberId() {
   const { mutate: subscribeForNotifications, isPending } = useNotificationControllerSubscribeInMobile({
@@ -13,7 +13,7 @@ export function useUpdateNotificationSubscriberId() {
   });
   const toast = useOkamiToast();
 
-  const { refetch: getUser } = useAuthControllerGetMe({ query: { enabled: false } });
+  const { refetch: getUser } = useAuthControllerGetMe({ query: { enabled: false, staleTime: Infinity } });
 
   const checksUserSubscriptions = useCallback(async () => {
     const hasPermissions = await OneSignal.Notifications.getPermissionAsync();
@@ -41,7 +41,8 @@ export function useUpdateNotificationSubscriberId() {
 
     OneSignal.login(user!.id);
     OneSignal.User.addEmail(user!.email);
-  }, [getUser, subscribeForNotifications, toast]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     OneSignal.User.pushSubscription.addEventListener("change", ({ current }) => {
