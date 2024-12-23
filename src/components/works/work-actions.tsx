@@ -9,9 +9,10 @@ import { VStack } from "../ui/vstack";
 export interface WorkActionsDrawlerProps {
   hasNewChapter: boolean;
   workId: string;
+  isFinished: boolean;
 }
 
-export function WorkActionsDrawler({ hasNewChapter, workId }: WorkActionsDrawlerProps) {
+export function WorkActionsDrawler({ hasNewChapter, workId, isFinished }: WorkActionsDrawlerProps) {
   const [isOpen, setIsOpen] = useAtom(workActionsDrawerIsOpen);
 
   function handlePushToRoute(route: Href) {
@@ -43,7 +44,7 @@ export function WorkActionsDrawler({ hasNewChapter, workId }: WorkActionsDrawler
               <ButtonText>Editar obra</ButtonText>
             </Button>
 
-            {!hasNewChapter && (
+            {!hasNewChapter && !isFinished && (
               <Button
                 disabled={hasNewChapter}
                 onPress={() => {

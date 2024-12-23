@@ -18,7 +18,7 @@ import { toggleWorkActionsDrawerActionAtom } from "@/store/work-actions-drawer";
 import { Link, router, useLocalSearchParams } from "expo-router";
 import { useSetAtom } from "jotai";
 import { BookOpen, ChevronLeft, Clock, Heart, HeartCrack, Menu, Tv2 } from "lucide-react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Pressable, ScrollView } from "react-native";
 
@@ -51,6 +51,10 @@ export default function WorkDetails() {
     },
   });
 
+  useEffect(() => {
+    setWorkIsFavorite(!!work?.isFavorite);
+  }, [work]);
+
   if (isLoading) {
     return (
       <Center className="h-full w-full flex-1">
@@ -81,7 +85,7 @@ export default function WorkDetails() {
   return (
     <ScrollView>
       <Container classname="mt-12 px-4">
-        <WorkActionsDrawler hasNewChapter={work.hasNewChapter} workId={work.id} />
+        <WorkActionsDrawler hasNewChapter={work.hasNewChapter} workId={work.id} isFinished={work.isFinished} />
 
         <HStack className="items-center justify-between">
           <Pressable onPress={() => (router.canGoBack() ? router.back() : router.push("/home"))}>

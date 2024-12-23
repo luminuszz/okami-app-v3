@@ -9,7 +9,7 @@ import { Card } from "../ui/card";
 import { Heading } from "../ui/heading";
 import { HStack } from "../ui/hstack";
 import { Image } from "../ui/image";
-import { Skeleton, SkeletonText } from "../ui/skeleton";
+import { Spinner } from "../ui/spinner";
 import { Text } from "../ui/text";
 import { VStack } from "../ui/vstack";
 
@@ -29,7 +29,6 @@ export function UnreadWorksSection() {
     },
   );
 
-
   const formattedWorks = map(works, (work) => ({
     ...work,
     nextChapterUpdatedAt: parseDateDistance(work.nextChapterUpdatedAt),
@@ -37,10 +36,9 @@ export function UnreadWorksSection() {
 
   if (isLoading) {
     return (
-      <VStack>
-        <Skeleton className="h-[170px] w-full rounded-md" variant="rounded" />
-        <SkeletonText className="w-3/4" _lines={2} />
-      </VStack>
+      <HStack space="md" className="my-2 px-4">
+        <Spinner size="large" />
+      </HStack>
     );
   }
 

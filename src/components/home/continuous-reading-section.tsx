@@ -20,7 +20,7 @@ import configColors from "tailwindcss/colors";
 import { ProfileDrawer } from "../profile/profile-drawer";
 import { Box } from "../ui/box";
 import { Heading } from "../ui/heading";
-import { Skeleton, SkeletonText } from "../ui/skeleton";
+import { Spinner } from "../ui/spinner";
 
 export function ContinuousReadingSection() {
   const handlePushToUrl = useGoToWorkUrlAction();
@@ -46,11 +46,7 @@ export function ContinuousReadingSection() {
   if (isLoading) {
     return (
       <HStack space="md" className="my-2 px-4">
-        <Skeleton variant="rounded" className="h-[200px] w-[150px]" />
-
-        <VStack>
-          <SkeletonText className="mb-2 h-[20px] w-[200px]" _lines={5} />
-        </VStack>
+        <Spinner size="large" />
       </HStack>
     );
   }
