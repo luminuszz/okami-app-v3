@@ -9,7 +9,7 @@ import { Card } from "../ui/card";
 import { Heading } from "../ui/heading";
 import { HStack } from "../ui/hstack";
 import { Image } from "../ui/image";
-import { Spinner } from "../ui/spinner";
+import { Skeleton, SkeletonText } from "../ui/skeleton";
 import { Text } from "../ui/text";
 import { VStack } from "../ui/vstack";
 
@@ -36,9 +36,11 @@ export function UnreadWorksSection() {
 
   if (isLoading) {
     return (
-      <HStack space="md" className="my-2 px-4">
-        <Spinner size="large" />
-      </HStack>
+      <VStack space="md" className="mt-2 px-4">
+        <Heading size="xl">Suas atualizações</Heading>
+        <Skeleton variant="rounded" className="h-[170px] w-full rounded-md" />
+        <SkeletonText _lines={2} className="h-3 w-full" />
+      </VStack>
     );
   }
 

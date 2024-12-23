@@ -20,7 +20,7 @@ import configColors from "tailwindcss/colors";
 import { ProfileDrawer } from "../profile/profile-drawer";
 import { Box } from "../ui/box";
 import { Heading } from "../ui/heading";
-import { Spinner } from "../ui/spinner";
+import { Skeleton, SkeletonText } from "../ui/skeleton";
 
 export function ContinuousReadingSection() {
   const handlePushToUrl = useGoToWorkUrlAction();
@@ -45,9 +45,16 @@ export function ContinuousReadingSection() {
 
   if (isLoading) {
     return (
-      <HStack space="md" className="my-2 px-4">
-        <Spinner size="large" />
-      </HStack>
+      <VStack className="px-4">
+        <Heading size="xl">Agora</Heading>
+        <HStack className="items-start" space="md">
+          <Skeleton variant="rounded" className="my-2 h-[200px] w-[150px] flex-row justify-center rounded-sm" />
+          <VStack className="flex-1 justify-center" space="md">
+            <SkeletonText _lines={4} className="mt-2 h-4 w-[200px]" />
+            <Skeleton variant="rounded" className="mt-2 h-12 w-[200px]" />
+          </VStack>
+        </HStack>
+      </VStack>
     );
   }
 

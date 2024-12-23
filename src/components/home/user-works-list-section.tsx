@@ -7,7 +7,7 @@ import { Card } from "../ui/card";
 import { Heading } from "../ui/heading";
 import { HStack } from "../ui/hstack";
 import { Image } from "../ui/image";
-import { Spinner } from "../ui/spinner";
+import { Skeleton, SkeletonText } from "../ui/skeleton";
 import { Text } from "../ui/text";
 import { VStack } from "../ui/vstack";
 
@@ -19,9 +19,17 @@ export function UserWorksListSection() {
 
   if (isLoading) {
     return (
-      <HStack space="md" className="my-2 px-4">
-        <Spinner size="large" />
-      </HStack>
+      <VStack className="mt-4 px-4">
+        <Heading size="xl">Suas obras</Heading>
+        <HStack space="md" className="my-2">
+          {Array.from({ length: 2 }).map((_, index) => (
+            <VStack key={index} space="md">
+              <Skeleton variant="rounded" className="h-[200px] w-[170px] rounded-md" />
+              <SkeletonText className="h-3 w-[170px]" _lines={3} />
+            </VStack>
+          ))}
+        </HStack>
+      </VStack>
     );
   }
 

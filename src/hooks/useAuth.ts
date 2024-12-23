@@ -19,6 +19,7 @@ export interface UseAuthProps {
     refreshToken?: string;
   };
   isAuth: boolean;
+  isAuthLoginPending: boolean;
 }
 
 export function useAuth(): UseAuthProps {
@@ -26,7 +27,7 @@ export function useAuth(): UseAuthProps {
   const [token, setToken] = useMMKVString(STORAGE_KEYS.TOKEN, mmkvStorage);
   const [refreshToken, setRefreshToken] = useMMKVString(STORAGE_KEYS.REFRESH_TOKEN, mmkvStorage);
 
-  const { mutate: makeLogin } = useAuthControllerLoginV2({
+  const { mutate: makeLogin, isPending } = useAuthControllerLoginV2({
     mutation: {
       async onSuccess(data) {
         setToken(data.token);
@@ -64,6 +65,7 @@ export function useAuth(): UseAuthProps {
     isAuth,
     login,
     logout,
+    isAuthLoginPending: isPending,
     credentials: {
       token,
       refreshToken,
