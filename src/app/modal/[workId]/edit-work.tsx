@@ -71,7 +71,7 @@ export default function EditWorkScreen() {
     },
   });
 
-  const isPending = false;
+
 
   const {
     handleSubmit,
@@ -306,7 +306,7 @@ export default function EditWorkScreen() {
               action="positive"
               isDisabled={isSubmitting || isLoading}
             >
-              <ButtonText>{isPending || isSubmitting ? <Spinner /> : "Salvar"}</ButtonText>
+              <ButtonText>{updateWorkMutation.isPending || isSubmitting ? <Spinner /> : "Salvar"}</ButtonText>
             </Button>
           </VStack>
         </Container>

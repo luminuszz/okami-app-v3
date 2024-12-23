@@ -26,6 +26,7 @@ export function ContinuousReadingSection() {
   const handlePushToUrl = useGoToWorkUrlAction();
 
   const openProfile = useSetAtom(toggleProfileDrawerActionAtom);
+
   const lastSelectedWorkStorage = useAsyncStorage(STORAGE_KEYS.LAST_WORK_CLICKED);
 
   const [currentWorkId, setCurrentWork] = useState<string | null>();
