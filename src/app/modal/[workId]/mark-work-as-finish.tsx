@@ -22,13 +22,19 @@ import {
 import { Skeleton, SkeletonText } from "@/components/ui/skeleton";
 import { Spinner } from "@/components/ui/spinner";
 import { VStack } from "@/components/ui/vstack";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { ChevronDown } from "lucide-react-native";
 
 import { useMemo, useState } from "react";
 
+export type Params = {
+  workId: string;
+};
+
 export default function MarkWorkAsFinishedScreen() {
-  const [workId, setWorkId] = useState<string | null>(null);
+  const { workId: currentWorkIdParams } = useLocalSearchParams<Params>();
+
+  const [workId, setWorkId] = useState<string | null>(currentWorkIdParams);
 
   const toast = useOkamiToast();
 
@@ -94,7 +100,7 @@ export default function MarkWorkAsFinishedScreen() {
       <VStack space="md">
         <Select onValueChange={(id) => setWorkId(id)}>
           <SelectTrigger variant="outline" size="xl" className="flex justify-between pr-4">
-            <SelectInput placeholder="Status" className="truncate" />
+            <SelectInput value={currentWork?.name} placeholder={"Selecione a obra"} className="w-[90%] truncate" />
             <SelectIcon as={() => <ChevronDown stroke="white" className="size-5" />} />
           </SelectTrigger>
           <SelectPortal className="mt-10">

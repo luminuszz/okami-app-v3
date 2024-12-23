@@ -1,7 +1,8 @@
-import { MMKV, Configuration } from "react-native-mmkv";
+import { Configuration, MMKV } from "react-native-mmkv";
 
-import { expo } from "../../../app.json";
 import { useMMKV } from "react-native-mmkv";
+import { AsyncStoragePersister } from ".";
+import { expo } from "../../../app.json";
 
 export const STORAGE_KEYS = {
   REFRESH_TOKEN: "auth.refresh-token",
@@ -17,3 +18,19 @@ const mmkvConfig: Configuration = {
 export const mmkvStorage = new MMKV(mmkvConfig);
 
 export const useMvStorage = () => useMMKV(mmkvConfig);
+
+export class MMKVStoragePersister implements AsyncStoragePersister {
+  getItem = async (key: string) => mmkvStorage.getString(key) ?? null;
+  removeItem = async (key: string) => mmkvStorage.delete(key);
+  setItem = async (key: string, value: string) => mmkvStorage.set(key, value);
+
+  private static instance: MMKVStoragePersister;
+
+  static getInstance(): MMKVStoragePersister {
+    if (!MMKVStoragePersister.instance) {
+      MMKVStoragePersister.instance = new MMKVStoragePersister();
+    }
+
+    return MMKVStoragePersister.instance;
+  }
+}

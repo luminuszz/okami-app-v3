@@ -1,7 +1,7 @@
 import { workActionsDrawerIsOpen } from "@/store/work-actions-drawer";
 import { Href, router } from "expo-router";
 import { useAtom } from "jotai";
-import { BookCheck, NotebookPen } from "lucide-react-native";
+import { BookCheck, CheckCheck, NotebookPen } from "lucide-react-native";
 import { Button, ButtonIcon, ButtonText } from "../ui/button";
 import { Drawer, DrawerBackdrop, DrawerBody, DrawerContent } from "../ui/drawer";
 import { VStack } from "../ui/vstack";
@@ -43,6 +43,23 @@ export function WorkActionsDrawler({ hasNewChapter, workId }: WorkActionsDrawler
               <ButtonText>Editar obra</ButtonText>
             </Button>
 
+            {!hasNewChapter && (
+              <Button
+                disabled={hasNewChapter}
+                onPress={() => {
+                  handlePushToRoute({
+                    pathname: "/modal/[workId]/mark-work-as-finish",
+                    params: {
+                      workId,
+                    },
+                  });
+                }}
+              >
+                <ButtonIcon as={BookCheck} />
+                <ButtonText>Finalizar obra</ButtonText>
+              </Button>
+            )}
+
             {hasNewChapter && (
               <Button
                 variant="solid"
@@ -51,7 +68,7 @@ export function WorkActionsDrawler({ hasNewChapter, workId }: WorkActionsDrawler
                   handlePushToRoute({ pathname: "/modal/[workId]/update-work-chapter", params: { workId } })
                 }
               >
-                <ButtonIcon as={BookCheck} />
+                <ButtonIcon as={CheckCheck} />
                 <ButtonText>Marcar como lida</ButtonText>
               </Button>
             )}

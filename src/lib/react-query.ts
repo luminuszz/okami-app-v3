@@ -1,10 +1,33 @@
-import { QueryClient } from "@tanstack/react-query";
+import { focusManager, MutationCache, QueryCache, QueryClient, QueryKey } from "@tanstack/react-query";
 
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
+import { AppStateStatus } from "react-native";
+import { MMKVStoragePersister } from "./storage/mmkv";
 
-export const queryClient = new QueryClient();
+export const queryCacheManager = new QueryCache();
+export const mutationCacheManager = new MutationCache();
+
+export const queryClient = new QueryClient({
+  queryCache: queryCacheManager,
+  mutationCache: mutationCacheManager,
+
+  defaultOptions: {
+    queries: {
+      networkMode: "offlineFirst",
+    },
+  },
+});
 
 export const asyncStoragePersister = createAsyncStoragePersister({
-  storage: AsyncStorage,
+  storage: MMKVStoragePersister.getInstance(),
 });
+
+export function onAppStateChange(status: AppStateStatus) {
+  focusManager.setFocused(status === "active");
+}
+
+export function useQueryCacheByKey<QueryTypeData = unknown>(key: QueryKey) {
+  return queryCacheManager.find<QueryTypeData>({
+    queryKey: key,
+  });
+}

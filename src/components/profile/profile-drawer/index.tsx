@@ -1,12 +1,12 @@
 import { useAuthControllerGetMe } from "@/api/okami";
+import { useAuth } from "@/hooks/useAuth";
 import { queryClient } from "@/lib/react-query";
-import { STORAGE_KEYS } from "@/lib/storage";
 import { profileDrawerIsOpen } from "@/store/profile-drawer";
 import { ToastProvider } from "@gluestack-ui/toast";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { router } from "expo-router";
 import { useAtom } from "jotai";
-import { BookCheck, Crown, ExternalLinkIcon } from "lucide-react-native";
+import { Crown, ExternalLinkIcon } from "lucide-react-native";
 import { Avatar, AvatarFallbackText, AvatarImage } from "../../ui/avatar";
 import { Badge, BadgeIcon, BadgeText } from "../../ui/badge";
 import { Button, ButtonIcon, ButtonText } from "../../ui/button";
@@ -16,7 +16,6 @@ import { Text } from "../../ui/text";
 import { VStack } from "../../ui/vstack";
 import { SyncWorksButton } from "./sync-works-button";
 import { SyncWorksToNotionButton } from "./sync-works-to-notion-button";
-import { useAuth } from "@/hooks/useAuth";
 
 export function ProfileDrawer() {
   const { logout } = useAuth();
@@ -63,16 +62,6 @@ export function ProfileDrawer() {
               <QueryClientProvider client={queryClient}>
                 <SyncWorksButton />
                 <SyncWorksToNotionButton />
-                <Button
-                  action="positive"
-                  onPress={() => {
-                    setIsIOpen(false);
-                    router.push("/actions/mark-work-as-finish");
-                  }}
-                >
-                  <ButtonIcon as={BookCheck} />
-                  <ButtonText>Finalizar uma obra</ButtonText>
-                </Button>
               </QueryClientProvider>
             </ToastProvider>
           </VStack>

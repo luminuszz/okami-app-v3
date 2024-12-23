@@ -1,7 +1,8 @@
 import { useOkamiToast } from "@/components/okami-toast";
 import { STORAGE_KEYS } from "@/lib/storage";
-import { useAsyncStorage } from "@react-native-async-storage/async-storage";
+import { mmkvStorage } from "@/lib/storage/mmkv";
 import { Linking } from "react-native";
+import { useMMKVString } from "react-native-mmkv";
 
 export interface WorkParams {
   workUrl: string;
@@ -9,7 +10,7 @@ export interface WorkParams {
 }
 
 export function useGoToWorkUrlAction() {
-  const lastWorkClickedStorage = useAsyncStorage(STORAGE_KEYS.LAST_WORK_CLICKED);
+  const [, setLastWorkClickedStorage] = useMMKVString(STORAGE_KEYS.LAST_WORK_CLICKED, mmkvStorage);
   const toast = useOkamiToast();
 
   async function handlePushToUrl(data: WorkParams) {
@@ -27,7 +28,7 @@ export function useGoToWorkUrlAction() {
 
     try {
       await Linking.openURL(data.workUrl);
-      await lastWorkClickedStorage.setItem(data.workId);
+      setLastWorkClickedStorage(data.workId);
     } catch (e) {
       console.log({ e });
 

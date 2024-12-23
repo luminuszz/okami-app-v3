@@ -1,4 +1,4 @@
-import { useWorkControllerGetById } from "@/api/okami";
+import { useWorkControllerGetById, useWorkControllerToggleFavorite } from "@/api/okami";
 import { Container } from "@/components/layout/container";
 import { Badge, BadgeText } from "@/components/ui/badge";
 import { Box } from "@/components/ui/box";
@@ -17,7 +17,8 @@ import { useGoToWorkUrlAction } from "@/hooks/useGoToWorkUrlAction";
 import { toggleWorkActionsDrawerActionAtom } from "@/store/work-actions-drawer";
 import { Link, router, useLocalSearchParams } from "expo-router";
 import { useSetAtom } from "jotai";
-import { BookOpen, ChevronLeft, Clock, Menu, Tv2 } from "lucide-react-native";
+import { BookOpen, ChevronLeft, Clock, Heart, HeartCrack, Menu, Tv2 } from "lucide-react-native";
+import { useState } from "react";
 
 import { Pressable, ScrollView } from "react-native";
 
@@ -27,11 +28,28 @@ export type WorkDetailsParams = {
 
 export default function WorkDetails() {
   const { workId } = useLocalSearchParams<WorkDetailsParams>();
+
   const handlePushToUrl = useGoToWorkUrlAction();
 
   const toggleWorkActionsDrawer = useSetAtom(toggleWorkActionsDrawerActionAtom);
 
-  const { data: work, isLoading, isError } = useWorkControllerGetById(workId);
+  const { data: work, isLoading, isError, refetch } = useWorkControllerGetById(workId);
+
+  const [workIsFavorite, setWorkIsFavorite] = useState(!!work?.isFavorite);
+
+  const markWorkAsFavoriteMutation = useWorkControllerToggleFavorite({
+    mutation: {
+      onSuccess() {
+        refetch();
+      },
+      onMutate() {
+        setWorkIsFavorite((prev) => !prev);
+      },
+      onError() {
+        setWorkIsFavorite((prev) => !prev);
+      },
+    },
+  });
 
   if (isLoading) {
     return (
@@ -121,21 +139,38 @@ export default function WorkDetails() {
             <Text className="text-typography-600">{`Ultima atualização: ${formattedDate}`}</Text>
           </HStack>
 
-          <Button
-            action="primary"
-            className="mt-5 w-full items-center bg-yellow-400"
-            onPress={() => {
-              handlePushToUrl({
-                workId: work.id,
-                workUrl: work.url,
-              });
-            }}
-          >
-            <ButtonIcon as={work.category === "ANIME" ? Tv2 : BookOpen} />
-            <ButtonText className="font-medium text-gray-800">
-              {work.category === "ANIME" ? "Assistir" : "Ler"} Agora
-            </ButtonText>
-          </Button>
+          <VStack className="mt-5" space="md">
+            <Button
+              disabled={markWorkAsFavoriteMutation.isPending}
+              action="primary"
+              className={`mt-5 w-full items-center ${workIsFavorite ? "bg-purple-600" : "bg-purple-500"}`}
+              onPress={() => {
+                markWorkAsFavoriteMutation.mutate({
+                  id: work.id,
+                });
+              }}
+            >
+              <ButtonIcon size="md" color="white" as={workIsFavorite ? HeartCrack : Heart} />
+              <ButtonText className="font-medium text-typography-800">
+                {workIsFavorite ? "Remover dos favoritos" : "Adicionar aos favoritos"}
+              </ButtonText>
+            </Button>
+
+            <Button
+              className="w-full items-center bg-yellow-400"
+              onPress={() => {
+                handlePushToUrl({
+                  workId: work.id,
+                  workUrl: work.url,
+                });
+              }}
+            >
+              <ButtonIcon as={work.category === "ANIME" ? Tv2 : BookOpen} />
+              <ButtonText className="font-medium text-gray-800">
+                {work.category === "ANIME" ? "Assistir" : "Ler"} Agora
+              </ButtonText>
+            </Button>
+          </VStack>
         </VStack>
       </Container>
     </ScrollView>

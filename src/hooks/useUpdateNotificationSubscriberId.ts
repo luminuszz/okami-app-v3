@@ -1,13 +1,24 @@
 import { useAuthControllerGetMe, useNotificationControllerSubscribeInMobile } from "@/api/okami";
 import { useOkamiToast } from "@/components/okami-toast";
+import { STORAGE_KEYS } from "@/lib/storage";
+import { mmkvStorage } from "@/lib/storage/mmkv";
 import { useCallback, useEffect } from "react";
+import { useMMKVBoolean } from "react-native-mmkv";
 import { OneSignal } from "react-native-onesignal";
 
 export function useUpdateNotificationSubscriberId() {
+  const [userIsSubscribed, setUserIsSubscribed] = useMMKVBoolean(
+    STORAGE_KEYS.USER_IS_SUBSCRIBED_IN_NOTIFICATIONS,
+    mmkvStorage,
+  );
+
   const { mutate: subscribeForNotifications, isPending } = useNotificationControllerSubscribeInMobile({
     mutation: {
       onError(e) {
         console.log(e);
+      },
+      onSuccess() {
+        setUserIsSubscribed(true);
       },
     },
   });
@@ -33,7 +44,7 @@ export function useUpdateNotificationSubscriberId() {
 
     const subscriptionId = await OneSignal.User.pushSubscription.getIdAsync();
 
-    if (subscriptionId) {
+    if (subscriptionId && !userIsSubscribed) {
       subscribeForNotifications({ data: { token: subscriptionId } });
     }
 
