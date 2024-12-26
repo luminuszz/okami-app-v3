@@ -1763,6 +1763,7 @@ export function useWorkControllerListUserWorks<
     request?: SecondParameter<typeof customInstance>;
   },
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+
 export function useWorkControllerListUserWorks<
   TData = Awaited<ReturnType<typeof workControllerListUserWorks>>,
   TError = ErrorType<unknown>,

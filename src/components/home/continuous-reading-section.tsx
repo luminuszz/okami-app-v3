@@ -94,7 +94,7 @@ export function ContinuousReadingSection() {
                 {work?.name}
               </Heading>
               <Text size="md" className={work?.hasNewChapter ? "text-emerald-500" : "text-typography-800"}>
-                {`${work?.hasNewChapter ? "Novo" : "Ultimo"} ${workLabel}  ${work?.chapter}`}
+                {`${work?.hasNewChapter ? `Novo ${workLabel}: ${work.nextChapter}` : `Ultimo ${workLabel}: ${work?.chapter}`} `}
               </Text>
             </VStack>
 

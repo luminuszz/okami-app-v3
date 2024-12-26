@@ -1,8 +1,4 @@
-import {
-  getWorkControllerListUserWorksQueryKey,
-  useWorkControllerGetById,
-  useWorkControllerUpdateChapter,
-} from "@/api/okami";
+import { useWorkControllerGetById, useWorkControllerUpdateChapter } from "@/api/okami";
 import { Container } from "@/components/layout/container";
 import { HeaderWithGoBack } from "@/components/navigation/header-with-go-back";
 import { useOkamiToast } from "@/components/okami-toast";
@@ -15,11 +11,9 @@ import { Input, InputField } from "@/components/ui/input";
 import { Skeleton, SkeletonText } from "@/components/ui/skeleton";
 import { Spinner } from "@/components/ui/spinner";
 import { VStack } from "@/components/ui/vstack";
-import { worksFiltersAtom } from "@/store/works-filters";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
 import { Redirect, router, useLocalSearchParams } from "expo-router";
-import { useAtomValue } from "jotai";
 import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { SafeAreaView, ScrollView } from "react-native";
@@ -34,7 +28,6 @@ type Schema = z.infer<typeof schema>;
 export default function UpdateWorkChapterScreen() {
   const client = useQueryClient();
   const toast = useOkamiToast();
-  const filters = useAtomValue(worksFiltersAtom);
 
   const { workId } = useLocalSearchParams<{ workId: string }>();
 
@@ -48,13 +41,8 @@ export default function UpdateWorkChapterScreen() {
           action: "success",
         });
 
-        const currentWorkListQuery = getWorkControllerListUserWorksQueryKey({
-          search: filters.search ?? undefined,
-          status: filters.status ?? undefined,
-        });
-
         await client.invalidateQueries({
-          queryKey: currentWorkListQuery,
+          predicate: ({ queryKey }) => queryKey.includes("/work/list"),
         });
 
         router.push("/home");
