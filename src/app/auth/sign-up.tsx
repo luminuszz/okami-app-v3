@@ -43,7 +43,7 @@ export default function SignUpScreen() {
           description: "Agora você pode fazer login",
           action: "success",
         });
-        router.push("/auth/sign-in");
+        router.push("/sign-in");
       },
       onError(e) {
         if (e instanceof AxiosError) {

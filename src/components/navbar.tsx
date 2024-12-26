@@ -6,6 +6,7 @@ import { ProfileDrawer } from "./profile/profile-drawer";
 import { Box } from "./ui/box";
 import { Button, ButtonIcon } from "./ui/button";
 import { HStack } from "./ui/hstack";
+
 import { WorkFilters } from "./works/works-filters";
 
 export function Navbar() {

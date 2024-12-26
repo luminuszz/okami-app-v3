@@ -4,11 +4,9 @@ import "../../global.css";
 import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
 import { StatusBar } from "expo-status-bar";
 
-import { asyncStoragePersister, onAppStateChange, queryClient } from "@/lib/react-query";
+import { queryClient } from "@/lib/react-query";
 import { DarkTheme, ThemeProvider } from "@react-navigation/native";
 import { Stack } from "expo-router";
-
-import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 
 import * as SplashScreen from "expo-splash-screen";
 
@@ -16,8 +14,9 @@ import { Roboto_400Regular, Roboto_500Medium, Roboto_900Black, useFonts } from "
 import { addNetworkStateListener } from "expo-network";
 import { useEffect } from "react";
 
-import { onlineManager } from "@tanstack/react-query";
-import { AppState } from "react-native";
+import { AuthProvider } from "@/hooks/useAuth";
+import { onlineManager, QueryClientProvider } from "@tanstack/react-query";
+import { Provider as JotaiProvider } from "jotai";
 import { OneSignal } from "react-native-onesignal";
 
 void SplashScreen.preventAutoHideAsync();
@@ -43,21 +42,17 @@ export default function RootLayout() {
     }
   }, [fontsLoaded]);
 
-  useEffect(() => {
-    const subscription = AppState.addEventListener("change", onAppStateChange);
-
-    return () => subscription.remove();
-  }, []);
-
   return (
     <GluestackUIProvider mode="dark">
-      <PersistQueryClientProvider client={queryClient} persistOptions={{ persister: asyncStoragePersister }}>
+      <QueryClientProvider client={queryClient}>
         <ThemeProvider value={DarkTheme}>
-          <Stack screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="index" />
-          </Stack>
+          <JotaiProvider>
+            <AuthProvider>
+              <Stack initialRouteName="index" screenOptions={{ headerShown: false }} />
+            </AuthProvider>
+          </JotaiProvider>
         </ThemeProvider>
-      </PersistQueryClientProvider>
+      </QueryClientProvider>
       <StatusBar style="auto" />
     </GluestackUIProvider>
   );

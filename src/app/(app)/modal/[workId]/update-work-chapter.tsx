@@ -118,7 +118,7 @@ export default function UpdateWorkChapterScreen() {
   return (
     <SafeAreaView>
       <ScrollView>
-        <Container classname="px-10 mt-10">
+        <Container classname="px-10 mt-10 flex-1 h-full">
           <HeaderWithGoBack>Atualizar Obra</HeaderWithGoBack>
 
           <Center className="mt-5">

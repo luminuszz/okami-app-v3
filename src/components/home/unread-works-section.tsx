@@ -46,15 +46,25 @@ export function UnreadWorksSection() {
 
   return (
     <VStack className="w-full px-4">
-      <HStack className="justify-between">
+      <Pressable
+        className="flex-row items-center justify-between"
+        onPress={() =>
+          router.push({
+            pathname: "/(app)/home/works",
+            params: {
+              status: "unread",
+            },
+          })
+        }
+      >
         <Heading size="xl">Suas atualizações</Heading>
 
-        <Button variant="link" onPress={() => router.push("/home/works")}>
+        <Button variant="link">
           <ButtonIcon as={() => <ChevronRight stroke="white" size={30} />} />
         </Button>
-      </HStack>
+      </Pressable>
 
-      <ScrollView horizontal contentContainerStyle={{ marginLeft: -15, paddingRight: 1050 }}>
+      <ScrollView horizontal contentContainerStyle={{ marginLeft: -15, paddingRight: 850 }}>
         {formattedWorks.map((work) => (
           <Pressable
             key={work.id}

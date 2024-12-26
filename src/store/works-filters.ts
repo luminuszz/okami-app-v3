@@ -1,6 +1,6 @@
 import { atom } from "jotai";
 
-type WorkFilters = {
+export type WorkFilters = {
   search: string | null;
   status: "unread" | "read" | "finished" | "favorites" | null;
 };

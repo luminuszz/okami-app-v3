@@ -1,6 +1,5 @@
 import { useAuthControllerGetMe } from "@/api/okami";
 import { Container } from "@/components/layout/container";
-import { ProfileLoading } from "@/components/profile/profile-loading";
 import { Avatar, AvatarFallbackText, AvatarImage } from "@/components/ui/avatar";
 import { Heading } from "@/components/ui/heading";
 import { HStack } from "@/components/ui/hstack";
@@ -10,11 +9,7 @@ import colors from "tailwindcss/colors";
 import { VictoryPie, VictoryTheme } from "victory-native";
 
 export default function ProfileScreen() {
-  const { data: userDetails, isLoading } = useAuthControllerGetMe();
-
-  if (isLoading) {
-    return <ProfileLoading />;
-  }
+  const { data: userDetails } = useAuthControllerGetMe();
 
   const chartData = [
     { x: "Finalizadas", y: userDetails?.finishedWorksCount, fill: colors.emerald[500] },

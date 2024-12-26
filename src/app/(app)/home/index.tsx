@@ -6,8 +6,8 @@ import { ScrollView } from "react-native";
 
 export default function HomeScreen() {
   return (
-    <ScrollView>
-      <Container classname="px-4 mb-10">
+    <ScrollView className="pt-5">
+      <Container classname="px-4 mb-10 ">
         <ContinuousReadingSection />
         <UnreadWorksSection />
         <UserWorksListSection />

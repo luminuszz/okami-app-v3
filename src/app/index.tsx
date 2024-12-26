@@ -1,8 +1,12 @@
-import { Redirect } from "expo-router";
 import { useAuth } from "@/hooks/useAuth";
+import { Redirect } from "expo-router";
 
-export default function IndexPage() {
+export default function Home() {
   const { isAuth } = useAuth();
 
-  return <Redirect href={isAuth ? "/home" : "/auth/sign-in"} />;
+  if (!isAuth) {
+    return <Redirect href="/auth/sign-in" />;
+  }
+
+  return <Redirect href="/(app)/home" />;
 }

@@ -12,7 +12,7 @@
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts",
-    "src/app/modal/[workId]/indextsx",
+    "src/app/(app)/modal/[workId]/indextsx",
     "scripts/generate-api.ts"
   ]
 }

@@ -2,7 +2,7 @@ import { toggleWorkFilter, worksFiltersAtom, worksFiltersIsIsOpen } from "@/stor
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { ChevronDown } from "lucide-react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button, ButtonText } from "../ui/button";
@@ -10,6 +10,7 @@ import { Drawer, DrawerBackdrop, DrawerBody, DrawerContent, DrawerFooter } from 
 import { FormControl } from "../ui/form-control";
 
 import { filtersLabels, filtersOptions } from "@/constants/strings";
+import { useLocalSearchParams } from "expo-router";
 import { Input, InputField } from "../ui/input";
 import {
   Select,
@@ -32,7 +33,14 @@ const workFiltersSchema = z.object({
 
 type WorkFiltersSchema = z.infer<typeof workFiltersSchema>;
 
+export type Params = {
+  search?: string;
+  status?: string;
+};
+
 export function WorkFilters() {
+  const { search, status } = useLocalSearchParams<Params>();
+
   const isOpen = useAtomValue(worksFiltersIsIsOpen);
 
   const handleClose = useSetAtom(toggleWorkFilter);
@@ -66,6 +74,16 @@ export function WorkFilters() {
 
     handleClose();
   }
+
+  useEffect(() => {
+    if (search || status) {
+      updateFilters({
+        search: search ?? "",
+        status: (status as WorkFiltersSchema["status"]) ?? "unread",
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [search, status]);
 
   return (
     <Drawer isOpen={isOpen} onClose={handleClose} size="sm" anchor="bottom">

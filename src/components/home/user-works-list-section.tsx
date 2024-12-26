@@ -35,15 +35,25 @@ export function UserWorksListSection() {
 
   return (
     <VStack className="mt-5 w-full px-4">
-      <HStack className="justify-between">
+      <Pressable
+        className="flex-1 flex-row items-center justify-between"
+        onPress={() =>
+          router.push({
+            pathname: "/(app)/home/works",
+            params: {
+              status: "read",
+            },
+          })
+        }
+      >
         <Heading size="xl">Suas obras</Heading>
 
         <Button variant="link">
           <ButtonIcon as={() => <ChevronRight stroke="white" size={30} />} />
         </Button>
-      </HStack>
+      </Pressable>
 
-      <ScrollView horizontal contentContainerStyle={{ paddingRight: 500, marginLeft: -15 }}>
+      <ScrollView horizontal contentContainerStyle={{ paddingRight: 250, marginLeft: -15 }}>
         {data?.works.map((work) => (
           <Pressable
             key={work.id}
