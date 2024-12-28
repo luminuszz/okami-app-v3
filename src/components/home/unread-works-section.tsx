@@ -1,7 +1,7 @@
 import { useWorkControllerListUserWorksPaged } from "@/api/okami";
-import { parseDateDistance } from "@/helpers/date";
+import { parseDateDistance, sortDateByDesc } from "@/helpers/date";
 import { router } from "expo-router";
-import { map } from "lodash";
+import { chain, map } from "lodash";
 import { ChevronRight } from "lucide-react-native";
 import { Pressable, ScrollView } from "react-native";
 import { Button, ButtonIcon } from "../ui/button";
@@ -29,10 +29,17 @@ export function UnreadWorksSection() {
     },
   );
 
-  const formattedWorks = map(works, (work) => ({
-    ...work,
-    nextChapterUpdatedAt: parseDateDistance(work.nextChapterUpdatedAt),
-  }));
+  const formattedWorks = chain(works)
+    .sort((a, b) => sortDateByDesc(a.nextChapterUpdatedAt, b.nextChapterUpdatedAt))
+    .map((work) => ({
+      ...work,
+      nextChapterUpdatedAt: parseDateDistance(work.nextChapterUpdatedAt),
+    }))
+    .value();
+
+  console.log({
+    formattedWorks,
+  });
 
   if (isLoading) {
     return (
@@ -64,7 +71,7 @@ export function UnreadWorksSection() {
         </Button>
       </Pressable>
 
-      <ScrollView horizontal contentContainerStyle={{ marginLeft: -15, paddingRight: 850 }}>
+      <ScrollView horizontal contentContainerStyle={{ marginLeft: -15, paddingRight: 1000 }}>
         {formattedWorks.map((work) => (
           <Pressable
             key={work.id}
