@@ -1,6 +1,4 @@
-import { useAuthControllerRegister } from "@/api/okami";
 import { OkamiLogo } from "@/components/logo";
-import { useOkamiToast } from "@/components/okami-toast";
 import { Box } from "@/components/ui/box";
 import { Button, ButtonText } from "@/components/ui/button";
 import { FormControl, FormControlError, FormControlErrorText } from "@/components/ui/form-control";
@@ -9,10 +7,9 @@ import { Spinner } from "@/components/ui/spinner";
 import { Text } from "@/components/ui/text";
 import { VStack } from "@/components/ui/vstack";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AxiosError } from "axios";
-import { router } from "expo-router";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
+import { useAuth } from "@/hooks/useAuth";
 
 const registerFormSchema = z
   .object({
@@ -34,38 +31,7 @@ const registerFormSchema = z
 type RegisterFormSchema = z.infer<typeof registerFormSchema>;
 
 export default function SignUpScreen() {
-  const toast = useOkamiToast();
-  const { mutate: registerUser, isPending } = useAuthControllerRegister({
-    mutation: {
-      onSuccess() {
-        toast({
-          title: "Usuário registrado",
-          description: "Agora você pode fazer login",
-          action: "success",
-        });
-        router.push("/sign-in");
-      },
-      onError(e) {
-        if (e instanceof AxiosError) {
-          const isBadRequestResponse = e.code === "400";
-
-          if (isBadRequestResponse) {
-            toast({
-              title: "Erro ao registrar",
-              description: "E-mail já cadastrado",
-              action: "error",
-            });
-          } else {
-            toast({
-              title: "Erro ao registrar",
-              description: "Tente novamente mais tarde",
-              action: "error",
-            });
-          }
-        }
-      },
-    },
-  });
+  const { register, isAuthRegisterPending } = useAuth();
 
   const {
     control,
@@ -80,16 +46,6 @@ export default function SignUpScreen() {
       password: "",
     },
   });
-
-  function handleRegisterUser(values: RegisterFormSchema) {
-    registerUser({
-      data: {
-        email: values.email,
-        name: values.name,
-        password: values.password,
-      },
-    });
-  }
 
   return (
     <Box className="flex-1 items-center justify-center gap-4">
@@ -195,13 +151,13 @@ export default function SignUpScreen() {
         </FormControl>
 
         <Button
-          disabled={isPending}
-          onPress={handleSubmit(handleRegisterUser)}
+          disabled={isAuthRegisterPending}
+          onPress={handleSubmit(register)}
           variant="solid"
           className="w-full"
           size="lg"
         >
-          {isPending ? <Spinner /> : <ButtonText> Registrar</ButtonText>}
+          {isAuthRegisterPending ? <Spinner /> : <ButtonText> Registrar</ButtonText>}
         </Button>
       </VStack>
     </Box>

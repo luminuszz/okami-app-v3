@@ -1,9 +1,9 @@
-import { useAuthControllerLoginV2 } from "@/api/okami";
+import { useAuthControllerLoginV2, useAuthControllerRegister } from "@/api/okami";
 import { useOkamiToast } from "@/components/okami-toast";
 import { STORAGE_KEYS } from "@/lib/storage";
 import { mmkvStorage } from "@/lib/storage/mmkv";
 import { router } from "expo-router";
-import { createContext, useCallback, useContext, useMemo } from "react";
+import { createContext, ReactNode, useCallback, useContext, useMemo } from "react";
 import { useMMKVString } from "react-native-mmkv";
 
 type MakeLoginParams = {
@@ -11,19 +11,27 @@ type MakeLoginParams = {
   password: string;
 };
 
+type RegisterUserParams = {
+  name: string;
+  email: string;
+  password: string;
+};
+
 export interface UseAuthProps {
   logout: () => void;
   login: (params: MakeLoginParams) => void;
+  register: (params: RegisterUserParams) => void;
   credentials: {
     token?: string;
     refreshToken?: string;
   };
   isAuth: boolean;
   isAuthLoginPending: boolean;
+  isAuthRegisterPending: boolean;
 }
 
 export interface AuthProviderProps {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 const AuthContext = createContext<UseAuthProps>({} as UseAuthProps);
@@ -52,11 +60,23 @@ export function AuthProvider({ children }: AuthProviderProps) {
     },
   });
 
+  const { mutate: makeRegister, isPending: isPedingRegister } = useAuthControllerRegister({
+    mutation: {
+      onSuccess() {
+        toast({ title: "Usuário registrado", description: "Agora você pode fazer login", action: "success" });
+        router.push("/auth/sign-in");
+      },
+      onError() {
+        toast({ title: "Erro ao registrar", description: "Tente novamente mais tarde", action: "error" });
+      },
+    },
+  });
+
   const logout = useCallback(() => {
     setToken("");
     setRefreshToken("");
 
-    router.replace("/sign-in");
+    router.replace("/auth/sign-in");
   }, [setRefreshToken, setToken]);
 
   const login = (data: MakeLoginParams) => {
@@ -65,11 +85,34 @@ export function AuthProvider({ children }: AuthProviderProps) {
     });
   };
 
+  const registerUser = useCallback(
+    (payload: RegisterUserParams) => {
+      const data = {
+        email: payload.email,
+        name: payload.name,
+        password: payload.password,
+      };
+
+      void makeRegister({
+        data,
+      });
+    },
+    [makeRegister],
+  );
+
   const isAuth = useMemo(() => !!refreshToken, [refreshToken]);
 
   return (
     <AuthContext.Provider
-      value={{ login, logout, isAuth, isAuthLoginPending: isPending, credentials: { token, refreshToken } }}
+      value={{
+        login,
+        logout,
+        isAuth,
+        isAuthLoginPending: isPending,
+        credentials: { token, refreshToken },
+        register: registerUser,
+        isAuthRegisterPending: isPedingRegister,
+      }}
     >
       {children}
     </AuthContext.Provider>
