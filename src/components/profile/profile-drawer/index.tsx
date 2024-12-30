@@ -26,9 +26,7 @@ export function ProfileDrawer() {
 
   async function handleLogout() {
     setIsIOpen(false);
-
     logout();
-
     router.replace("/auth/sign-in");
   }
 

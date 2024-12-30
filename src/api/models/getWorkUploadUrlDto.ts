@@ -6,7 +6,8 @@
  * OpenAPI spec version: 1.0
  */
 
-/**
- * @nullable
- */
-export type WorkModelPagedNextPage = { [key: string]: unknown } | null;
+export interface GetWorkUploadUrlDto {
+  fileName: string;
+  fileType: string;
+  workId: string;
+}

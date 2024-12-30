@@ -6,7 +6,6 @@
  * OpenAPI spec version: 1.0
  */
 
-/**
- * @nullable
- */
-export type WorkModelPagedNextPage = { [key: string]: unknown } | null;
+export interface SendAuthCodeByEmailValidator {
+  email: string;
+}

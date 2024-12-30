@@ -1,4 +1,4 @@
-import { useAuthControllerLoginV2, useAuthControllerRegister } from "@/api/okami";
+import { useAuthControllerLoginV2, useAuthControllerLogout, useAuthControllerRegister } from "@/api/okami";
 import { useOkamiToast } from "@/components/okami-toast";
 import { STORAGE_KEYS } from "@/lib/storage";
 import { mmkvStorage } from "@/lib/storage/mmkv";
@@ -72,12 +72,16 @@ export function AuthProvider({ children }: AuthProviderProps) {
     },
   });
 
-  const logout = useCallback(() => {
-    setToken("");
-    setRefreshToken("");
-
-    router.replace("/auth/sign-in");
-  }, [setRefreshToken, setToken]);
+  const { mutate: makeLogout } = useAuthControllerLogout({
+    mutation: {
+      onSuccess() {
+        router.replace("/auth/sign-in");
+        setToken("");
+        setRefreshToken("");
+      },
+      onMutate() {},
+    },
+  });
 
   const login = (data: MakeLoginParams) => {
     makeLogin({
@@ -106,7 +110,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
     <AuthContext.Provider
       value={{
         login,
-        logout,
+        logout: () =>
+          makeLogout({
+            data: {
+              refreshToken: refreshToken ?? null,
+            },
+          }),
         isAuth,
         isAuthLoginPending: isPending,
         credentials: { token, refreshToken },

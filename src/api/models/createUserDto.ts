@@ -6,8 +6,4 @@
  * OpenAPI spec version: 1.0
  */
 
-export type CreateUserDto = {
-  email: string;
-  password: string;
-  name: string;
-};
+export interface CreateUserDto { [key: string]: unknown }

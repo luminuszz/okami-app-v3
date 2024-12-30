@@ -6,7 +6,7 @@
  * OpenAPI spec version: 1.0
  */
 
-/**
- * @nullable
- */
-export type WorkModelPagedNextPage = { [key: string]: unknown } | null;
+export interface UpdateTelegramChatIdValidator {
+  recipientId: string;
+  telegramChatId: string;
+}
