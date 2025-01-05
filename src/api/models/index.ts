@@ -7,8 +7,14 @@
  */
 
 export * from './accessToken';
+export * from './addRowInCalendarDto';
+export * from './addRowInCalendarDtoDayOfWeek';
+export * from './calendarModel';
+export * from './calendarRowModel';
+export * from './calendarRowModelDayOfWeek';
 export * from './compareSubscriberAuthTokenDto';
 export * from './createAdminHashCodeDto';
+export * from './createCalendarDto';
 export * from './createManySearchTokensDto';
 export * from './createSearchTokenDto';
 export * from './createSearchTokenDtoType';
@@ -58,6 +64,9 @@ export * from './userHttp';
 export * from './userHttpAvatarImageUrl';
 export * from './userHttpRole';
 export * from './validateEmailDto';
+export * from './workCalendarRowModel';
+export * from './workCalendarRowModelCategory';
+export * from './workCalendarRowModelStatus';
 export * from './workControllerFetchForWorksScrapingReportPaginatedParams';
 export * from './workControllerListUserWorksPagedLimit';
 export * from './workControllerListUserWorksPagedParams';
