@@ -1,6 +1,6 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import dotenv from "dotenv";
-import { writeFileSync } from "node:fs";
+import { unlinkSync, writeFileSync } from "node:fs";
 import path from "node:path";
 
 import orval from "orval";
@@ -13,7 +13,10 @@ const ORVAL_CONFIG_PATH = path.resolve(__dirname, "../orval.config.js");
 
 (async () => {
   try {
-    console.log({ OKAMI_URL });
+    if (!OKAMI_URL) {
+      console.error("EXPO_PUBLIC_API_URL is not defined in .env.local");
+      return;
+    }
 
     console.log("Fetching Swagger API from Okami API");
 
@@ -27,8 +30,15 @@ const ORVAL_CONFIG_PATH = path.resolve(__dirname, "../orval.config.js");
 
     console.log("API generation completed");
   } catch (error) {
+    if (error instanceof AxiosError) {
+      console.log("Error fetching Swagger API from Okami API");
+    }
+
     console.error(error);
   } finally {
     console.log("Finished script");
+    console.log("Exiting...");
+
+    unlinkSync(SWAGGER_PATH);
   }
 })();

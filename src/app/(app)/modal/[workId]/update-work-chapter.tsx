@@ -41,7 +41,7 @@ export default function UpdateWorkChapterScreen() {
           action: "success",
         });
 
-        await client.invalidateQueries({
+        client.invalidateQueries({
           predicate: ({ queryKey }) => queryKey.includes("/work/list"),
         });
 
@@ -79,7 +79,7 @@ export default function UpdateWorkChapterScreen() {
     return () => {
       form.reset();
     };
-  }, [form]);
+  }, []);
 
   if (isLoading) {
     return (

@@ -23,7 +23,6 @@ export function SyncWorksButton() {
         });
       },
       async onError(error) {
-        console.log({ error });
         toast({
           title: "Erro ao atualizar obras",
           action: "error",
@@ -49,8 +48,6 @@ export function SyncWorksButton() {
     const datePeriodDelay = parseISO(syncWorkDelayStorage);
 
     const hasDelay = isBefore(new Date(), datePeriodDelay);
-
-    console.log({ hasDelay });
 
     if (hasDelay) {
       const formattedDate = formatDistance(datePeriodDelay, new Date(), {

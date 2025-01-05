@@ -28,7 +28,7 @@ export function ContinuousReadingSection() {
 
   const openProfile = useSetAtom(toggleProfileDrawerActionAtom);
 
-  const { data: works, isLoading } = useWorkControllerListUserWorks();
+  const { data: works } = useWorkControllerListUserWorks();
 
   const work = works?.find((work) => work.id === lastSelectedWorkStorage) ?? works?.[0];
 
@@ -42,6 +42,8 @@ export function ContinuousReadingSection() {
       color: configColors?.[currentColor]?.[500] ?? configColors.gray[500],
     };
   });
+
+  const isLoading = !works;
 
   if (isLoading) {
     return (

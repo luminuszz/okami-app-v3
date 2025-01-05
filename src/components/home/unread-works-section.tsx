@@ -1,7 +1,7 @@
 import { useWorkControllerListUserWorksPaged } from "@/api/okami";
 import { parseDateDistance, sortDateByDesc } from "@/helpers/date";
 import { router } from "expo-router";
-import { chain, map } from "lodash";
+import { chain } from "lodash";
 import { ChevronRight } from "lucide-react-native";
 import { Pressable, ScrollView } from "react-native";
 import { Button, ButtonIcon } from "../ui/button";
@@ -16,7 +16,7 @@ import { VStack } from "../ui/vstack";
 const limit = 10;
 
 export function UnreadWorksSection() {
-  const { data: works, isLoading } = useWorkControllerListUserWorksPaged(
+  const { data: works } = useWorkControllerListUserWorksPaged(
     {
       page: 1,
       status: "unread",
@@ -29,6 +29,8 @@ export function UnreadWorksSection() {
     },
   );
 
+  const isLoading = !works;
+
   const formattedWorks = chain(works)
     .sort((a, b) => sortDateByDesc(a.nextChapterUpdatedAt, b.nextChapterUpdatedAt))
     .map((work) => ({
@@ -36,10 +38,6 @@ export function UnreadWorksSection() {
       nextChapterUpdatedAt: parseDateDistance(work.nextChapterUpdatedAt),
     }))
     .value();
-
-  console.log({
-    formattedWorks,
-  });
 
   if (isLoading) {
     return (

@@ -22,16 +22,7 @@ import { AppState } from "react-native";
 import { OneSignal } from "react-native-onesignal";
 
 void SplashScreen.preventAutoHideAsync();
-
 OneSignal.initialize(process.env.EXPO_PUBLIC_ONE_SIGNAL_APP_ID!);
-
-onlineManager.setEventListener((setOnline) => {
-  const subscription = addNetworkStateListener((state) => {
-    setOnline(!!state.isConnected);
-  });
-
-  return subscription.remove;
-});
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts([Roboto_500Medium, Roboto_900Black, Roboto_400Regular]);
@@ -43,6 +34,8 @@ export default function RootLayout() {
   }, [fontsLoaded]);
 
   useEffect(() => {
+    focusManager.setFocused(true);
+
     if (AppState.currentState === "active") {
       focusManager.setFocused(true);
     }
@@ -50,6 +43,16 @@ export default function RootLayout() {
     const subscription = AppState.addEventListener("change", onAppStateChange);
 
     return () => subscription.remove();
+  }, []);
+
+  useEffect(() => {
+    onlineManager.setEventListener((setOnline) => {
+      const subscription = addNetworkStateListener((state) => {
+        setOnline(!!state.isConnected);
+      });
+
+      return subscription.remove;
+    });
   }, []);
 
   return (

@@ -4,8 +4,16 @@ import { AppStateStatus } from "react-native";
 import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
 import { MMKVStoragePersister } from "./storage/mmkv";
 
-export const queryCacheManager = new QueryCache();
-export const mutationCacheManager = new MutationCache();
+export const queryCacheManager = new QueryCache({
+  onError: (error) => {
+    console.error(error);
+  },
+});
+export const mutationCacheManager = new MutationCache({
+  onError: (error) => {
+    console.error(error);
+  },
+});
 
 export const queryClient = new QueryClient({
   queryCache: queryCacheManager,
@@ -17,9 +25,6 @@ export const queryClient = new QueryClient({
 
     mutations: {
       networkMode: "offlineFirst",
-      onError(error) {
-        console.error(error);
-      },
     },
   },
 });

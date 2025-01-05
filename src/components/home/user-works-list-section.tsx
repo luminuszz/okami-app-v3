@@ -12,10 +12,12 @@ import { Text } from "../ui/text";
 import { VStack } from "../ui/vstack";
 
 export function UserWorksListSection() {
-  const { data, isLoading } = useWorkControllerListUserWorksPaged({
+  const { data } = useWorkControllerListUserWorksPaged({
     limit: 10,
     page: 1,
   });
+
+  const isLoading = !data;
 
   if (isLoading) {
     return (

@@ -1,6 +1,5 @@
 import { Configuration, MMKV } from "react-native-mmkv";
 
-import { useMMKV } from "react-native-mmkv";
 import { AsyncStoragePersister } from ".";
 import { expo } from "../../../app.json";
 
@@ -13,11 +12,10 @@ export const STORAGE_KEYS = {
 
 const mmkvConfig: Configuration = {
   id: `${expo.name}-storage-key`,
+  encryptionKey: process.env.EXPO_STORAGE_ENCRYPTED_KEY,
 };
 
 export const mmkvStorage = new MMKV(mmkvConfig);
-
-export const useMvStorage = () => useMMKV(mmkvConfig);
 
 export class MMKVStoragePersister implements AsyncStoragePersister {
   getItem = async (key: string) => mmkvStorage.getString(key) ?? null;

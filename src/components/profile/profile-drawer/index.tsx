@@ -19,7 +19,6 @@ import { SyncWorksToNotionButton } from "./sync-works-to-notion-button";
 
 export function ProfileDrawer() {
   const { logout } = useAuth();
-
   const [isOpen, setIsIOpen] = useAtom(profileDrawerIsOpen);
 
   const { data: user } = useAuthControllerGetMe();
