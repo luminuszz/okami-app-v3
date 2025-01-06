@@ -7,6 +7,6 @@
  */
 
 export interface RefreshTokenModel {
-  refreshToken: string;
-  token: string;
+	refreshToken: string;
+	token: string;
 }

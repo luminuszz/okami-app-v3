@@ -7,5 +7,5 @@
  */
 
 export interface SendAuthCodeByEmailValidator {
-  email: string;
+	email: string;
 }

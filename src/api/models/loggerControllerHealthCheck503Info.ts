@@ -9,7 +9,9 @@
 /**
  * @nullable
  */
-export type LoggerControllerHealthCheck503Info = {[key: string]: {
-  status: string;
-  [key: string]: unknown;
- }} | null;
+export type LoggerControllerHealthCheck503Info = {
+	[key: string]: {
+		status: string;
+		[key: string]: unknown;
+	};
+} | null;

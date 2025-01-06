@@ -7,6 +7,6 @@
  */
 
 export interface UpdateTelegramChatIdValidator {
-  recipientId: string;
-  telegramChatId: string;
+	recipientId: string;
+	telegramChatId: string;
 }

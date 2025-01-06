@@ -5,464 +5,800 @@
  * The Okami rest api
  * OpenAPI spec version: 1.0
  */
-import {
-  useInfiniteQuery,
-  useQuery
-} from '@tanstack/react-query'
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import type {
-  DataTag,
-  DefinedInitialDataOptions,
-  DefinedUseInfiniteQueryResult,
-  DefinedUseQueryResult,
-  InfiniteData,
-  QueryFunction,
-  QueryKey,
-  UndefinedInitialDataOptions,
-  UseInfiniteQueryOptions,
-  UseInfiniteQueryResult,
-  UseQueryOptions,
-  UseQueryResult
-} from '@tanstack/react-query'
+	DataTag,
+	DefinedInitialDataOptions,
+	DefinedUseInfiniteQueryResult,
+	DefinedUseQueryResult,
+	InfiniteData,
+	QueryFunction,
+	QueryKey,
+	UndefinedInitialDataOptions,
+	UseInfiniteQueryOptions,
+	UseInfiniteQueryResult,
+	UseQueryOptions,
+	UseQueryResult,
+} from "@tanstack/react-query";
 import type {
-  LoggerControllerHealthCheck200,
-  LoggerControllerHealthCheck503
-} from '.././models'
-import { customInstance } from '../../lib/axios/index';
-import type { ErrorType } from '../../lib/axios/index';
-
+	LoggerControllerHealthCheck200,
+	LoggerControllerHealthCheck503,
+} from ".././models";
+import { customInstance } from "../../lib/axios/index";
+import type { ErrorType } from "../../lib/axios/index";
 
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1];
 
-
 export const appControllerGetSwagger = (
-    
- options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+	options?: SecondParameter<typeof customInstance>,
+	signal?: AbortSignal,
 ) => {
-      
-      
-      return customInstance<void>(
-      {url: `/static/swagger`, method: 'GET', signal
-    },
-      options);
-    }
-  
+	return customInstance<void>(
+		{ url: `/static/swagger`, method: "GET", signal },
+		options,
+	);
+};
 
 export const getAppControllerGetSwaggerQueryKey = () => {
-    return [`/static/swagger`] as const;
-    }
+	return [`/static/swagger`] as const;
+};
 
-    
-export const getAppControllerGetSwaggerInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof appControllerGetSwagger>>>, TError = ErrorType<unknown>>( options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof appControllerGetSwagger>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
-) => {
+export const getAppControllerGetSwaggerInfiniteQueryOptions = <
+	TData = InfiniteData<Awaited<ReturnType<typeof appControllerGetSwagger>>>,
+	TError = ErrorType<unknown>,
+>(options?: {
+	query?: Partial<
+		UseInfiniteQueryOptions<
+			Awaited<ReturnType<typeof appControllerGetSwagger>>,
+			TError,
+			TData
+		>
+	>;
+	request?: SecondParameter<typeof customInstance>;
+}) => {
+	const { query: queryOptions, request: requestOptions } = options ?? {};
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+	const queryKey =
+		queryOptions?.queryKey ?? getAppControllerGetSwaggerQueryKey();
 
-  const queryKey =  queryOptions?.queryKey ?? getAppControllerGetSwaggerQueryKey();
+	const queryFn: QueryFunction<
+		Awaited<ReturnType<typeof appControllerGetSwagger>>
+	> = ({ signal }) => appControllerGetSwagger(requestOptions, signal);
 
-  
+	return { queryKey, queryFn, ...queryOptions } as UseInfiniteQueryOptions<
+		Awaited<ReturnType<typeof appControllerGetSwagger>>,
+		TError,
+		TData
+	> & { queryKey: DataTag<QueryKey, TData> };
+};
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof appControllerGetSwagger>>> = ({ signal }) => appControllerGetSwagger(requestOptions, signal);
+export type AppControllerGetSwaggerInfiniteQueryResult = NonNullable<
+	Awaited<ReturnType<typeof appControllerGetSwagger>>
+>;
+export type AppControllerGetSwaggerInfiniteQueryError = ErrorType<unknown>;
 
-      
+export function useAppControllerGetSwaggerInfinite<
+	TData = InfiniteData<Awaited<ReturnType<typeof appControllerGetSwagger>>>,
+	TError = ErrorType<unknown>,
+>(options: {
+	query: Partial<
+		UseInfiniteQueryOptions<
+			Awaited<ReturnType<typeof appControllerGetSwagger>>,
+			TError,
+			TData
+		>
+	> &
+		Pick<
+			DefinedInitialDataOptions<
+				Awaited<ReturnType<typeof appControllerGetSwagger>>,
+				TError,
+				TData
+			>,
+			"initialData"
+		>;
+	request?: SecondParameter<typeof customInstance>;
+}): DefinedUseInfiniteQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData>;
+};
+export function useAppControllerGetSwaggerInfinite<
+	TData = InfiniteData<Awaited<ReturnType<typeof appControllerGetSwagger>>>,
+	TError = ErrorType<unknown>,
+>(options?: {
+	query?: Partial<
+		UseInfiniteQueryOptions<
+			Awaited<ReturnType<typeof appControllerGetSwagger>>,
+			TError,
+			TData
+		>
+	> &
+		Pick<
+			UndefinedInitialDataOptions<
+				Awaited<ReturnType<typeof appControllerGetSwagger>>,
+				TError,
+				TData
+			>,
+			"initialData"
+		>;
+	request?: SecondParameter<typeof customInstance>;
+}): UseInfiniteQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData>;
+};
+export function useAppControllerGetSwaggerInfinite<
+	TData = InfiniteData<Awaited<ReturnType<typeof appControllerGetSwagger>>>,
+	TError = ErrorType<unknown>,
+>(options?: {
+	query?: Partial<
+		UseInfiniteQueryOptions<
+			Awaited<ReturnType<typeof appControllerGetSwagger>>,
+			TError,
+			TData
+		>
+	>;
+	request?: SecondParameter<typeof customInstance>;
+}): UseInfiniteQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData>;
+};
 
-      
+export function useAppControllerGetSwaggerInfinite<
+	TData = InfiniteData<Awaited<ReturnType<typeof appControllerGetSwagger>>>,
+	TError = ErrorType<unknown>,
+>(options?: {
+	query?: Partial<
+		UseInfiniteQueryOptions<
+			Awaited<ReturnType<typeof appControllerGetSwagger>>,
+			TError,
+			TData
+		>
+	>;
+	request?: SecondParameter<typeof customInstance>;
+}): UseInfiniteQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData>;
+} {
+	const queryOptions = getAppControllerGetSwaggerInfiniteQueryOptions(options);
 
-   return  { queryKey, queryFn, ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof appControllerGetSwagger>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
+	const query = useInfiniteQuery(queryOptions) as UseInfiniteQueryResult<
+		TData,
+		TError
+	> & { queryKey: DataTag<QueryKey, TData> };
+
+	query.queryKey = queryOptions.queryKey;
+
+	return query;
 }
 
-export type AppControllerGetSwaggerInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof appControllerGetSwagger>>>
-export type AppControllerGetSwaggerInfiniteQueryError = ErrorType<unknown>
+export const getAppControllerGetSwaggerQueryOptions = <
+	TData = Awaited<ReturnType<typeof appControllerGetSwagger>>,
+	TError = ErrorType<unknown>,
+>(options?: {
+	query?: Partial<
+		UseQueryOptions<
+			Awaited<ReturnType<typeof appControllerGetSwagger>>,
+			TError,
+			TData
+		>
+	>;
+	request?: SecondParameter<typeof customInstance>;
+}) => {
+	const { query: queryOptions, request: requestOptions } = options ?? {};
 
+	const queryKey =
+		queryOptions?.queryKey ?? getAppControllerGetSwaggerQueryKey();
 
-export function useAppControllerGetSwaggerInfinite<TData = InfiniteData<Awaited<ReturnType<typeof appControllerGetSwagger>>>, TError = ErrorType<unknown>>(
-  options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof appControllerGetSwagger>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof appControllerGetSwagger>>,
-          TError,
-          TData
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
+	const queryFn: QueryFunction<
+		Awaited<ReturnType<typeof appControllerGetSwagger>>
+	> = ({ signal }) => appControllerGetSwagger(requestOptions, signal);
 
-  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useAppControllerGetSwaggerInfinite<TData = InfiniteData<Awaited<ReturnType<typeof appControllerGetSwagger>>>, TError = ErrorType<unknown>>(
-  options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof appControllerGetSwagger>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof appControllerGetSwagger>>,
-          TError,
-          TData
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
+	return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+		Awaited<ReturnType<typeof appControllerGetSwagger>>,
+		TError,
+		TData
+	> & { queryKey: DataTag<QueryKey, TData> };
+};
 
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useAppControllerGetSwaggerInfinite<TData = InfiniteData<Awaited<ReturnType<typeof appControllerGetSwagger>>>, TError = ErrorType<unknown>>(
-  options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof appControllerGetSwagger>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+export type AppControllerGetSwaggerQueryResult = NonNullable<
+	Awaited<ReturnType<typeof appControllerGetSwagger>>
+>;
+export type AppControllerGetSwaggerQueryError = ErrorType<unknown>;
 
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useAppControllerGetSwagger<
+	TData = Awaited<ReturnType<typeof appControllerGetSwagger>>,
+	TError = ErrorType<unknown>,
+>(options: {
+	query: Partial<
+		UseQueryOptions<
+			Awaited<ReturnType<typeof appControllerGetSwagger>>,
+			TError,
+			TData
+		>
+	> &
+		Pick<
+			DefinedInitialDataOptions<
+				Awaited<ReturnType<typeof appControllerGetSwagger>>,
+				TError,
+				TData
+			>,
+			"initialData"
+		>;
+	request?: SecondParameter<typeof customInstance>;
+}): DefinedUseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData>;
+};
+export function useAppControllerGetSwagger<
+	TData = Awaited<ReturnType<typeof appControllerGetSwagger>>,
+	TError = ErrorType<unknown>,
+>(options?: {
+	query?: Partial<
+		UseQueryOptions<
+			Awaited<ReturnType<typeof appControllerGetSwagger>>,
+			TError,
+			TData
+		>
+	> &
+		Pick<
+			UndefinedInitialDataOptions<
+				Awaited<ReturnType<typeof appControllerGetSwagger>>,
+				TError,
+				TData
+			>,
+			"initialData"
+		>;
+	request?: SecondParameter<typeof customInstance>;
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+export function useAppControllerGetSwagger<
+	TData = Awaited<ReturnType<typeof appControllerGetSwagger>>,
+	TError = ErrorType<unknown>,
+>(options?: {
+	query?: Partial<
+		UseQueryOptions<
+			Awaited<ReturnType<typeof appControllerGetSwagger>>,
+			TError,
+			TData
+		>
+	>;
+	request?: SecondParameter<typeof customInstance>;
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
 
-export function useAppControllerGetSwaggerInfinite<TData = InfiniteData<Awaited<ReturnType<typeof appControllerGetSwagger>>>, TError = ErrorType<unknown>>(
-  options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof appControllerGetSwagger>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+export function useAppControllerGetSwagger<
+	TData = Awaited<ReturnType<typeof appControllerGetSwagger>>,
+	TError = ErrorType<unknown>,
+>(options?: {
+	query?: Partial<
+		UseQueryOptions<
+			Awaited<ReturnType<typeof appControllerGetSwagger>>,
+			TError,
+			TData
+		>
+	>;
+	request?: SecondParameter<typeof customInstance>;
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+	const queryOptions = getAppControllerGetSwaggerQueryOptions(options);
 
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+	const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+		queryKey: DataTag<QueryKey, TData>;
+	};
 
-  const queryOptions = getAppControllerGetSwaggerInfiniteQueryOptions(options)
+	query.queryKey = queryOptions.queryKey;
 
-  const query = useInfiniteQuery(queryOptions) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
+	return query;
 }
-
-
-
-export const getAppControllerGetSwaggerQueryOptions = <TData = Awaited<ReturnType<typeof appControllerGetSwagger>>, TError = ErrorType<unknown>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof appControllerGetSwagger>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
-) => {
-
-const {query: queryOptions, request: requestOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getAppControllerGetSwaggerQueryKey();
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof appControllerGetSwagger>>> = ({ signal }) => appControllerGetSwagger(requestOptions, signal);
-
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof appControllerGetSwagger>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
-}
-
-export type AppControllerGetSwaggerQueryResult = NonNullable<Awaited<ReturnType<typeof appControllerGetSwagger>>>
-export type AppControllerGetSwaggerQueryError = ErrorType<unknown>
-
-
-export function useAppControllerGetSwagger<TData = Awaited<ReturnType<typeof appControllerGetSwagger>>, TError = ErrorType<unknown>>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof appControllerGetSwagger>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof appControllerGetSwagger>>,
-          TError,
-          TData
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
-
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useAppControllerGetSwagger<TData = Awaited<ReturnType<typeof appControllerGetSwagger>>, TError = ErrorType<unknown>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof appControllerGetSwagger>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof appControllerGetSwagger>>,
-          TError,
-          TData
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
-
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useAppControllerGetSwagger<TData = Awaited<ReturnType<typeof appControllerGetSwagger>>, TError = ErrorType<unknown>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof appControllerGetSwagger>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
-
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-
-export function useAppControllerGetSwagger<TData = Awaited<ReturnType<typeof appControllerGetSwagger>>, TError = ErrorType<unknown>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof appControllerGetSwagger>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
-
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
-
-  const queryOptions = getAppControllerGetSwaggerQueryOptions(options)
-
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
-}
-
-
 
 export const loggerControllerHealthCheck = (
-    
- options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+	options?: SecondParameter<typeof customInstance>,
+	signal?: AbortSignal,
 ) => {
-      
-      
-      return customInstance<LoggerControllerHealthCheck200>(
-      {url: `/health`, method: 'GET', signal
-    },
-      options);
-    }
-  
+	return customInstance<LoggerControllerHealthCheck200>(
+		{ url: `/health`, method: "GET", signal },
+		options,
+	);
+};
 
 export const getLoggerControllerHealthCheckQueryKey = () => {
-    return [`/health`] as const;
-    }
+	return [`/health`] as const;
+};
 
-    
-export const getLoggerControllerHealthCheckInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof loggerControllerHealthCheck>>>, TError = ErrorType<LoggerControllerHealthCheck503>>( options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof loggerControllerHealthCheck>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
-) => {
+export const getLoggerControllerHealthCheckInfiniteQueryOptions = <
+	TData = InfiniteData<Awaited<ReturnType<typeof loggerControllerHealthCheck>>>,
+	TError = ErrorType<LoggerControllerHealthCheck503>,
+>(options?: {
+	query?: Partial<
+		UseInfiniteQueryOptions<
+			Awaited<ReturnType<typeof loggerControllerHealthCheck>>,
+			TError,
+			TData
+		>
+	>;
+	request?: SecondParameter<typeof customInstance>;
+}) => {
+	const { query: queryOptions, request: requestOptions } = options ?? {};
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+	const queryKey =
+		queryOptions?.queryKey ?? getLoggerControllerHealthCheckQueryKey();
 
-  const queryKey =  queryOptions?.queryKey ?? getLoggerControllerHealthCheckQueryKey();
+	const queryFn: QueryFunction<
+		Awaited<ReturnType<typeof loggerControllerHealthCheck>>
+	> = ({ signal }) => loggerControllerHealthCheck(requestOptions, signal);
 
-  
+	return { queryKey, queryFn, ...queryOptions } as UseInfiniteQueryOptions<
+		Awaited<ReturnType<typeof loggerControllerHealthCheck>>,
+		TError,
+		TData
+	> & { queryKey: DataTag<QueryKey, TData> };
+};
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof loggerControllerHealthCheck>>> = ({ signal }) => loggerControllerHealthCheck(requestOptions, signal);
+export type LoggerControllerHealthCheckInfiniteQueryResult = NonNullable<
+	Awaited<ReturnType<typeof loggerControllerHealthCheck>>
+>;
+export type LoggerControllerHealthCheckInfiniteQueryError =
+	ErrorType<LoggerControllerHealthCheck503>;
 
-      
+export function useLoggerControllerHealthCheckInfinite<
+	TData = InfiniteData<Awaited<ReturnType<typeof loggerControllerHealthCheck>>>,
+	TError = ErrorType<LoggerControllerHealthCheck503>,
+>(options: {
+	query: Partial<
+		UseInfiniteQueryOptions<
+			Awaited<ReturnType<typeof loggerControllerHealthCheck>>,
+			TError,
+			TData
+		>
+	> &
+		Pick<
+			DefinedInitialDataOptions<
+				Awaited<ReturnType<typeof loggerControllerHealthCheck>>,
+				TError,
+				TData
+			>,
+			"initialData"
+		>;
+	request?: SecondParameter<typeof customInstance>;
+}): DefinedUseInfiniteQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData>;
+};
+export function useLoggerControllerHealthCheckInfinite<
+	TData = InfiniteData<Awaited<ReturnType<typeof loggerControllerHealthCheck>>>,
+	TError = ErrorType<LoggerControllerHealthCheck503>,
+>(options?: {
+	query?: Partial<
+		UseInfiniteQueryOptions<
+			Awaited<ReturnType<typeof loggerControllerHealthCheck>>,
+			TError,
+			TData
+		>
+	> &
+		Pick<
+			UndefinedInitialDataOptions<
+				Awaited<ReturnType<typeof loggerControllerHealthCheck>>,
+				TError,
+				TData
+			>,
+			"initialData"
+		>;
+	request?: SecondParameter<typeof customInstance>;
+}): UseInfiniteQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData>;
+};
+export function useLoggerControllerHealthCheckInfinite<
+	TData = InfiniteData<Awaited<ReturnType<typeof loggerControllerHealthCheck>>>,
+	TError = ErrorType<LoggerControllerHealthCheck503>,
+>(options?: {
+	query?: Partial<
+		UseInfiniteQueryOptions<
+			Awaited<ReturnType<typeof loggerControllerHealthCheck>>,
+			TError,
+			TData
+		>
+	>;
+	request?: SecondParameter<typeof customInstance>;
+}): UseInfiniteQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData>;
+};
 
-      
+export function useLoggerControllerHealthCheckInfinite<
+	TData = InfiniteData<Awaited<ReturnType<typeof loggerControllerHealthCheck>>>,
+	TError = ErrorType<LoggerControllerHealthCheck503>,
+>(options?: {
+	query?: Partial<
+		UseInfiniteQueryOptions<
+			Awaited<ReturnType<typeof loggerControllerHealthCheck>>,
+			TError,
+			TData
+		>
+	>;
+	request?: SecondParameter<typeof customInstance>;
+}): UseInfiniteQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData>;
+} {
+	const queryOptions =
+		getLoggerControllerHealthCheckInfiniteQueryOptions(options);
 
-   return  { queryKey, queryFn, ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof loggerControllerHealthCheck>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
+	const query = useInfiniteQuery(queryOptions) as UseInfiniteQueryResult<
+		TData,
+		TError
+	> & { queryKey: DataTag<QueryKey, TData> };
+
+	query.queryKey = queryOptions.queryKey;
+
+	return query;
 }
 
-export type LoggerControllerHealthCheckInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof loggerControllerHealthCheck>>>
-export type LoggerControllerHealthCheckInfiniteQueryError = ErrorType<LoggerControllerHealthCheck503>
+export const getLoggerControllerHealthCheckQueryOptions = <
+	TData = Awaited<ReturnType<typeof loggerControllerHealthCheck>>,
+	TError = ErrorType<LoggerControllerHealthCheck503>,
+>(options?: {
+	query?: Partial<
+		UseQueryOptions<
+			Awaited<ReturnType<typeof loggerControllerHealthCheck>>,
+			TError,
+			TData
+		>
+	>;
+	request?: SecondParameter<typeof customInstance>;
+}) => {
+	const { query: queryOptions, request: requestOptions } = options ?? {};
 
+	const queryKey =
+		queryOptions?.queryKey ?? getLoggerControllerHealthCheckQueryKey();
 
-export function useLoggerControllerHealthCheckInfinite<TData = InfiniteData<Awaited<ReturnType<typeof loggerControllerHealthCheck>>>, TError = ErrorType<LoggerControllerHealthCheck503>>(
-  options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof loggerControllerHealthCheck>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof loggerControllerHealthCheck>>,
-          TError,
-          TData
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
+	const queryFn: QueryFunction<
+		Awaited<ReturnType<typeof loggerControllerHealthCheck>>
+	> = ({ signal }) => loggerControllerHealthCheck(requestOptions, signal);
 
-  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useLoggerControllerHealthCheckInfinite<TData = InfiniteData<Awaited<ReturnType<typeof loggerControllerHealthCheck>>>, TError = ErrorType<LoggerControllerHealthCheck503>>(
-  options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof loggerControllerHealthCheck>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof loggerControllerHealthCheck>>,
-          TError,
-          TData
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
+	return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+		Awaited<ReturnType<typeof loggerControllerHealthCheck>>,
+		TError,
+		TData
+	> & { queryKey: DataTag<QueryKey, TData> };
+};
 
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useLoggerControllerHealthCheckInfinite<TData = InfiniteData<Awaited<ReturnType<typeof loggerControllerHealthCheck>>>, TError = ErrorType<LoggerControllerHealthCheck503>>(
-  options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof loggerControllerHealthCheck>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+export type LoggerControllerHealthCheckQueryResult = NonNullable<
+	Awaited<ReturnType<typeof loggerControllerHealthCheck>>
+>;
+export type LoggerControllerHealthCheckQueryError =
+	ErrorType<LoggerControllerHealthCheck503>;
 
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useLoggerControllerHealthCheck<
+	TData = Awaited<ReturnType<typeof loggerControllerHealthCheck>>,
+	TError = ErrorType<LoggerControllerHealthCheck503>,
+>(options: {
+	query: Partial<
+		UseQueryOptions<
+			Awaited<ReturnType<typeof loggerControllerHealthCheck>>,
+			TError,
+			TData
+		>
+	> &
+		Pick<
+			DefinedInitialDataOptions<
+				Awaited<ReturnType<typeof loggerControllerHealthCheck>>,
+				TError,
+				TData
+			>,
+			"initialData"
+		>;
+	request?: SecondParameter<typeof customInstance>;
+}): DefinedUseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData>;
+};
+export function useLoggerControllerHealthCheck<
+	TData = Awaited<ReturnType<typeof loggerControllerHealthCheck>>,
+	TError = ErrorType<LoggerControllerHealthCheck503>,
+>(options?: {
+	query?: Partial<
+		UseQueryOptions<
+			Awaited<ReturnType<typeof loggerControllerHealthCheck>>,
+			TError,
+			TData
+		>
+	> &
+		Pick<
+			UndefinedInitialDataOptions<
+				Awaited<ReturnType<typeof loggerControllerHealthCheck>>,
+				TError,
+				TData
+			>,
+			"initialData"
+		>;
+	request?: SecondParameter<typeof customInstance>;
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+export function useLoggerControllerHealthCheck<
+	TData = Awaited<ReturnType<typeof loggerControllerHealthCheck>>,
+	TError = ErrorType<LoggerControllerHealthCheck503>,
+>(options?: {
+	query?: Partial<
+		UseQueryOptions<
+			Awaited<ReturnType<typeof loggerControllerHealthCheck>>,
+			TError,
+			TData
+		>
+	>;
+	request?: SecondParameter<typeof customInstance>;
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
 
-export function useLoggerControllerHealthCheckInfinite<TData = InfiniteData<Awaited<ReturnType<typeof loggerControllerHealthCheck>>>, TError = ErrorType<LoggerControllerHealthCheck503>>(
-  options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof loggerControllerHealthCheck>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+export function useLoggerControllerHealthCheck<
+	TData = Awaited<ReturnType<typeof loggerControllerHealthCheck>>,
+	TError = ErrorType<LoggerControllerHealthCheck503>,
+>(options?: {
+	query?: Partial<
+		UseQueryOptions<
+			Awaited<ReturnType<typeof loggerControllerHealthCheck>>,
+			TError,
+			TData
+		>
+	>;
+	request?: SecondParameter<typeof customInstance>;
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+	const queryOptions = getLoggerControllerHealthCheckQueryOptions(options);
 
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+	const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+		queryKey: DataTag<QueryKey, TData>;
+	};
 
-  const queryOptions = getLoggerControllerHealthCheckInfiniteQueryOptions(options)
+	query.queryKey = queryOptions.queryKey;
 
-  const query = useInfiniteQuery(queryOptions) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
+	return query;
 }
-
-
-
-export const getLoggerControllerHealthCheckQueryOptions = <TData = Awaited<ReturnType<typeof loggerControllerHealthCheck>>, TError = ErrorType<LoggerControllerHealthCheck503>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof loggerControllerHealthCheck>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
-) => {
-
-const {query: queryOptions, request: requestOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getLoggerControllerHealthCheckQueryKey();
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof loggerControllerHealthCheck>>> = ({ signal }) => loggerControllerHealthCheck(requestOptions, signal);
-
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof loggerControllerHealthCheck>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
-}
-
-export type LoggerControllerHealthCheckQueryResult = NonNullable<Awaited<ReturnType<typeof loggerControllerHealthCheck>>>
-export type LoggerControllerHealthCheckQueryError = ErrorType<LoggerControllerHealthCheck503>
-
-
-export function useLoggerControllerHealthCheck<TData = Awaited<ReturnType<typeof loggerControllerHealthCheck>>, TError = ErrorType<LoggerControllerHealthCheck503>>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof loggerControllerHealthCheck>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof loggerControllerHealthCheck>>,
-          TError,
-          TData
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
-
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useLoggerControllerHealthCheck<TData = Awaited<ReturnType<typeof loggerControllerHealthCheck>>, TError = ErrorType<LoggerControllerHealthCheck503>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof loggerControllerHealthCheck>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof loggerControllerHealthCheck>>,
-          TError,
-          TData
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
-
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useLoggerControllerHealthCheck<TData = Awaited<ReturnType<typeof loggerControllerHealthCheck>>, TError = ErrorType<LoggerControllerHealthCheck503>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof loggerControllerHealthCheck>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
-
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-
-export function useLoggerControllerHealthCheck<TData = Awaited<ReturnType<typeof loggerControllerHealthCheck>>, TError = ErrorType<LoggerControllerHealthCheck503>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof loggerControllerHealthCheck>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
-
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
-
-  const queryOptions = getLoggerControllerHealthCheckQueryOptions(options)
-
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
-}
-
-
 
 export const prometheusControllerGetMetrics = (
-    
- options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+	options?: SecondParameter<typeof customInstance>,
+	signal?: AbortSignal,
 ) => {
-      
-      
-      return customInstance<void>(
-      {url: `/metrics`, method: 'GET', signal
-    },
-      options);
-    }
-  
+	return customInstance<void>(
+		{ url: `/metrics`, method: "GET", signal },
+		options,
+	);
+};
 
 export const getPrometheusControllerGetMetricsQueryKey = () => {
-    return [`/metrics`] as const;
-    }
+	return [`/metrics`] as const;
+};
 
-    
-export const getPrometheusControllerGetMetricsInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof prometheusControllerGetMetrics>>>, TError = ErrorType<unknown>>( options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof prometheusControllerGetMetrics>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
-) => {
+export const getPrometheusControllerGetMetricsInfiniteQueryOptions = <
+	TData = InfiniteData<
+		Awaited<ReturnType<typeof prometheusControllerGetMetrics>>
+	>,
+	TError = ErrorType<unknown>,
+>(options?: {
+	query?: Partial<
+		UseInfiniteQueryOptions<
+			Awaited<ReturnType<typeof prometheusControllerGetMetrics>>,
+			TError,
+			TData
+		>
+	>;
+	request?: SecondParameter<typeof customInstance>;
+}) => {
+	const { query: queryOptions, request: requestOptions } = options ?? {};
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+	const queryKey =
+		queryOptions?.queryKey ?? getPrometheusControllerGetMetricsQueryKey();
 
-  const queryKey =  queryOptions?.queryKey ?? getPrometheusControllerGetMetricsQueryKey();
+	const queryFn: QueryFunction<
+		Awaited<ReturnType<typeof prometheusControllerGetMetrics>>
+	> = ({ signal }) => prometheusControllerGetMetrics(requestOptions, signal);
 
-  
+	return { queryKey, queryFn, ...queryOptions } as UseInfiniteQueryOptions<
+		Awaited<ReturnType<typeof prometheusControllerGetMetrics>>,
+		TError,
+		TData
+	> & { queryKey: DataTag<QueryKey, TData> };
+};
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof prometheusControllerGetMetrics>>> = ({ signal }) => prometheusControllerGetMetrics(requestOptions, signal);
+export type PrometheusControllerGetMetricsInfiniteQueryResult = NonNullable<
+	Awaited<ReturnType<typeof prometheusControllerGetMetrics>>
+>;
+export type PrometheusControllerGetMetricsInfiniteQueryError =
+	ErrorType<unknown>;
 
-      
+export function usePrometheusControllerGetMetricsInfinite<
+	TData = InfiniteData<
+		Awaited<ReturnType<typeof prometheusControllerGetMetrics>>
+	>,
+	TError = ErrorType<unknown>,
+>(options: {
+	query: Partial<
+		UseInfiniteQueryOptions<
+			Awaited<ReturnType<typeof prometheusControllerGetMetrics>>,
+			TError,
+			TData
+		>
+	> &
+		Pick<
+			DefinedInitialDataOptions<
+				Awaited<ReturnType<typeof prometheusControllerGetMetrics>>,
+				TError,
+				TData
+			>,
+			"initialData"
+		>;
+	request?: SecondParameter<typeof customInstance>;
+}): DefinedUseInfiniteQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData>;
+};
+export function usePrometheusControllerGetMetricsInfinite<
+	TData = InfiniteData<
+		Awaited<ReturnType<typeof prometheusControllerGetMetrics>>
+	>,
+	TError = ErrorType<unknown>,
+>(options?: {
+	query?: Partial<
+		UseInfiniteQueryOptions<
+			Awaited<ReturnType<typeof prometheusControllerGetMetrics>>,
+			TError,
+			TData
+		>
+	> &
+		Pick<
+			UndefinedInitialDataOptions<
+				Awaited<ReturnType<typeof prometheusControllerGetMetrics>>,
+				TError,
+				TData
+			>,
+			"initialData"
+		>;
+	request?: SecondParameter<typeof customInstance>;
+}): UseInfiniteQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData>;
+};
+export function usePrometheusControllerGetMetricsInfinite<
+	TData = InfiniteData<
+		Awaited<ReturnType<typeof prometheusControllerGetMetrics>>
+	>,
+	TError = ErrorType<unknown>,
+>(options?: {
+	query?: Partial<
+		UseInfiniteQueryOptions<
+			Awaited<ReturnType<typeof prometheusControllerGetMetrics>>,
+			TError,
+			TData
+		>
+	>;
+	request?: SecondParameter<typeof customInstance>;
+}): UseInfiniteQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData>;
+};
 
-      
+export function usePrometheusControllerGetMetricsInfinite<
+	TData = InfiniteData<
+		Awaited<ReturnType<typeof prometheusControllerGetMetrics>>
+	>,
+	TError = ErrorType<unknown>,
+>(options?: {
+	query?: Partial<
+		UseInfiniteQueryOptions<
+			Awaited<ReturnType<typeof prometheusControllerGetMetrics>>,
+			TError,
+			TData
+		>
+	>;
+	request?: SecondParameter<typeof customInstance>;
+}): UseInfiniteQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData>;
+} {
+	const queryOptions =
+		getPrometheusControllerGetMetricsInfiniteQueryOptions(options);
 
-   return  { queryKey, queryFn, ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof prometheusControllerGetMetrics>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
+	const query = useInfiniteQuery(queryOptions) as UseInfiniteQueryResult<
+		TData,
+		TError
+	> & { queryKey: DataTag<QueryKey, TData> };
+
+	query.queryKey = queryOptions.queryKey;
+
+	return query;
 }
 
-export type PrometheusControllerGetMetricsInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof prometheusControllerGetMetrics>>>
-export type PrometheusControllerGetMetricsInfiniteQueryError = ErrorType<unknown>
+export const getPrometheusControllerGetMetricsQueryOptions = <
+	TData = Awaited<ReturnType<typeof prometheusControllerGetMetrics>>,
+	TError = ErrorType<unknown>,
+>(options?: {
+	query?: Partial<
+		UseQueryOptions<
+			Awaited<ReturnType<typeof prometheusControllerGetMetrics>>,
+			TError,
+			TData
+		>
+	>;
+	request?: SecondParameter<typeof customInstance>;
+}) => {
+	const { query: queryOptions, request: requestOptions } = options ?? {};
 
+	const queryKey =
+		queryOptions?.queryKey ?? getPrometheusControllerGetMetricsQueryKey();
 
-export function usePrometheusControllerGetMetricsInfinite<TData = InfiniteData<Awaited<ReturnType<typeof prometheusControllerGetMetrics>>>, TError = ErrorType<unknown>>(
-  options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof prometheusControllerGetMetrics>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof prometheusControllerGetMetrics>>,
-          TError,
-          TData
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
+	const queryFn: QueryFunction<
+		Awaited<ReturnType<typeof prometheusControllerGetMetrics>>
+	> = ({ signal }) => prometheusControllerGetMetrics(requestOptions, signal);
 
-  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function usePrometheusControllerGetMetricsInfinite<TData = InfiniteData<Awaited<ReturnType<typeof prometheusControllerGetMetrics>>>, TError = ErrorType<unknown>>(
-  options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof prometheusControllerGetMetrics>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof prometheusControllerGetMetrics>>,
-          TError,
-          TData
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
+	return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+		Awaited<ReturnType<typeof prometheusControllerGetMetrics>>,
+		TError,
+		TData
+	> & { queryKey: DataTag<QueryKey, TData> };
+};
 
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function usePrometheusControllerGetMetricsInfinite<TData = InfiniteData<Awaited<ReturnType<typeof prometheusControllerGetMetrics>>>, TError = ErrorType<unknown>>(
-  options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof prometheusControllerGetMetrics>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+export type PrometheusControllerGetMetricsQueryResult = NonNullable<
+	Awaited<ReturnType<typeof prometheusControllerGetMetrics>>
+>;
+export type PrometheusControllerGetMetricsQueryError = ErrorType<unknown>;
 
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function usePrometheusControllerGetMetrics<
+	TData = Awaited<ReturnType<typeof prometheusControllerGetMetrics>>,
+	TError = ErrorType<unknown>,
+>(options: {
+	query: Partial<
+		UseQueryOptions<
+			Awaited<ReturnType<typeof prometheusControllerGetMetrics>>,
+			TError,
+			TData
+		>
+	> &
+		Pick<
+			DefinedInitialDataOptions<
+				Awaited<ReturnType<typeof prometheusControllerGetMetrics>>,
+				TError,
+				TData
+			>,
+			"initialData"
+		>;
+	request?: SecondParameter<typeof customInstance>;
+}): DefinedUseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData>;
+};
+export function usePrometheusControllerGetMetrics<
+	TData = Awaited<ReturnType<typeof prometheusControllerGetMetrics>>,
+	TError = ErrorType<unknown>,
+>(options?: {
+	query?: Partial<
+		UseQueryOptions<
+			Awaited<ReturnType<typeof prometheusControllerGetMetrics>>,
+			TError,
+			TData
+		>
+	> &
+		Pick<
+			UndefinedInitialDataOptions<
+				Awaited<ReturnType<typeof prometheusControllerGetMetrics>>,
+				TError,
+				TData
+			>,
+			"initialData"
+		>;
+	request?: SecondParameter<typeof customInstance>;
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+export function usePrometheusControllerGetMetrics<
+	TData = Awaited<ReturnType<typeof prometheusControllerGetMetrics>>,
+	TError = ErrorType<unknown>,
+>(options?: {
+	query?: Partial<
+		UseQueryOptions<
+			Awaited<ReturnType<typeof prometheusControllerGetMetrics>>,
+			TError,
+			TData
+		>
+	>;
+	request?: SecondParameter<typeof customInstance>;
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
 
-export function usePrometheusControllerGetMetricsInfinite<TData = InfiniteData<Awaited<ReturnType<typeof prometheusControllerGetMetrics>>>, TError = ErrorType<unknown>>(
-  options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof prometheusControllerGetMetrics>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+export function usePrometheusControllerGetMetrics<
+	TData = Awaited<ReturnType<typeof prometheusControllerGetMetrics>>,
+	TError = ErrorType<unknown>,
+>(options?: {
+	query?: Partial<
+		UseQueryOptions<
+			Awaited<ReturnType<typeof prometheusControllerGetMetrics>>,
+			TError,
+			TData
+		>
+	>;
+	request?: SecondParameter<typeof customInstance>;
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+	const queryOptions = getPrometheusControllerGetMetricsQueryOptions(options);
 
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+	const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+		queryKey: DataTag<QueryKey, TData>;
+	};
 
-  const queryOptions = getPrometheusControllerGetMetricsInfiniteQueryOptions(options)
+	query.queryKey = queryOptions.queryKey;
 
-  const query = useInfiniteQuery(queryOptions) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
+	return query;
 }
-
-
-
-export const getPrometheusControllerGetMetricsQueryOptions = <TData = Awaited<ReturnType<typeof prometheusControllerGetMetrics>>, TError = ErrorType<unknown>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof prometheusControllerGetMetrics>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
-) => {
-
-const {query: queryOptions, request: requestOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getPrometheusControllerGetMetricsQueryKey();
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof prometheusControllerGetMetrics>>> = ({ signal }) => prometheusControllerGetMetrics(requestOptions, signal);
-
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof prometheusControllerGetMetrics>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
-}
-
-export type PrometheusControllerGetMetricsQueryResult = NonNullable<Awaited<ReturnType<typeof prometheusControllerGetMetrics>>>
-export type PrometheusControllerGetMetricsQueryError = ErrorType<unknown>
-
-
-export function usePrometheusControllerGetMetrics<TData = Awaited<ReturnType<typeof prometheusControllerGetMetrics>>, TError = ErrorType<unknown>>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof prometheusControllerGetMetrics>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof prometheusControllerGetMetrics>>,
-          TError,
-          TData
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
-
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function usePrometheusControllerGetMetrics<TData = Awaited<ReturnType<typeof prometheusControllerGetMetrics>>, TError = ErrorType<unknown>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof prometheusControllerGetMetrics>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof prometheusControllerGetMetrics>>,
-          TError,
-          TData
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
-
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function usePrometheusControllerGetMetrics<TData = Awaited<ReturnType<typeof prometheusControllerGetMetrics>>, TError = ErrorType<unknown>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof prometheusControllerGetMetrics>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
-
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-
-export function usePrometheusControllerGetMetrics<TData = Awaited<ReturnType<typeof prometheusControllerGetMetrics>>, TError = ErrorType<unknown>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof prometheusControllerGetMetrics>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
-
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
-
-  const queryOptions = getPrometheusControllerGetMetricsQueryOptions(options)
-
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
-}
-
-
-

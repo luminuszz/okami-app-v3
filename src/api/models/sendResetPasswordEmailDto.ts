@@ -7,5 +7,5 @@
  */
 
 export interface SendResetPasswordEmailDto {
-  email: string;
+	email: string;
 }

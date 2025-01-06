@@ -7,8 +7,8 @@
  */
 
 export interface UpdateWorkDto {
-  alternativeName: string;
-  chapter: number;
-  name: string;
-  url: string;
+	alternativeName: string;
+	chapter: number;
+	name: string;
+	url: string;
 }

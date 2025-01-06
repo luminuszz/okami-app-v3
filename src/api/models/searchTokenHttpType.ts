@@ -6,11 +6,11 @@
  * OpenAPI spec version: 1.0
  */
 
-export type SearchTokenHttpType = typeof SearchTokenHttpType[keyof typeof SearchTokenHttpType];
-
+export type SearchTokenHttpType =
+	(typeof SearchTokenHttpType)[keyof typeof SearchTokenHttpType];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SearchTokenHttpType = {
-  ANIME: 'ANIME',
-  MANGA: 'MANGA',
+	ANIME: "ANIME",
+	MANGA: "MANGA",
 } as const;

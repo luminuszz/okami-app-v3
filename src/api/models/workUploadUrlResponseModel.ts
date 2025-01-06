@@ -7,6 +7,6 @@
  */
 
 export interface WorkUploadUrlResponseModel {
-  filename: string;
-  url: string;
+	filename: string;
+	url: string;
 }

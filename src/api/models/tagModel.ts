@@ -7,8 +7,8 @@
  */
 
 export interface TagModel {
-  color: string;
-  id: string;
-  name: string;
-  slug: string;
+	color: string;
+	id: string;
+	name: string;
+	slug: string;
 }

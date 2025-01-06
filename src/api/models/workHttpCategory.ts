@@ -6,11 +6,11 @@
  * OpenAPI spec version: 1.0
  */
 
-export type WorkHttpCategory = typeof WorkHttpCategory[keyof typeof WorkHttpCategory];
-
+export type WorkHttpCategory =
+	(typeof WorkHttpCategory)[keyof typeof WorkHttpCategory];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const WorkHttpCategory = {
-  ANIME: 'ANIME',
-  MANGA: 'MANGA',
+	ANIME: "ANIME",
+	MANGA: "MANGA",
 } as const;

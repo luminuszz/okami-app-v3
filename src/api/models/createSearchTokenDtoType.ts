@@ -6,11 +6,11 @@
  * OpenAPI spec version: 1.0
  */
 
-export type CreateSearchTokenDtoType = typeof CreateSearchTokenDtoType[keyof typeof CreateSearchTokenDtoType];
-
+export type CreateSearchTokenDtoType =
+	(typeof CreateSearchTokenDtoType)[keyof typeof CreateSearchTokenDtoType];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const CreateSearchTokenDtoType = {
-  ANIME: 'ANIME',
-  MANGA: 'MANGA',
+	ANIME: "ANIME",
+	MANGA: "MANGA",
 } as const;

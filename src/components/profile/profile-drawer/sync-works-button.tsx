@@ -10,68 +10,77 @@ import { useMMKVString } from "react-native-mmkv";
 import { mmkvStorage } from "@/lib/storage/mmkv";
 
 export function SyncWorksButton() {
-  const toast = useOkamiToast();
-  const [syncWorkDelayStorage, setSyncWorkDelayStorage] = useMMKVString(STORAGE_KEYS.SYNC_WORK_DELAY_DATE, mmkvStorage);
+	const toast = useOkamiToast();
+	const [syncWorkDelayStorage, setSyncWorkDelayStorage] = useMMKVString(
+		STORAGE_KEYS.SYNC_WORK_DELAY_DATE,
+		mmkvStorage,
+	);
 
-  const syncAllWorksMutation = useWorkControllerRefreshChapters({
-    mutation: {
-      onSuccess() {
-        toast({
-          title: "Atualizando obras",
-          action: "info",
-          description: "Suas obras estão sendo atualizadas",
-        });
-      },
-      async onError(error) {
-        toast({
-          title: "Erro ao atualizar obras",
-          action: "error",
-        });
-        setSyncWorkDelayStorage("");
-      },
-    },
-  });
+	const syncAllWorksMutation = useWorkControllerRefreshChapters({
+		mutation: {
+			onSuccess() {
+				toast({
+					title: "Atualizando obras",
+					action: "info",
+					description: "Suas obras estão sendo atualizadas",
+				});
+			},
+			async onError(error) {
+				toast({
+					title: "Erro ao atualizar obras",
+					action: "error",
+				});
+				setSyncWorkDelayStorage("");
+			},
+		},
+	});
 
-  function setNewDelay() {
-    setSyncWorkDelayStorage(addHours(new Date(), DELAY_FOR_SYNC_WORKS_IN_HOURS).toISOString());
-  }
+	function setNewDelay() {
+		setSyncWorkDelayStorage(
+			addHours(new Date(), DELAY_FOR_SYNC_WORKS_IN_HOURS).toISOString(),
+		);
+	}
 
-  async function handleSyncWorks() {
-    if (!syncWorkDelayStorage) {
-      setNewDelay();
+	async function handleSyncWorks() {
+		if (!syncWorkDelayStorage) {
+			setNewDelay();
 
-      syncAllWorksMutation.mutate();
+			syncAllWorksMutation.mutate();
 
-      return;
-    }
+			return;
+		}
 
-    const datePeriodDelay = parseISO(syncWorkDelayStorage);
+		const datePeriodDelay = parseISO(syncWorkDelayStorage);
 
-    const hasDelay = isBefore(new Date(), datePeriodDelay);
+		const hasDelay = isBefore(new Date(), datePeriodDelay);
 
-    if (hasDelay) {
-      const formattedDate = formatDistance(datePeriodDelay, new Date(), {
-        locale: ptBR,
-      });
+		if (hasDelay) {
+			const formattedDate = formatDistance(datePeriodDelay, new Date(), {
+				locale: ptBR,
+			});
 
-      toast({
-        title: "Você Já solicitou uma sincronização recentemente",
-        action: "warning",
-        description: `Tempo para uma nova sincronização: ${formattedDate}`,
-      });
+			toast({
+				title: "Você Já solicitou uma sincronização recentemente",
+				action: "warning",
+				description: `Tempo para uma nova sincronização: ${formattedDate}`,
+			});
 
-      return;
-    }
+			return;
+		}
 
-    syncAllWorksMutation.mutate();
+		syncAllWorksMutation.mutate();
 
-    setNewDelay();
-  }
+		setNewDelay();
+	}
 
-  return (
-    <Button variant="outline" disabled={syncAllWorksMutation.isPending} onPress={handleSyncWorks}>
-      <ButtonIcon as={RefreshCcw} />
-      <ButtonText>Sincronizar todas as obras</ButtonText>
-    </Button>
-  );
+	return (
+		<Button
+			variant="outline"
+			disabled={syncAllWorksMutation.isPending}
+			onPress={handleSyncWorks}
+		>
+			<ButtonIcon as={RefreshCcw} />
+			<ButtonText>Sincronizar todas as obras</ButtonText>
+		</Button>
+	);
 }

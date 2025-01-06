@@ -5,11 +5,11 @@
  * The Okami rest api
  * OpenAPI spec version: 1.0
  */
-import type { SearchTokenHttpType } from './searchTokenHttpType';
+import type { SearchTokenHttpType } from "./searchTokenHttpType";
 
 export interface SearchTokenHttp {
-  createdAt: string;
-  id: string;
-  token: string;
-  type: SearchTokenHttpType;
+	createdAt: string;
+	id: string;
+	token: string;
+	type: SearchTokenHttpType;
 }

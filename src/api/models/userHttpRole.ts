@@ -6,12 +6,11 @@
  * OpenAPI spec version: 1.0
  */
 
-export type UserHttpRole = typeof UserHttpRole[keyof typeof UserHttpRole];
-
+export type UserHttpRole = (typeof UserHttpRole)[keyof typeof UserHttpRole];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const UserHttpRole = {
-  ADMIN: 'ADMIN',
-  USER: 'USER',
-  SUBSCRIBED_USER: 'SUBSCRIBED_USER',
+	ADMIN: "ADMIN",
+	USER: "USER",
+	SUBSCRIBED_USER: "SUBSCRIBED_USER",
 } as const;

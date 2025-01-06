@@ -7,6 +7,6 @@
  */
 
 export interface ResetUserPasswordDto {
-  code: string;
-  newPassword: string;
+	code: string;
+	newPassword: string;
 }

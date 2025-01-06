@@ -7,7 +7,7 @@
  */
 
 export interface GetWorkUploadUrlDto {
-  fileName: string;
-  fileType: string;
-  workId: string;
+	fileName: string;
+	fileType: string;
+	workId: string;
 }

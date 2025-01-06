@@ -6,12 +6,12 @@
  * OpenAPI spec version: 1.0
  */
 
-export type WorkControllerListUserWorksPagedLimit = typeof WorkControllerListUserWorksPagedLimit[keyof typeof WorkControllerListUserWorksPagedLimit];
-
+export type WorkControllerListUserWorksPagedLimit =
+	(typeof WorkControllerListUserWorksPagedLimit)[keyof typeof WorkControllerListUserWorksPagedLimit];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const WorkControllerListUserWorksPagedLimit = {
-  NUMBER_10: 10,
-  NUMBER_20: 20,
-  NUMBER_30: 30,
+	NUMBER_10: 10,
+	NUMBER_20: 20,
+	NUMBER_30: 30,
 } as const;

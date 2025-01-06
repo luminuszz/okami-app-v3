@@ -7,6 +7,6 @@
  */
 
 export interface CompareSubscriberAuthTokenDto {
-  authCode: string;
-  userId: string;
+	authCode: string;
+	userId: string;
 }

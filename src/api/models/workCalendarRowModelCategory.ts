@@ -6,11 +6,11 @@
  * OpenAPI spec version: 1.0
  */
 
-export type WorkCalendarRowModelCategory = typeof WorkCalendarRowModelCategory[keyof typeof WorkCalendarRowModelCategory];
-
+export type WorkCalendarRowModelCategory =
+	(typeof WorkCalendarRowModelCategory)[keyof typeof WorkCalendarRowModelCategory];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const WorkCalendarRowModelCategory = {
-  ANIME: 'ANIME',
-  MANGA: 'MANGA',
+	ANIME: "ANIME",
+	MANGA: "MANGA",
 } as const;

@@ -5,13 +5,13 @@ import { Container } from "@/components/layout/container";
 import { ScrollView } from "react-native";
 
 export default function HomeScreen() {
-  return (
-    <ScrollView className="pt-5">
-      <Container classname="px-4 mb-10 ">
-        <ContinuousReadingSection />
-        <UnreadWorksSection />
-        <UserWorksListSection />
-      </Container>
-    </ScrollView>
-  );
+	return (
+		<ScrollView className="pt-5">
+			<Container classname="px-4 mb-10 ">
+				<ContinuousReadingSection />
+				<UnreadWorksSection />
+				<UserWorksListSection />
+			</Container>
+		</ScrollView>
+	);
 }

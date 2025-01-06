@@ -6,11 +6,11 @@
  * OpenAPI spec version: 1.0
  */
 
-export type SearchTokenControllerListSearchTokensType = typeof SearchTokenControllerListSearchTokensType[keyof typeof SearchTokenControllerListSearchTokensType];
-
+export type SearchTokenControllerListSearchTokensType =
+	(typeof SearchTokenControllerListSearchTokensType)[keyof typeof SearchTokenControllerListSearchTokensType];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const SearchTokenControllerListSearchTokensType = {
-  ANIME: 'ANIME',
-  MANGA: 'MANGA',
+	ANIME: "ANIME",
+	MANGA: "MANGA",
 } as const;

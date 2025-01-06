@@ -5,15 +5,15 @@
  * The Okami rest api
  * OpenAPI spec version: 1.0
  */
-import type { LoggerControllerHealthCheck200Details } from './loggerControllerHealthCheck200Details';
-import type { LoggerControllerHealthCheck200Error } from './loggerControllerHealthCheck200Error';
-import type { LoggerControllerHealthCheck200Info } from './loggerControllerHealthCheck200Info';
+import type { LoggerControllerHealthCheck200Details } from "./loggerControllerHealthCheck200Details";
+import type { LoggerControllerHealthCheck200Error } from "./loggerControllerHealthCheck200Error";
+import type { LoggerControllerHealthCheck200Info } from "./loggerControllerHealthCheck200Info";
 
 export type LoggerControllerHealthCheck200 = {
-  details?: LoggerControllerHealthCheck200Details;
-  /** @nullable */
-  error?: LoggerControllerHealthCheck200Error;
-  /** @nullable */
-  info?: LoggerControllerHealthCheck200Info;
-  status?: string;
+	details?: LoggerControllerHealthCheck200Details;
+	/** @nullable */
+	error?: LoggerControllerHealthCheck200Error;
+	/** @nullable */
+	info?: LoggerControllerHealthCheck200Info;
+	status?: string;
 };

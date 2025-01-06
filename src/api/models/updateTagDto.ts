@@ -7,7 +7,7 @@
  */
 
 export interface UpdateTagDto {
-  color?: string;
-  name?: string;
-  workId?: string;
+	color?: string;
+	name?: string;
+	workId?: string;
 }

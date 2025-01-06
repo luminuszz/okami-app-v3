@@ -23,110 +23,138 @@ import { Heading } from "../ui/heading";
 import { Skeleton, SkeletonText } from "../ui/skeleton";
 
 export function ContinuousReadingSection() {
-  const handlePushToUrl = useGoToWorkUrlAction();
-  const [lastSelectedWorkStorage] = useMMKVString(STORAGE_KEYS.LAST_WORK_CLICKED, mmkvStorage);
+	const handlePushToUrl = useGoToWorkUrlAction();
+	const [lastSelectedWorkStorage] = useMMKVString(
+		STORAGE_KEYS.LAST_WORK_CLICKED,
+		mmkvStorage,
+	);
 
-  const openProfile = useSetAtom(toggleProfileDrawerActionAtom);
+	const openProfile = useSetAtom(toggleProfileDrawerActionAtom);
 
-  const { data: works } = useWorkControllerListUserWorks();
+	const { data: works } = useWorkControllerListUserWorks();
 
-  const work = works?.find((work) => work.id === lastSelectedWorkStorage) ?? works?.[0];
+	const work =
+		works?.find((work) => work.id === lastSelectedWorkStorage) ?? works?.[0];
 
-  const workLabel = work?.category === "ANIME" ? "Episódio" : "Capítulo";
+	const workLabel = work?.category === "ANIME" ? "Episódio" : "Capítulo";
 
-  const limitedTags = work?.tags.slice(0, 3).map((tag) => {
-    const currentColor = tag.color as keyof typeof configColors;
+	const limitedTags = work?.tags.slice(0, 3).map((tag) => {
+		const currentColor = tag.color as keyof typeof configColors;
 
-    return {
-      ...tag,
-      color: configColors?.[currentColor]?.[500] ?? configColors.gray[500],
-    };
-  });
+		return {
+			...tag,
+			color: configColors?.[currentColor]?.[500] ?? configColors.gray[500],
+		};
+	});
 
-  const isLoading = !works;
+	const isLoading = !works;
 
-  if (isLoading) {
-    return (
-      <VStack className="px-4">
-        <Heading size="xl">Agora</Heading>
-        <HStack className="items-start" space="md">
-          <Skeleton variant="rounded" className="my-2 h-[200px] w-[150px] flex-row justify-center rounded-sm" />
-          <VStack className="flex-1 justify-center" space="md">
-            <SkeletonText _lines={4} className="mt-2 h-4 w-[200px]" />
-            <Skeleton variant="rounded" className="mt-2 h-12 w-[200px]" />
-          </VStack>
-        </HStack>
-      </VStack>
-    );
-  }
+	if (isLoading) {
+		return (
+			<VStack className="px-4">
+				<Heading size="xl">Agora</Heading>
+				<HStack className="items-start" space="md">
+					<Skeleton
+						variant="rounded"
+						className="my-2 h-[200px] w-[150px] flex-row justify-center rounded-sm"
+					/>
+					<VStack className="flex-1 justify-center" space="md">
+						<SkeletonText _lines={4} className="mt-2 h-4 w-[200px]" />
+						<Skeleton variant="rounded" className="mt-2 h-12 w-[200px]" />
+					</VStack>
+				</HStack>
+			</VStack>
+		);
+	}
 
-  return (
-    <VStack>
-      <ProfileDrawer />
+	return (
+		<VStack>
+			<ProfileDrawer />
 
-      <HStack className="justify-between px-4">
-        <Heading size="xl">Agora</Heading>
+			<HStack className="justify-between px-4">
+				<Heading size="xl">Agora</Heading>
 
-        <Button variant="link" onPress={openProfile}>
-          <ButtonIcon as={() => <Menu stroke="white" size={25} />} />
-        </Button>
-      </HStack>
+				<Button variant="link" onPress={openProfile}>
+					<ButtonIcon as={() => <Menu stroke="white" size={25} />} />
+				</Button>
+			</HStack>
 
-      <Card className="max-w-[200px]" variant="elevated">
-        <HStack space="xl">
-          <VStack>
-            <Badge className="z-10 -mb-8 ml-2 self-start rounded-lg" style={{ backgroundColor: configColors.sky[400] }}>
-              <BadgeText className="text-typography-900">Lendo</BadgeText>
-            </Badge>
+			<Card className="max-w-[200px]" variant="elevated">
+				<HStack space="xl">
+					<VStack>
+						<Badge
+							className="z-10 -mb-8 ml-2 self-start rounded-lg"
+							style={{ backgroundColor: configColors.sky[400] }}
+						>
+							<BadgeText className="text-typography-900">Lendo</BadgeText>
+						</Badge>
 
-            {work && (
-              <Pressable onPress={() => router.push({ pathname: "/modal/[workId]", params: { workId: work?.id } })}>
-                <Image
-                  className="mb-6 h-[200px] w-[150px] rounded-md"
-                  source={{ uri: work?.imageUrl ?? "" }}
-                  alt="Solo Leveling"
-                />
-              </Pressable>
-            )}
-          </VStack>
+						{work && (
+							<Pressable
+								onPress={() =>
+									router.push({
+										pathname: "/modal/[workId]",
+										params: { workId: work?.id },
+									})
+								}
+							>
+								<Image
+									className="mb-6 h-[200px] w-[150px] rounded-md"
+									source={{ uri: work?.imageUrl ?? "" }}
+									alt="Solo Leveling"
+								/>
+							</Pressable>
+						)}
+					</VStack>
 
-          <VStack space="md">
-            <VStack>
-              <Heading size="lg" numberOfLines={2}>
-                {work?.name}
-              </Heading>
-              <Text size="md" className={work?.hasNewChapter ? "text-emerald-500" : "text-typography-800"}>
-                {`${work?.hasNewChapter ? `Novo ${workLabel}: ${work.nextChapter}` : `Ultimo ${workLabel}: ${work?.chapter}`} `}
-              </Text>
-            </VStack>
+					<VStack space="md">
+						<VStack>
+							<Heading size="lg" numberOfLines={2}>
+								{work?.name}
+							</Heading>
+							<Text
+								size="md"
+								className={
+									work?.hasNewChapter
+										? "text-emerald-500"
+										: "text-typography-800"
+								}
+							>
+								{`${work?.hasNewChapter ? `Novo ${workLabel}: ${work.nextChapter}` : `Ultimo ${workLabel}: ${work?.chapter}`} `}
+							</Text>
+						</VStack>
 
-            <Box className="flex-row flex-wrap gap-1">
-              {limitedTags?.map((tag) => (
-                <Badge
-                  style={{ backgroundColor: tag.color }}
-                  key={tag.id}
-                  className="rounded-lg text-sm"
-                  variant="outline"
-                >
-                  <BadgeText className="text-typography-900">{tag.name}</BadgeText>
-                </Badge>
-              ))}
-            </Box>
+						<Box className="flex-row flex-wrap gap-1">
+							{limitedTags?.map((tag) => (
+								<Badge
+									style={{ backgroundColor: tag.color }}
+									key={tag.id}
+									className="rounded-lg text-sm"
+									variant="outline"
+								>
+									<BadgeText className="text-typography-900">
+										{tag.name}
+									</BadgeText>
+								</Badge>
+							))}
+						</Box>
 
-            {work && (
-              <Button
-                action="primary"
-                className="w-full bg-yellow-400"
-                onPress={() => handlePushToUrl({ workId: work?.id, workUrl: work.url })}
-              >
-                <ButtonText className="text-sm font-medium text-gray-800">
-                  Continue {work.category === "ANIME" ? "assistindo" : "lendo"}
-                </ButtonText>
-              </Button>
-            )}
-          </VStack>
-        </HStack>
-      </Card>
-    </VStack>
-  );
+						{work && (
+							<Button
+								action="primary"
+								className="w-full bg-yellow-400"
+								onPress={() =>
+									handlePushToUrl({ workId: work?.id, workUrl: work.url })
+								}
+							>
+								<ButtonText className="text-sm font-medium text-gray-800">
+									Continue {work.category === "ANIME" ? "assistindo" : "lendo"}
+								</ButtonText>
+							</Button>
+						)}
+					</VStack>
+				</HStack>
+			</Card>
+		</VStack>
+	);
 }

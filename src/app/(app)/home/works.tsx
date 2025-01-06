@@ -15,95 +15,108 @@ import { useMemo } from "react";
 import { FlatList, Pressable } from "react-native";
 
 export default function WorksScreen() {
-  const { search, status } = useAtomValue(worksFiltersAtom);
+	const { search, status } = useAtomValue(worksFiltersAtom);
 
-  const { data, refetch, isFetching, isLoading, fetchNextPage, isFetchingNextPage, hasNextPage } =
-    useWorkControllerListUserWorksPagedInfinite(
-      {
-        status: status ?? undefined,
-        search: search ?? undefined,
-        limit: 10,
-        page: 1,
-      },
-      {
-        query: {
-          getNextPageParam: (lastPage) => lastPage.nextPage,
-          queryKey: ["works-list-infinite", { status, search }],
-        },
-      },
-    );
+	const {
+		data,
+		refetch,
+		isFetching,
+		isLoading,
+		fetchNextPage,
+		isFetchingNextPage,
+		hasNextPage,
+	} = useWorkControllerListUserWorksPagedInfinite(
+		{
+			status: status ?? undefined,
+			search: search ?? undefined,
+			limit: 10,
+			page: 1,
+		},
+		{
+			query: {
+				getNextPageParam: (lastPage) => lastPage.nextPage,
+				queryKey: ["works-list-infinite", { status, search }],
+			},
+		},
+	);
 
-  const canFetchNextPage = !isFetchingNextPage && hasNextPage;
+	const canFetchNextPage = !isFetchingNextPage && hasNextPage;
 
-  const sortedWorks = useMemo(() => data?.pages?.flatMap((page) => page.works), [data]);
+	const sortedWorks = useMemo(
+		() => data?.pages?.flatMap((page) => page.works),
+		[data],
+	);
 
-  const hasFilters = status || search;
-  const toggleFilters = useSetAtom(toggleWorkFilter);
+	const hasFilters = status || search;
+	const toggleFilters = useSetAtom(toggleWorkFilter);
 
-  return (
-    <Box className="mt-10 w-full flex-1 px-4">
-      <Navbar />
+	return (
+		<Box className="mt-10 w-full flex-1 px-4">
+			<Navbar />
 
-      {hasFilters && (
-        <Pressable onPress={toggleFilters}>
-          <HStack className="mt-5 px-4" space="md">
-            <Text className="text-typography-400">Filtros</Text>
+			{hasFilters && (
+				<Pressable onPress={toggleFilters}>
+					<HStack className="mt-5 px-4" space="md">
+						<Text className="text-typography-400">Filtros</Text>
 
-            {status && (
-              <Badge variant="outline" action="info">
-                <BadgeText>{`Status: ${filtersLabels[status]} `}</BadgeText>
-              </Badge>
-            )}
+						{status && (
+							<Badge variant="outline" action="info">
+								<BadgeText>{`Status: ${filtersLabels[status]} `}</BadgeText>
+							</Badge>
+						)}
 
-            {search && (
-              <Badge variant="outline" action="info">
-                <BadgeText>{`Nome: ${search} `}</BadgeText>
-              </Badge>
-            )}
-          </HStack>
-        </Pressable>
-      )}
+						{search && (
+							<Badge variant="outline" action="info">
+								<BadgeText>{`Nome: ${search} `}</BadgeText>
+							</Badge>
+						)}
+					</HStack>
+				</Pressable>
+			)}
 
-      <Box className="mt-5 pb-24">
-        {isLoading ? (
-          <Center className="flex h-full w-full">
-            <Spinner />
-          </Center>
-        ) : (
-          <FlatList
-            ListEmptyComponent={() => {
-              return (
-                <Center>
-                  <Heading>Nada por aqui, adicione novas obras</Heading>
-                </Center>
-              );
-            }}
-            onRefresh={refetch}
-            refreshing={isFetching}
-            keyExtractor={(item) => item.id}
-            data={sortedWorks}
-            onEndReached={() => canFetchNextPage && fetchNextPage()}
-            renderItem={({ item: work }) => (
-              <WorkCard
-                work={{
-                  imageUrl: work.imageUrl ?? "",
-                  tags: work.tags,
-                  title: work.name,
-                  alternativeTitle: work.alternativeName ?? "",
-                  updatedAt: work.nextChapterUpdatedAt ?? work.updatedAt ?? work.createdAt,
-                  currentChapter: work.chapter,
-                  newChapter: work.nextChapter,
-                  type: work.category,
-                  isFinished: work.isFinished,
-                  id: work.id,
-                  url: work.url,
-                  isFavorite: work.isFavorite,
-                }}
-              />
-            )}
-          />
-        )}
-      </Box>
-    </Box>
-  );
+			<Box className="mt-5 pb-24">
+				{isLoading ? (
+					<Center className="flex h-full w-full">
+						<Spinner />
+					</Center>
+				) : (
+					<FlatList
+						ListEmptyComponent={() => {
+							return (
+								<Center>
+									<Heading>Nada por aqui, adicione novas obras</Heading>
+								</Center>
+							);
+						}}
+						onRefresh={refetch}
+						refreshing={isFetching}
+						keyExtractor={(item) => item.id}
+						data={sortedWorks}
+						onEndReached={() => canFetchNextPage && fetchNextPage()}
+						renderItem={({ item: work }) => (
+							<WorkCard
+								work={{
+									imageUrl: work.imageUrl ?? "",
+									tags: work.tags,
+									title: work.name,
+									alternativeTitle: work.alternativeName ?? "",
+									updatedAt:
+										work.nextChapterUpdatedAt ??
+										work.updatedAt ??
+										work.createdAt,
+									currentChapter: work.chapter,
+									newChapter: work.nextChapter,
+									type: work.category,
+									isFinished: work.isFinished,
+									id: work.id,
+									url: work.url,
+									isFavorite: work.isFavorite,
+								}}
+							/>
+						)}
+					/>
+				)}
+			</Box>
+		</Box>
+	);
 }
