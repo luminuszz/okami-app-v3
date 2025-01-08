@@ -95,14 +95,7 @@ okamiHttpGateway.interceptors.response.use(
           onFailure: (error) => {
             reject(error);
           },
-          onSuccess: (token) => {
-            const originalRequest = error.config;
-
-            if (originalRequest?.headers) {
-              originalRequest.headers.Authorization = `Bearer ${token}`;
-              resolve(customInstance(originalRequest));
-            }
-          },
+          onSuccess: (token) => {},
         });
       });
     }
