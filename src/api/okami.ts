@@ -3555,7 +3555,7 @@ export const authControllerRefreshToken = (
 ) => {
   return customInstance<RefreshTokenOnlyModel>(
     {
-      url: `/auth/v2/refresh-token`,
+      url: "/auth/v2/refresh-token",
       method: "POST",
       headers: { "Content-Type": "application/json" },
       data: refreshTokenDto,
