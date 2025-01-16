@@ -12,7 +12,6 @@ export const STORAGE_KEYS = {
 
 const mmkvConfig: Configuration = {
   id: `${expo.name}-storage-key`,
-  encryptionKey: process.env.EXPO_STORAGE_ENCRYPTED_KEY,
 };
 
 export const mmkvStorage = new MMKV(mmkvConfig);
