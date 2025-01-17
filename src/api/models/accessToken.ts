@@ -7,5 +7,5 @@
  */
 
 export interface AccessToken {
-	accessToken: string;
+  accessToken: string;
 }

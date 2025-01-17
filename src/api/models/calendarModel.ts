@@ -5,12 +5,12 @@
  * The Okami rest api
  * OpenAPI spec version: 1.0
  */
-import type { CalendarRowModel } from "./calendarRowModel";
+import type { CalendarRowModel } from './calendarRowModel';
 
 export interface CalendarModel {
-	createdAt: string;
-	/** @nullable */
-	description: string | null;
-	rows: CalendarRowModel[];
-	title: string;
+  createdAt: string;
+  /** @nullable */
+  description: string | null;
+  rows: CalendarRowModel[];
+  title: string;
 }

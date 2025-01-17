@@ -5,8 +5,8 @@
  * The Okami rest api
  * OpenAPI spec version: 1.0
  */
-import type { SearchTokenControllerListSearchTokensType } from "./searchTokenControllerListSearchTokensType";
+import type { SearchTokenControllerListSearchTokensType } from './searchTokenControllerListSearchTokensType';
 
 export type SearchTokenControllerListSearchTokensParams = {
-	type: SearchTokenControllerListSearchTokensType;
+type: SearchTokenControllerListSearchTokensType;
 };

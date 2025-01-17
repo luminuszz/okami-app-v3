@@ -27,9 +27,13 @@ export const dateParser = {
 
 type KeyofParser = keyof typeof dateParser;
 
+export const parseDateHandler = (value: unknown) => {
+  return dateParser[typeof value as KeyofParser](value);
+};
+
 export const sortDateByDesc = (date1: DateInput, date2: DateInput) => {
-  const parsedDate1 = dateParser[typeof date1 as KeyofParser](date1);
-  const parsedDate2 = dateParser[typeof date2 as KeyofParser](date2);
+  const parsedDate1 = parseDateHandler(date1);
+  const parsedDate2 = parseDateHandler(date2);
 
   return compareDesc(parsedDate1, parsedDate2);
 };

@@ -7,6 +7,6 @@
  */
 
 export interface ScrappingReportDto {
-	status: string;
-	workId: string;
+  status: string;
+  workId: string;
 }

@@ -7,7 +7,7 @@
  */
 
 export interface ResetPasswordDto {
-	adminHashCode: string;
-	email: string;
-	newPassword: string;
+  adminHashCode: string;
+  email: string;
+  newPassword: string;
 }

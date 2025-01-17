@@ -6,9 +6,7 @@
  * OpenAPI spec version: 1.0
  */
 
-export type LoggerControllerHealthCheck200Details = {
-	[key: string]: {
-		status: string;
-		[key: string]: unknown;
-	};
-};
+export type LoggerControllerHealthCheck200Details = {[key: string]: {
+  status: string;
+  [key: string]: unknown;
+ }};

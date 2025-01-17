@@ -7,6 +7,6 @@
  */
 
 export interface CreateCalendarDto {
-	description?: string;
-	title: string;
+  description?: string;
+  title: string;
 }

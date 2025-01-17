@@ -6,11 +6,12 @@
  * OpenAPI spec version: 1.0
  */
 
-export type RefreshStatus = (typeof RefreshStatus)[keyof typeof RefreshStatus];
+export type RefreshStatus = typeof RefreshStatus[keyof typeof RefreshStatus];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const RefreshStatus = {
-	SUCCESS: "SUCCESS",
-	FAILED: "FAILED",
-	PENDING: "PENDING",
+  SUCCESS: 'SUCCESS',
+  FAILED: 'FAILED',
+  PENDING: 'PENDING',
 } as const;

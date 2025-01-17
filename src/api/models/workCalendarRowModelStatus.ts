@@ -6,13 +6,13 @@
  * OpenAPI spec version: 1.0
  */
 
-export type WorkCalendarRowModelStatus =
-	(typeof WorkCalendarRowModelStatus)[keyof typeof WorkCalendarRowModelStatus];
+export type WorkCalendarRowModelStatus = typeof WorkCalendarRowModelStatus[keyof typeof WorkCalendarRowModelStatus];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const WorkCalendarRowModelStatus = {
-	READ: "READ",
-	UNREAD: "UNREAD",
-	FINISHED: "FINISHED",
-	DROPPED: "DROPPED",
+  READ: 'READ',
+  UNREAD: 'UNREAD',
+  FINISHED: 'FINISHED',
+  DROPPED: 'DROPPED',
 } as const;

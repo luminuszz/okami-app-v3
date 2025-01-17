@@ -5,8 +5,8 @@
  * The Okami rest api
  * OpenAPI spec version: 1.0
  */
-import type { CreateSearchTokenDto } from "./createSearchTokenDto";
+import type { CreateSearchTokenDto } from './createSearchTokenDto';
 
 export interface CreateManySearchTokensDto {
-	tokens: CreateSearchTokenDto[];
+  tokens: CreateSearchTokenDto[];
 }

@@ -7,7 +7,7 @@
  */
 
 export interface CreateTagDto {
-	color?: string;
-	name: string;
-	workId?: string;
+  color?: string;
+  name: string;
+  workId?: string;
 }

@@ -7,5 +7,5 @@
  */
 
 export type TagControllerListTagsParams = {
-	page: number;
+page: number;
 };

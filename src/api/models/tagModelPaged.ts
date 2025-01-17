@@ -5,9 +5,9 @@
  * The Okami rest api
  * OpenAPI spec version: 1.0
  */
-import type { TagModel } from "./tagModel";
+import type { TagModel } from './tagModel';
 
 export interface TagModelPaged {
-	data: TagModel[];
-	totalOfPages: number;
+  data: TagModel[];
+  totalOfPages: number;
 }
