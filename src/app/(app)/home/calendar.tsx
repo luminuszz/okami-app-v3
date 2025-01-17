@@ -58,14 +58,14 @@ export default function CalendarScreen() {
 
       <Box className="mt-10 pb-24">
         <FlatList
+          contentContainerStyle={{ paddingBottom: 20 }} // Add padding to the bottom
+          ListFooterComponent={<Box style={{ height: 20 }} />} // Add extra space at the end
           data={week}
           renderItem={({ item }) => {
             const worksInCurrentDay =
               parsedCalendarRows[item.dayOfWeekNumber] ?? [];
 
             const isCurrentDate = isToday(item.originalDate);
-
-            console.log({ isCurrentDate });
 
             return (
               <Card

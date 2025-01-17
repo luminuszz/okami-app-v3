@@ -95,6 +95,8 @@ export default function WorksScreen() {
             keyExtractor={(item) => item.id}
             data={sortedWorks}
             onEndReached={() => canFetchNextPage && fetchNextPage()}
+            contentContainerStyle={{ paddingBottom: 20 }} // Add padding to the bottom
+            ListFooterComponent={<Box style={{ height: 20 }} />} // Add extra space at the end
             renderItem={({ item: work }) => (
               <WorkCard
                 work={{

@@ -1,4 +1,5 @@
 import {
+  getCalendarControllerFetchUserCalendarQueryKey,
   useCalendarControllerAddRowInCalendar,
   useCalendarControllerFetchUserCalendar,
   useWorkControllerGetById,
@@ -27,6 +28,7 @@ import { Skeleton, SkeletonText } from "@/components/ui/skeleton";
 import { Spinner } from "@/components/ui/spinner";
 import { VStack } from "@/components/ui/vstack";
 import { daysOfWeek } from "@/constants/strings";
+import { useQueryClient } from "@tanstack/react-query";
 import { router, useLocalSearchParams } from "expo-router";
 import { CheckCheck, ChevronDown } from "lucide-react-native";
 
@@ -38,6 +40,8 @@ export type Params = {
 
 export default function AddWorkToCalendarScreen() {
   const { workId } = useLocalSearchParams<Params>();
+
+  const client = useQueryClient();
 
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
 
@@ -53,6 +57,10 @@ export default function AddWorkToCalendarScreen() {
         toast({
           title: "Obra adicionada ao calendário com sucesso",
           action: "success",
+        });
+
+        void client.invalidateQueries({
+          queryKey: getCalendarControllerFetchUserCalendarQueryKey(),
         });
 
         router.push("/home");

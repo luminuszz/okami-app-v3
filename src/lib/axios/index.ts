@@ -44,7 +44,7 @@ okamiHttpGateway.interceptors.request.use(async (config) => {
   if (config.headers) {
     const token = mmkvStorage.getString(STORAGE_KEYS.TOKEN);
 
-    config.headers["Authorization"] = `Bearer ${token}`;
+    config.headers.Authorization = `Bearer ${token}`;
   }
 
   return config;
