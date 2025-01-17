@@ -7,7 +7,7 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "ignore": []
+    "ignore": ["src/api/okami.ts"]
   },
   "formatter": {
     "enabled": true,

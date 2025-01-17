@@ -5,21 +5,22 @@
  * The Okami rest api
  * OpenAPI spec version: 1.0
  */
-import type { WorkCalendarRowModelCategory } from "./workCalendarRowModelCategory";
-import type { WorkCalendarRowModelStatus } from "./workCalendarRowModelStatus";
+import type { WorkCalendarRowModelCategory } from './workCalendarRowModelCategory';
+import type { WorkCalendarRowModelStatus } from './workCalendarRowModelStatus';
 
 export interface WorkCalendarRowModel {
-	category: WorkCalendarRowModelCategory;
-	chapter: number;
-	chapters: number;
-	/** @nullable */
-	description: string | null;
-	/** @nullable */
-	imageId: string | null;
-	/** @nullable */
-	imageUrl: string | null;
-	name: string;
-	/** @nullable */
-	nextChapter: number | null;
-	status: WorkCalendarRowModelStatus;
+  category: WorkCalendarRowModelCategory;
+  chapter: number;
+  chapters: number;
+  /** @nullable */
+  description: string | null;
+  id: string;
+  /** @nullable */
+  imageId: string | null;
+  /** @nullable */
+  imageUrl: string | null;
+  name: string;
+  /** @nullable */
+  nextChapter: number | null;
+  status: WorkCalendarRowModelStatus;
 }

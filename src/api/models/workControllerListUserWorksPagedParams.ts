@@ -5,12 +5,12 @@
  * The Okami rest api
  * OpenAPI spec version: 1.0
  */
-import type { WorkControllerListUserWorksPagedStatus } from "./workControllerListUserWorksPagedStatus";
-import type { WorkControllerListUserWorksPagedLimit } from "./workControllerListUserWorksPagedLimit";
+import type { WorkControllerListUserWorksPagedStatus } from './workControllerListUserWorksPagedStatus';
+import type { WorkControllerListUserWorksPagedLimit } from './workControllerListUserWorksPagedLimit';
 
 export type WorkControllerListUserWorksPagedParams = {
-	status?: WorkControllerListUserWorksPagedStatus;
-	search?: string;
-	page: number;
-	limit: WorkControllerListUserWorksPagedLimit;
+status?: WorkControllerListUserWorksPagedStatus;
+search?: string;
+page: number;
+limit: WorkControllerListUserWorksPagedLimit;
 };

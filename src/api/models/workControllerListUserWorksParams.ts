@@ -5,9 +5,9 @@
  * The Okami rest api
  * OpenAPI spec version: 1.0
  */
-import type { WorkControllerListUserWorksStatus } from "./workControllerListUserWorksStatus";
+import type { WorkControllerListUserWorksStatus } from './workControllerListUserWorksStatus';
 
 export type WorkControllerListUserWorksParams = {
-	status?: WorkControllerListUserWorksStatus;
-	search?: string;
+status?: WorkControllerListUserWorksStatus;
+search?: string;
 };

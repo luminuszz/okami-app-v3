@@ -7,5 +7,5 @@
  */
 
 export interface UpdateNotionDatabaseIdDto {
-	notionDatabaseId: string;
+  notionDatabaseId: string;
 }

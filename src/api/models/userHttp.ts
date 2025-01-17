@@ -5,17 +5,17 @@
  * The Okami rest api
  * OpenAPI spec version: 1.0
  */
-import type { UserHttpRole } from "./userHttpRole";
+import type { UserHttpRole } from './userHttpRole';
 
 export interface UserHttp {
-	avatarImageId?: string;
-	/** @nullable */
-	avatarImageUrl: string | null;
-	email: string;
-	finishedWorksCount: number;
-	id: string;
-	name: string;
-	notionDatabaseId?: string;
-	readingWorksCount: number;
-	role: UserHttpRole;
+  avatarImageId?: string;
+  /** @nullable */
+  avatarImageUrl: string | null;
+  email: string;
+  finishedWorksCount: number;
+  id: string;
+  name: string;
+  notionDatabaseId?: string;
+  readingWorksCount: number;
+  role: UserHttpRole;
 }

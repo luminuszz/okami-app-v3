@@ -5,9 +5,8 @@
  * The Okami rest api
  * OpenAPI spec version: 1.0
  */
-import type { AddRowInCalendarDtoDayOfWeek } from "./addRowInCalendarDtoDayOfWeek";
 
 export interface AddRowInCalendarDto {
-	dayOfWeek: AddRowInCalendarDtoDayOfWeek;
-	workId: string;
+  dayOfWeek: number;
+  workId: string;
 }

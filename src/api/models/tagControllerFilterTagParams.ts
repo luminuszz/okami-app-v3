@@ -7,5 +7,5 @@
  */
 
 export type TagControllerFilterTagParams = {
-	search: string;
+search: string;
 };

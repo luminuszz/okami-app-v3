@@ -7,6 +7,6 @@
  */
 
 export interface LogoutDto {
-	/** @nullable */
-	refreshToken: string | null;
+  /** @nullable */
+  refreshToken: string | null;
 }

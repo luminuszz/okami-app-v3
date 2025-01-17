@@ -7,5 +7,5 @@
  */
 
 export interface UpdateChapterDto {
-	chapter: number;
+  chapter: number;
 }

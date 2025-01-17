@@ -7,5 +7,5 @@
  */
 
 export interface CreateAdminHashCodeDto {
-	hashCodeKey: string;
+  hashCodeKey: string;
 }

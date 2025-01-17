@@ -12,44 +12,44 @@ import { FlatList } from "react-native";
 import { NotificationCard } from "@/components/notifications/notification-card";
 
 export default function Notifications() {
-	const { data, refetch, isFetching } =
-		useNotificationControllerGetRecentNotifications({
-			query: {
-				select(notifications) {
-					return notifications?.sort((a) => (a.readAt ? 1 : -1));
-				},
-			},
-		});
+  const { data, refetch, isLoading } =
+    useNotificationControllerGetRecentNotifications({
+      query: {
+        select(notifications) {
+          return notifications?.sort((a) => (a.readAt ? 1 : -1));
+        },
+      },
+    });
 
-	return (
-		<Container classname="mt-10 ">
-			<VStack className="px-4">
-				<HStack className="items-center justify-between px-4">
-					<Heading size="xl">Notificações</Heading>
-					<Link href="/home" className="mr-4">
-						<ChevronLeft stroke="white" size={25} />
-					</Link>
-				</HStack>
+  return (
+    <Container classname="mt-10 ">
+      <VStack className="px-4">
+        <HStack className="items-center justify-between px-4">
+          <Heading size="xl">Notificações</Heading>
+          <Link href="/home" className="mr-4">
+            <ChevronLeft stroke="white" size={25} />
+          </Link>
+        </HStack>
 
-				<Box className="mt-5 px-3 pb-12">
-					<FlatList
-						refreshing={isFetching}
-						onRefresh={refetch}
-						data={data}
-						keyExtractor={(item) => item.id}
-						ItemSeparatorComponent={() => <Box className="h-2" />}
-						renderItem={({ item }) => (
-							<NotificationCard
-								notification={{
-									content: item.content,
-									id: item.id,
-									readAt: item.readAt,
-								}}
-							/>
-						)}
-					/>
-				</Box>
-			</VStack>
-		</Container>
-	);
+        <Box className="mt-5 px-3 pb-12">
+          <FlatList
+            refreshing={isLoading}
+            onRefresh={refetch}
+            data={data}
+            keyExtractor={(item) => item.id}
+            ItemSeparatorComponent={() => <Box className="h-2" />}
+            renderItem={({ item }) => (
+              <NotificationCard
+                notification={{
+                  content: item.content,
+                  id: item.id,
+                  readAt: item.readAt,
+                }}
+              />
+            )}
+          />
+        </Box>
+      </VStack>
+    </Container>
+  );
 }
