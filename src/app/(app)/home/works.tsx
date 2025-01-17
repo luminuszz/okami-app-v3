@@ -34,7 +34,7 @@ export default function WorksScreen() {
     },
     {
       query: {
-        getNextPageParam: (lastPage) => Number(lastPage.nextPage),
+        getNextPageParam: (lastPage) => Number(lastPage.nextPage) || undefined,
         queryKey: ["works-list-infinite", { status, search }],
       },
     },
@@ -49,6 +49,8 @@ export default function WorksScreen() {
 
   const hasFilters = status || search;
   const toggleFilters = useSetAtom(toggleWorkFilter);
+
+  console.log({ data });
 
   return (
     <Box className="mt-10 w-full flex-1 px-4">

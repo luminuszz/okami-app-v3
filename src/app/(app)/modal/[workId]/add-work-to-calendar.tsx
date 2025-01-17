@@ -26,10 +26,10 @@ import {
 import { Skeleton, SkeletonText } from "@/components/ui/skeleton";
 import { Spinner } from "@/components/ui/spinner";
 import { VStack } from "@/components/ui/vstack";
+import { daysOfWeek } from "@/constants/strings";
 import { router, useLocalSearchParams } from "expo-router";
 import { CheckCheck, ChevronDown } from "lucide-react-native";
 
-import { daysOfWeek } from "@/helpers/strings";
 import React, { useState } from "react";
 
 export type Params = {
@@ -39,7 +39,7 @@ export type Params = {
 export default function AddWorkToCalendarScreen() {
   const { workId } = useLocalSearchParams<Params>();
 
-  const [selectedDay, setSelectedDay] = useState<string | null>(null);
+  const [selectedDay, setSelectedDay] = useState<number | null>(null);
 
   const { data: calendar } = useCalendarControllerFetchUserCalendar();
 
@@ -80,6 +80,8 @@ export default function AddWorkToCalendarScreen() {
     };
   });
 
+  console.log({ daysOfWeek });
+
   function handleMutate() {
     if (!workId || !selectedDay) {
       toast({
@@ -100,9 +102,9 @@ export default function AddWorkToCalendarScreen() {
 
   const canDisableButton = !workId || isPending || !selectedDay;
 
-  const selectedDayInList = daysOfWeek.find(
-    (day) => day.dayNumber === Number(selectedDay),
-  );
+  const selectedDayInList = selectOptions.find((day) => {
+    return day.dayNumber === selectedDay;
+  });
 
   if (isLoading) {
     return (
@@ -136,15 +138,14 @@ export default function AddWorkToCalendarScreen() {
         </VStack>
       </Center>
       <VStack space="md">
-        <Select onValueChange={(day) => setSelectedDay(day)}>
+        <Select onValueChange={(day) => setSelectedDay(Number(day))}>
           <SelectTrigger
             variant="outline"
             size="xl"
             className="flex justify-between pr-4"
           >
             <SelectInput
-              value={selectedDayInList?.dayName}
-              placeholder={"Selecione a obra"}
+              value={selectedDayInList?.dayName ?? "Selecionar o dia"}
               className="w-[90%] truncate"
             />
             <SelectIcon
@@ -157,16 +158,18 @@ export default function AddWorkToCalendarScreen() {
               <SelectDragIndicatorWrapper>
                 <SelectDragIndicator />
               </SelectDragIndicatorWrapper>
-              <SelectScrollView className="mt-10">
-                {selectOptions.map((day) => (
-                  <SelectItem
-                    className="text-typography-200"
-                    key={day.dayNumber}
-                    value={String(day.dayNumber)}
-                    label={`${day.dayName} ${day.disabled ? "(Já adicionado)" : ""}`}
-                    disabled={day.disabled}
-                  />
-                ))}
+              <SelectScrollView className="h-[320px]">
+                {selectOptions.map((day) => {
+                  return (
+                    <SelectItem
+                      className="text-typography-200"
+                      key={day.dayNumber}
+                      value={String(day.dayNumber)}
+                      label={`${day.dayName} ${day.disabled ? "(Já adicionado)" : ""}`}
+                      disabled={day.disabled}
+                    />
+                  );
+                })}
               </SelectScrollView>
             </SelectContent>
           </SelectPortal>
