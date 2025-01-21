@@ -21,11 +21,7 @@ import { useEffect } from "react";
 import { AuthProvider } from "@/hooks/useAuth";
 import { env } from "@/lib/env";
 import { DarkTheme, ThemeProvider } from "@react-navigation/native";
-import {
-  QueryClientProvider,
-  focusManager,
-  onlineManager,
-} from "@tanstack/react-query";
+import { QueryClientProvider, onlineManager } from "@tanstack/react-query";
 import { Provider as JotaiProvider } from "jotai";
 import { AppState } from "react-native";
 import { OneSignal } from "react-native-onesignal";
@@ -33,6 +29,10 @@ import { OneSignal } from "react-native-onesignal";
 void SplashScreen.preventAutoHideAsync();
 
 OneSignal.initialize(env.EXPO_PUBLIC_ONE_SIGNAL_APP_ID);
+
+if (__DEV__) {
+  require("@/lib/reactotron");
+}
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts([
@@ -48,12 +48,6 @@ export default function RootLayout() {
   }, [fontsLoaded]);
 
   useEffect(() => {
-    focusManager.setFocused(true);
-
-    if (AppState.currentState === "active") {
-      focusManager.setFocused(true);
-    }
-
     const subscription = AppState.addEventListener("change", onAppStateChange);
 
     return () => subscription.remove();

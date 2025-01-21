@@ -12,6 +12,7 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
 } from "react";
 import { useMMKVString } from "react-native-mmkv";
@@ -60,7 +61,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         setToken(data.token);
         setRefreshToken(data.refreshToken);
 
-        router.replace("/(app)/home");
+        router.replace("/(app)/(home)");
       },
 
       onError(error) {
@@ -128,6 +129,24 @@ export function AuthProvider({ children }: AuthProviderProps) {
   );
 
   const isAuth = useMemo(() => !!refreshToken, [refreshToken]);
+
+  useEffect(() => {
+    const listener = mmkvStorage.addOnValueChangedListener((key) => {
+      const isRefreshTokenChanged = key === STORAGE_KEYS.REFRESH_TOKEN;
+
+      if (isRefreshTokenChanged) {
+        const newValue = mmkvStorage.getString(key);
+
+        if (!newValue) {
+          router.replace("/auth/sign-in");
+        }
+      }
+    });
+
+    return () => {
+      listener.remove();
+    };
+  }, []);
 
   return (
     <AuthContext.Provider

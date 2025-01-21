@@ -25,6 +25,7 @@ import { Skeleton, SkeletonText } from "../ui/skeleton";
 
 export function ContinuousReadingSection() {
   const handlePushToUrl = useGoToWorkUrlAction();
+
   const [lastSelectedWorkStorage] = useMMKVString(
     STORAGE_KEYS.LAST_WORK_CLICKED,
     mmkvStorage,
@@ -32,7 +33,7 @@ export function ContinuousReadingSection() {
 
   const openProfile = useSetAtom(toggleProfileDrawerActionAtom);
 
-  const { data: works } = useWorkControllerListUserWorks();
+  const { data: works, refetch, isFetching } = useWorkControllerListUserWorks();
 
   const work =
     works?.find((work) => work.id === lastSelectedWorkStorage) ?? works?.[0];
@@ -48,9 +49,7 @@ export function ContinuousReadingSection() {
     };
   });
 
-  const isLoading = !works;
-
-  if (isLoading) {
+  if (isFetching) {
     return (
       <VStack className="px-4">
         <Heading size="xl">Agora</Heading>

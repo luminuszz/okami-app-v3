@@ -63,7 +63,7 @@ export default function AddWorkToCalendarScreen() {
           queryKey: getCalendarControllerFetchUserCalendarQueryKey(),
         });
 
-        router.push("/home");
+        router.push("/(app)/(home)");
       },
 
       onError() {

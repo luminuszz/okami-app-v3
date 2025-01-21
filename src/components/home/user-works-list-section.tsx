@@ -12,14 +12,12 @@ import { Text } from "../ui/text";
 import { VStack } from "../ui/vstack";
 
 export function UserWorksListSection() {
-  const { data } = useWorkControllerListUserWorksPaged({
+  const { data, isFetching } = useWorkControllerListUserWorksPaged({
     limit: 10,
     page: 1,
   });
 
-  const isLoading = !data;
-
-  if (isLoading) {
+  if (isFetching) {
     return (
       <VStack className="mt-4 px-4">
         <Heading size="xl">Suas obras</Heading>
@@ -44,7 +42,7 @@ export function UserWorksListSection() {
         className="flex-1 flex-row items-center justify-between"
         onPress={() =>
           router.push({
-            pathname: "/(app)/home/works",
+            pathname: "/(app)/(home)/works",
             params: {
               status: "read",
             },

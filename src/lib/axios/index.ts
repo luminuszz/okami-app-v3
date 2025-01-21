@@ -1,11 +1,13 @@
 import { mmkvStorage } from "@/lib/storage/mmkv";
 import axios, { type AxiosError, type AxiosRequestConfig } from "axios";
 
-import { router } from "expo-router";
 import { STORAGE_KEYS } from "../storage";
 
 export const okamiHttpGateway = axios.create({
   baseURL: process.env.EXPO_PUBLIC_API_URL,
+  headers: {
+    Authorization: `Bearer ${mmkvStorage.getString(STORAGE_KEYS.TOKEN)}`,
+  },
 });
 
 export const customInstance = <T>(
@@ -38,17 +40,7 @@ type FailRequestQueue = {
   onFailure: (error: AxiosError) => void;
 }[];
 
-const failRequestQueue: FailRequestQueue = [];
-
-okamiHttpGateway.interceptors.request.use(async (config) => {
-  if (config.headers) {
-    const token = mmkvStorage.getString(STORAGE_KEYS.TOKEN);
-
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-
-  return config;
-});
+let failRequestQueue: FailRequestQueue = [];
 
 const refreshTokenCall = async (refreshToken: string) => {
   const response = await okamiHttpGateway.post("/auth/v2/refresh-token", {
@@ -64,8 +56,10 @@ const refreshTokenCall = async (refreshToken: string) => {
 
 okamiHttpGateway.interceptors.response.use(
   (response) => response,
-  async (error: AxiosError) => {
+  (error: AxiosError) => {
     const refreshToken = mmkvStorage.getString(STORAGE_KEYS.REFRESH_TOKEN);
+
+    const originalConfig = error.config;
 
     if (isUnauthorizedError(error) && refreshToken) {
       if (!isRefreshing) {
@@ -74,30 +68,38 @@ okamiHttpGateway.interceptors.response.use(
         refreshTokenCall(refreshToken)
           .then(({ token }) => {
             mmkvStorage.set(STORAGE_KEYS.TOKEN, token);
+            okamiHttpGateway.defaults.headers.Authorization = `Bearer ${token}`;
 
             failRequestQueue.forEach((request) => {
               request.onSuccess(token);
             });
           })
           .catch((error) => {
+            mmkvStorage.delete(STORAGE_KEYS.REFRESH_TOKEN);
+            mmkvStorage.delete(STORAGE_KEYS.TOKEN);
+
             failRequestQueue.forEach((request) => {
               request.onFailure(error);
-              mmkvStorage.delete(STORAGE_KEYS.REFRESH_TOKEN);
-              router.replace("/auth/sign-in");
             });
           })
           .finally(() => {
             isRefreshing = false;
+            failRequestQueue = [];
           });
       }
 
       return new Promise((resolve, reject) => {
         failRequestQueue.push({
-          onFailure: (error) => {
-            console.log({ error });
+          onFailure: (error: AxiosError) => {
             reject(error);
           },
-          onSuccess: (token) => {},
+          onSuccess: (token) => {
+            if (originalConfig?.headers) {
+              originalConfig.headers.Authorization = `Bearer ${token}`;
+
+              return resolve(okamiHttpGateway(originalConfig));
+            }
+          },
         });
       });
     }
