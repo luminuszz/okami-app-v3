@@ -50,8 +50,6 @@ export default function WorksScreen() {
   const hasFilters = status || search;
   const toggleFilters = useSetAtom(toggleWorkFilter);
 
-  console.log({ data });
-
   return (
     <Box className="mt-10 w-full flex-1 px-4">
       <Navbar />

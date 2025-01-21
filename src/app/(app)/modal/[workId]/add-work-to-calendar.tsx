@@ -88,8 +88,6 @@ export default function AddWorkToCalendarScreen() {
     };
   });
 
-  console.log({ daysOfWeek });
-
   function handleMutate() {
     if (!workId || !selectedDay) {
       toast({

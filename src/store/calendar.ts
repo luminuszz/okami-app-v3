@@ -1,3 +1,4 @@
+import { capitalizeFirstLetter } from "@/helpers/strings";
 import {
   eachDayOfInterval,
   endOfWeek,
@@ -7,7 +8,6 @@ import {
 } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { atom } from "jotai";
-import { capitalizeFirstLetter } from "@/helpers/strings";
 
 export const todayAtom = atom(new Date());
 

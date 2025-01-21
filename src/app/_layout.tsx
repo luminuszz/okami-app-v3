@@ -4,13 +4,8 @@ import "../../global.css";
 import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
 import { StatusBar } from "expo-status-bar";
 
-import {
-  onAppStateChange,
-  persisterStorageQuery,
-  queryClient,
-} from "@/lib/react-query";
-import { DarkTheme, ThemeProvider } from "@react-navigation/native";
-import { Stack } from "expo-router";
+import { onAppStateChange, queryClient } from "@/lib/react-query";
+import { Slot } from "expo-router";
 
 import * as SplashScreen from "expo-splash-screen";
 
@@ -20,13 +15,17 @@ import {
   Roboto_900Black,
   useFonts,
 } from "@expo-google-fonts/roboto";
-import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import { addNetworkStateListener } from "expo-network";
 import { useEffect } from "react";
 
 import { AuthProvider } from "@/hooks/useAuth";
 import { env } from "@/lib/env";
-import { focusManager, onlineManager } from "@tanstack/react-query";
+import { DarkTheme, ThemeProvider } from "@react-navigation/native";
+import {
+  QueryClientProvider,
+  focusManager,
+  onlineManager,
+} from "@tanstack/react-query";
 import { Provider as JotaiProvider } from "jotai";
 import { AppState } from "react-native";
 import { OneSignal } from "react-native-onesignal";
@@ -72,22 +71,16 @@ export default function RootLayout() {
 
   return (
     <GluestackUIProvider mode="dark">
-      <PersistQueryClientProvider
-        persistOptions={{ persister: persisterStorageQuery }}
-        client={queryClient}
-      >
-        <ThemeProvider value={DarkTheme}>
+      <ThemeProvider value={DarkTheme}>
+        <QueryClientProvider client={queryClient}>
           <JotaiProvider>
             <AuthProvider>
-              <Stack
-                initialRouteName="index"
-                screenOptions={{ headerShown: false }}
-              />
+              <Slot />
             </AuthProvider>
           </JotaiProvider>
-        </ThemeProvider>
-      </PersistQueryClientProvider>
-      <StatusBar style="auto" />
+        </QueryClientProvider>
+        <StatusBar style="auto" />
+      </ThemeProvider>
     </GluestackUIProvider>
   );
 }

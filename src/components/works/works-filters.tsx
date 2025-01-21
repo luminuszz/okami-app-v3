@@ -1,4 +1,5 @@
 import {
+  WorkFilters as WorkFiltersType,
   toggleWorkFilter,
   worksFiltersAtom,
   worksFiltersIsIsOpen,
@@ -6,7 +7,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { ChevronDown } from "lucide-react-native";
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button, ButtonText } from "../ui/button";
@@ -55,7 +56,7 @@ export function WorkFilters() {
 
   const handleClose = useSetAtom(toggleWorkFilter);
 
-  const [filters, updateFilters] = useAtom(worksFiltersAtom);
+  const [filters, setFilters] = useAtom(worksFiltersAtom);
 
   const { control, handleSubmit, reset } = useForm<WorkFiltersSchema>({
     values: {
@@ -64,6 +65,16 @@ export function WorkFilters() {
     },
     resolver: zodResolver(workFiltersSchema),
   });
+
+  const updateFilters = useCallback(
+    (values: WorkFiltersType) => {
+      setFilters({
+        search: values.search ?? "",
+        status: values.status ?? null,
+      });
+    },
+    [setFilters],
+  );
 
   function handlerFilterWorks(values: WorkFiltersSchema) {
     updateFilters({
@@ -85,7 +96,6 @@ export function WorkFilters() {
     handleClose();
   }
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (search || status) {
       updateFilters({
@@ -93,7 +103,7 @@ export function WorkFilters() {
         status: (status as WorkFiltersSchema["status"]) ?? "unread",
       });
     }
-  }, [search, status]);
+  }, [search, status, updateFilters]);
 
   return (
     <Drawer isOpen={isOpen} onClose={handleClose} size="sm" anchor="bottom">

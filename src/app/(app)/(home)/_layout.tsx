@@ -3,7 +3,7 @@ import { useUpdateNotificationSubscriberId } from "@/hooks/useUpdateNotification
 import { Tabs } from "expo-router";
 import { Bell, Book, Calendar, House } from "lucide-react-native";
 
-export default function ApplicationTabLayout() {
+export default function AppTabLayout() {
   useUpdateNotificationSubscriberId();
 
   const { data: notifications = [] } =

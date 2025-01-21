@@ -11,6 +11,7 @@ import { Text } from "../ui/text";
 import { VStack } from "../ui/vstack";
 
 import { useWorkControllerListUserWorks } from "@/api/okami";
+import { parseCategoryPredicate } from "@/helpers/strings";
 import { useGoToWorkUrlAction } from "@/hooks/useGoToWorkUrlAction";
 import { STORAGE_KEYS } from "@/lib/storage";
 import { mmkvStorage } from "@/lib/storage/mmkv";
@@ -86,7 +87,9 @@ export function ContinuousReadingSection() {
               className="z-10 -mb-8 ml-2 self-start rounded-lg"
               style={{ backgroundColor: configColors.sky[400] }}
             >
-              <BadgeText className="text-typography-900">Lendo</BadgeText>
+              <BadgeText className="text-typography-900">
+                {parseCategoryPredicate(work?.category ?? "")}
+              </BadgeText>
             </Badge>
 
             {work && (

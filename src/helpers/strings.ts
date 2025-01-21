@@ -11,8 +11,6 @@ export const concatWithCategoryLabel = (
     ANIME: "Episódio",
   };
 
-  console.log(category);
-
   const categoryLabel = categoryMapper[category as keyof typeof categoryMapper];
 
   return `${categoryLabel} ${value}`;
@@ -22,6 +20,15 @@ export const parseCategory = (category: string) => {
   const categoryMapper = {
     MANGA: "Mangá",
     ANIME: "Anime",
+  };
+
+  return categoryMapper[category as keyof typeof categoryMapper];
+};
+
+export const parseCategoryPredicate = (category: string) => {
+  const categoryMapper = {
+    MANGA: "Lendo",
+    ANIME: "Assistindo",
   };
 
   return categoryMapper[category as keyof typeof categoryMapper];
