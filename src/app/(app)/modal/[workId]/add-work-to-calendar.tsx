@@ -75,21 +75,21 @@ export default function AddWorkToCalendarScreen() {
     },
   });
 
-  const rowsInCalendarOnWork = calendar?.rows.filter(
-    (row) => row.Work.id === workId,
-  );
+  const rowsInCalendarOnWork = calendar?.rows.filter((row) => row.Work.id === workId);
 
   const selectOptions = daysOfWeek.map((day) => {
     return {
       ...day,
-      disabled: rowsInCalendarOnWork?.some(
-        (row) => row.dayOfWeek === day.dayNumber,
-      ),
+      disabled: rowsInCalendarOnWork?.some((row) => row.dayOfWeek === day.dayNumber),
     };
   });
 
   function handleMutate() {
-    if (!workId || !selectedDay) {
+    console.log({
+      selectedDay,
+    });
+
+    if (!workId || selectedDay === null) {
       toast({
         title: "Selecione uma obra e um dia",
         action: "error",
@@ -106,7 +106,7 @@ export default function AddWorkToCalendarScreen() {
     });
   }
 
-  const canDisableButton = !workId || isPending || !selectedDay;
+  const canDisableButton = !workId || isPending || selectedDay === null;
 
   const selectedDayInList = selectOptions.find((day) => {
     return day.dayNumber === selectedDay;
@@ -135,28 +135,15 @@ export default function AddWorkToCalendarScreen() {
           </Heading>
 
           {currentWork?.imageUrl && (
-            <Image
-              alt={currentWork?.name}
-              className="mb-6 h-[200px] w-full rounded-md"
-              source={{ uri: currentWork?.imageUrl ?? "" }}
-            />
+            <Image alt={currentWork?.name} className="mb-6 h-[200px] w-full rounded-md" source={{ uri: currentWork?.imageUrl ?? "" }} />
           )}
         </VStack>
       </Center>
       <VStack space="md">
         <Select onValueChange={(day) => setSelectedDay(Number(day))}>
-          <SelectTrigger
-            variant="outline"
-            size="xl"
-            className="flex justify-between pr-4"
-          >
-            <SelectInput
-              value={selectedDayInList?.dayName ?? "Selecionar o dia"}
-              className="w-[90%] truncate"
-            />
-            <SelectIcon
-              as={() => <ChevronDown stroke="white" className="size-5" />}
-            />
+          <SelectTrigger variant="outline" size="xl" className="flex justify-between pr-4">
+            <SelectInput value={selectedDayInList?.dayName ?? "Selecionar o dia"} className="w-[90%] truncate" />
+            <SelectIcon as={() => <ChevronDown stroke="white" className="size-5" />} />
           </SelectTrigger>
           <SelectPortal className="mt-10">
             <SelectBackdrop />
@@ -181,15 +168,12 @@ export default function AddWorkToCalendarScreen() {
           </SelectPortal>
         </Select>
 
-        <Button
-          disabled={canDisableButton}
-          action="positive"
-          onPress={handleMutate}
-        >
+        <Button disabled={canDisableButton} action="positive" onPress={handleMutate}>
           {isPending ? (
             <Spinner />
           ) : (
             <>
+              d
               <ButtonIcon as={CheckCheck} />
               <ButtonText>Adicionar ao calendário</ButtonText>
             </>
