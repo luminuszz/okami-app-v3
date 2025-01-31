@@ -56,7 +56,7 @@ export default function WorkDetails() {
   const markWorkAsFavoriteMutation = useWorkControllerToggleFavorite({
     mutation: {
       onSuccess() {
-        refetch();
+        void refetch();
       },
       onMutate() {
         setWorkIsFavorite((prev) => !prev);
@@ -85,7 +85,7 @@ export default function WorkDetails() {
         <Center className="hf w-full flex-1 gap-2">
           <Heading>Obra não encontrada</Heading>
           <Button>
-            <Link href="/home">Voltar</Link>
+            <Link href="/(app)/(home)">Voltar</Link>
           </Button>
         </Center>
       </Container>
@@ -110,7 +110,7 @@ export default function WorkDetails() {
         <HStack className="items-center justify-between">
           <Pressable
             onPress={() =>
-              router.canGoBack() ? router.back() : router.push("/home")
+              router.canGoBack() ? router.back() : router.push("/(app)/(home)")
             }
           >
             <ChevronLeft stroke="white" size={30} />

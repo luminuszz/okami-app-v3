@@ -32,7 +32,7 @@ export function HeaderWithGoBack({
       return router.push(route);
     }
 
-    return router.canGoBack() ? router.back() : router.push("/home");
+    return router.canGoBack() ? router.back() : router.push("/(app)/(home)");
   }
 
   return (

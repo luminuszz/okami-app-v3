@@ -79,3 +79,6 @@ export * from "./workHttpDescription";
 export * from "./workModelPaged";
 export * from "./workModelPagedNextPage";
 export * from "./workUploadUrlResponseModel";
+export * from './makeSessionValidator';
+export * from './scrappingReportWorkModel';
+export * from './scrappingReportWorkModelCategory';

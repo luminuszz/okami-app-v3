@@ -40,18 +40,15 @@ export type Params = {
 
 export default function AddWorkToCalendarScreen() {
   const { workId } = useLocalSearchParams<Params>();
-
+  const toast = useOkamiToast();
   const client = useQueryClient();
 
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
 
   const { data: calendar } = useCalendarControllerFetchUserCalendar();
-
   const { data: currentWork, isLoading } = useWorkControllerGetById(workId);
 
-  const toast = useOkamiToast();
-
-  const { mutate, isPending } = useCalendarControllerAddRowInCalendar({
+  const addRowInCalendar = useCalendarControllerAddRowInCalendar({
     mutation: {
       onSuccess() {
         toast({
@@ -75,30 +72,30 @@ export default function AddWorkToCalendarScreen() {
     },
   });
 
-  const rowsInCalendarOnWork = calendar?.rows.filter((row) => row.Work.id === workId);
+  const rowsInCalendarOnWork = calendar?.rows.filter(
+    (row) => row.Work.id === workId,
+  );
 
   const selectOptions = daysOfWeek.map((day) => {
     return {
       ...day,
-      disabled: rowsInCalendarOnWork?.some((row) => row.dayOfWeek === day.dayNumber),
+      disabled: rowsInCalendarOnWork?.some(
+        (row) => row.dayOfWeek === day.dayNumber,
+      ),
     };
   });
 
   function handleMutate() {
-    console.log({
-      selectedDay,
-    });
+    const cannotMutate = selectedDay === null;
 
-    if (!workId || selectedDay === null) {
-      toast({
+    if (cannotMutate) {
+      return toast({
         title: "Selecione uma obra e um dia",
         action: "error",
       });
-
-      return;
     }
 
-    mutate({
+    addRowInCalendar.mutate({
       data: {
         dayOfWeek: Number(selectedDay),
         workId,
@@ -106,7 +103,8 @@ export default function AddWorkToCalendarScreen() {
     });
   }
 
-  const canDisableButton = !workId || isPending || selectedDay === null;
+  const canDisableButton =
+    !workId || addRowInCalendar.isPending || selectedDay === null;
 
   const selectedDayInList = selectOptions.find((day) => {
     return day.dayNumber === selectedDay;
@@ -127,7 +125,6 @@ export default function AddWorkToCalendarScreen() {
   return (
     <Container classname="mt-10 px-10">
       <HeaderWithGoBack title="Adicionar ao Calendário" />
-
       <Center className="mt-5">
         <VStack space="md" className="w-full text-center">
           <Heading className="text-center" size="md">
@@ -135,15 +132,28 @@ export default function AddWorkToCalendarScreen() {
           </Heading>
 
           {currentWork?.imageUrl && (
-            <Image alt={currentWork?.name} className="mb-6 h-[200px] w-full rounded-md" source={{ uri: currentWork?.imageUrl ?? "" }} />
+            <Image
+              alt={currentWork?.name}
+              className="mb-6 h-[200px] w-full rounded-md"
+              source={{ uri: currentWork?.imageUrl ?? "" }}
+            />
           )}
         </VStack>
       </Center>
       <VStack space="md">
         <Select onValueChange={(day) => setSelectedDay(Number(day))}>
-          <SelectTrigger variant="outline" size="xl" className="flex justify-between pr-4">
-            <SelectInput value={selectedDayInList?.dayName ?? "Selecionar o dia"} className="w-[90%] truncate" />
-            <SelectIcon as={() => <ChevronDown stroke="white" className="size-5" />} />
+          <SelectTrigger
+            variant="outline"
+            size="xl"
+            className="flex justify-between pr-4"
+          >
+            <SelectInput
+              value={selectedDayInList?.dayName ?? "Selecionar o dia"}
+              className="w-[90%] truncate"
+            />
+            <SelectIcon
+              as={() => <ChevronDown stroke="white" className="size-5" />}
+            />
           </SelectTrigger>
           <SelectPortal className="mt-10">
             <SelectBackdrop />
@@ -168,12 +178,15 @@ export default function AddWorkToCalendarScreen() {
           </SelectPortal>
         </Select>
 
-        <Button disabled={canDisableButton} action="positive" onPress={handleMutate}>
-          {isPending ? (
+        <Button
+          disabled={canDisableButton}
+          action="positive"
+          onPress={handleMutate}
+        >
+          {addRowInCalendar.isPending ? (
             <Spinner />
           ) : (
             <>
-              d
               <ButtonIcon as={CheckCheck} />
               <ButtonText>Adicionar ao calendário</ButtonText>
             </>

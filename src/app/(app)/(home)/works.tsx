@@ -48,6 +48,7 @@ export default function WorksScreen() {
   );
 
   const hasFilters = status || search;
+
   const toggleFilters = useSetAtom(toggleWorkFilter);
 
   return (

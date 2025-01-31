@@ -1,5 +1,5 @@
 import {
-  WorkFilters as WorkFiltersType,
+  type WorkFilters as WorkFiltersType,
   toggleWorkFilter,
   worksFiltersAtom,
   worksFiltersIsIsOpen,
