@@ -12,7 +12,7 @@ export const filtersOptions = [
   },
   {
     label: "Finalizado",
-    value: "finish",
+    value: "finished",
   },
   {
     label: "Lido",
