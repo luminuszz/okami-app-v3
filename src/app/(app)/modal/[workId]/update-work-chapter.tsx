@@ -55,10 +55,10 @@ export default function UpdateWorkChapterScreen() {
           });
 
           void client.invalidateQueries({
-            predicate: ({ queryKey }) => queryKey.includes("/work/list"),
+            predicate: ({ queryKey }) => queryKey.includes("works-list-infinite"),
           });
 
-          router.push("/(app)/(home)");
+          router.push("/(app)/(home)/works");
         },
 
         onError() {

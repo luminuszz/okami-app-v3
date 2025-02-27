@@ -1,7 +1,4 @@
-import {
-  useWorkControllerGetById,
-  useWorkControllerToggleFavorite,
-} from "@/api/okami";
+import { useWorkControllerGetById } from "@/api/okami";
 import { Container } from "@/components/layout/container";
 import { Badge, BadgeText } from "@/components/ui/badge";
 import { Box } from "@/components/ui/box";
@@ -22,14 +19,12 @@ import { Link, router, useLocalSearchParams } from "expo-router";
 import { useSetAtom } from "jotai";
 import {
   BookOpen,
+  CheckCheck,
   ChevronLeft,
   Clock,
-  Heart,
-  HeartCrack,
   Menu,
   Tv2,
 } from "lucide-react-native";
-import { useEffect, useState } from "react";
 
 import { Pressable, ScrollView } from "react-native";
 
@@ -44,32 +39,7 @@ export default function WorkDetails() {
 
   const toggleWorkActionsDrawer = useSetAtom(toggleWorkActionsDrawerActionAtom);
 
-  const {
-    data: work,
-    isLoading,
-    isError,
-    refetch,
-  } = useWorkControllerGetById(workId);
-
-  const [workIsFavorite, setWorkIsFavorite] = useState(!!work?.isFavorite);
-
-  const markWorkAsFavoriteMutation = useWorkControllerToggleFavorite({
-    mutation: {
-      onSuccess() {
-        void refetch();
-      },
-      onMutate() {
-        setWorkIsFavorite((prev) => !prev);
-      },
-      onError() {
-        setWorkIsFavorite((prev) => !prev);
-      },
-    },
-  });
-
-  useEffect(() => {
-    setWorkIsFavorite(!!work?.isFavorite);
-  }, [work]);
+  const { data: work, isLoading, isError } = useWorkControllerGetById(workId);
 
   if (isLoading) {
     return (
@@ -105,6 +75,7 @@ export default function WorkDetails() {
           hasNewChapter={work.hasNewChapter}
           workId={work.id}
           isFinished={work.isFinished}
+          isFavorite={work.isFavorite}
         />
 
         <HStack className="items-center justify-between">
@@ -179,27 +150,21 @@ export default function WorkDetails() {
           </HStack>
 
           <VStack className="mt-5" space="md">
-            <Button
-              disabled={markWorkAsFavoriteMutation.isPending}
-              action="primary"
-              className={`mt-5 w-full items-center ${workIsFavorite ? "bg-purple-600" : "bg-purple-500"}`}
-              onPress={() => {
-                markWorkAsFavoriteMutation.mutate({
-                  id: work.id,
-                });
-              }}
-            >
-              <ButtonIcon
-                size="md"
-                color="white"
-                as={workIsFavorite ? HeartCrack : Heart}
-              />
-              <ButtonText className="font-medium text-typography-800">
-                {workIsFavorite
-                  ? "Remover dos favoritos"
-                  : "Adicionar aos favoritos"}
-              </ButtonText>
-            </Button>
+            {work.hasNewChapter && (
+              <Button
+                variant="solid"
+                action="positive"
+                onPress={() =>
+                  router.push({
+                    pathname: "/modal/[workId]/update-work-chapter",
+                    params: { workId },
+                  })
+                }
+              >
+                <ButtonIcon as={CheckCheck} />
+                <ButtonText>Marcar como lida</ButtonText>
+              </Button>
+            )}
 
             <Button
               className="w-full items-center bg-yellow-400"

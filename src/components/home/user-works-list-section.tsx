@@ -67,6 +67,7 @@ export function UserWorksListSection() {
             onPress={() =>
               router.push({
                 pathname: "/modal/[workId]",
+
                 params: {
                   workId: work.id,
                 },
@@ -83,8 +84,8 @@ export function UserWorksListSection() {
                 <Heading size="lg" isTruncated numberOfLines={2}>
                   {work.name}
                 </Heading>
-                <Text className="text-typography-600" size="lg">
-                  {`${work.category === "MANGA" ? "Capítulo" : "Episódio"}  ${work.chapter}`}
+                <Text className="text-typography-600" size="md">
+                  {work.alternativeName}
                 </Text>
               </VStack>
             </Card>

@@ -52,7 +52,7 @@ export default function MarkWorkAsDropped() {
 					action: "success",
 				});
 
-				router.push("/home");
+				router.push("/(app)/(home)");
 			},
 
 			onError() {
