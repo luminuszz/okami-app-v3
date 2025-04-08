@@ -6,8 +6,10 @@
  * OpenAPI spec version: 1.0
  */
 import type { WorkControllerListUserWorksStatus } from './workControllerListUserWorksStatus';
+import type { WorkControllerListUserWorksCategory } from './workControllerListUserWorksCategory';
 
 export type WorkControllerListUserWorksParams = {
 status?: WorkControllerListUserWorksStatus;
 search?: string;
+category?: WorkControllerListUserWorksCategory;
 };

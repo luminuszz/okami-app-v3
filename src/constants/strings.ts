@@ -5,6 +5,22 @@ export const filtersLabels = {
   favorites: "Favorito",
 } as const;
 
+export const categoriesLabels = {
+  MANGA: "Mangá",
+  ANIME: "Anime",
+} as const;
+
+export const categoryFiltersOptions = [
+  {
+    label: categoriesLabels.MANGA,
+    value: "MANGA",
+  },
+  {
+    label: categoriesLabels.ANIME,
+    value: "ANIME",
+  },
+];
+
 export const filtersOptions = [
   {
     label: "Favorito",

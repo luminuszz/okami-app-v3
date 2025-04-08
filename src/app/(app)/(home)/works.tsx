@@ -8,14 +8,14 @@ import { HStack } from "@/components/ui/hstack";
 import { Spinner } from "@/components/ui/spinner";
 import { Text } from "@/components/ui/text";
 import { WorkCard } from "@/components/works/work-card";
-import { filtersLabels } from "@/constants/strings";
+import { categoriesLabels, filtersLabels } from "@/constants/strings";
 import { toggleWorkFilter, worksFiltersAtom } from "@/store/works-filters";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useMemo } from "react";
 import { FlatList, Pressable } from "react-native";
 
 export default function WorksScreen() {
-  const { search, status } = useAtomValue(worksFiltersAtom);
+  const { search, status, category } = useAtomValue(worksFiltersAtom);
 
   const {
     data,
@@ -29,13 +29,14 @@ export default function WorksScreen() {
     {
       status: status ?? undefined,
       search: search ?? undefined,
+      category: category ?? undefined,
       limit: 10,
       page: 1,
     },
     {
       query: {
         getNextPageParam: (lastPage) => Number(lastPage.nextPage) || undefined,
-        queryKey: ["works-list-infinite", { status, search }],
+        queryKey: ["works-list-infinite", { status, search, category }],
       },
     },
   );
@@ -47,7 +48,7 @@ export default function WorksScreen() {
     [data],
   );
 
-  const hasFilters = status || search;
+  const hasFilters = status || search || category;
 
   const toggleFilters = useSetAtom(toggleWorkFilter);
 
@@ -69,6 +70,12 @@ export default function WorksScreen() {
             {search && (
               <Badge variant="outline" action="info">
                 <BadgeText>{`Nome: ${search} `}</BadgeText>
+              </Badge>
+            )}
+
+            {category && (
+              <Badge variant="outline" action="success">
+                <BadgeText>{`Categoria: ${categoriesLabels[category]} `}</BadgeText>
               </Badge>
             )}
           </HStack>

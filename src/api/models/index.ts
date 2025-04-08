@@ -82,3 +82,5 @@ export * from "./workUploadUrlResponseModel";
 export * from './makeSessionValidator';
 export * from './scrappingReportWorkModel';
 export * from './scrappingReportWorkModelCategory';
+export * from './workControllerListUserWorksCategory';
+export * from './workControllerListUserWorksPagedCategory';

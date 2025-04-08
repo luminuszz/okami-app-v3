@@ -20,7 +20,12 @@ import {
 } from "../ui/drawer";
 import { FormControl } from "../ui/form-control";
 
-import { filtersLabels, filtersOptions } from "@/constants/strings";
+import {
+  categoriesLabels,
+  categoryFiltersOptions,
+  filtersLabels,
+  filtersOptions,
+} from "@/constants/strings";
 import { useLocalSearchParams } from "expo-router";
 import { Input, InputField } from "../ui/input";
 import {
@@ -40,6 +45,7 @@ import { VStack } from "../ui/vstack";
 const workFiltersSchema = z.object({
   search: z.string().optional(),
   status: z.enum(["unread", "read", "finished", "favorites"]).nullable(),
+  category: z.enum(["MANGA", "ANIME"]).nullable(),
 });
 
 type WorkFiltersSchema = z.infer<typeof workFiltersSchema>;
@@ -47,10 +53,11 @@ type WorkFiltersSchema = z.infer<typeof workFiltersSchema>;
 export type Params = {
   search?: string;
   status?: string;
+  category?: string;
 };
 
 export function WorkFilters() {
-  const { search, status } = useLocalSearchParams<Params>();
+  const { search, status, category } = useLocalSearchParams<Params>();
 
   const isOpen = useAtomValue(worksFiltersIsIsOpen);
 
@@ -62,6 +69,7 @@ export function WorkFilters() {
     values: {
       search: filters.search ?? "",
       status: filters.status ?? null,
+      category: filters.category,
     },
     resolver: zodResolver(workFiltersSchema),
   });
@@ -71,6 +79,7 @@ export function WorkFilters() {
       setFilters({
         search: values.search ?? "",
         status: values.status ?? null,
+        category: values.category,
       });
     },
     [setFilters],
@@ -80,6 +89,7 @@ export function WorkFilters() {
     updateFilters({
       search: values.search ?? "",
       status: values.status ?? null,
+      category: values.category,
     });
 
     handleClose();
@@ -91,6 +101,7 @@ export function WorkFilters() {
     updateFilters({
       search: "",
       status: null,
+      category: null,
     });
 
     handleClose();
@@ -101,12 +112,13 @@ export function WorkFilters() {
       updateFilters({
         search: search ?? "",
         status: (status as WorkFiltersSchema["status"]) ?? "unread",
+        category: (category as WorkFiltersSchema["category"]) ?? null,
       });
     }
-  }, [search, status, updateFilters]);
+  }, [search, status, updateFilters, category]);
 
   return (
-    <Drawer isOpen={isOpen} onClose={handleClose} size="sm" anchor="bottom">
+    <Drawer isOpen={isOpen} onClose={handleClose} size="md" anchor="bottom">
       <DrawerBackdrop />
       <DrawerContent>
         <DrawerBody>
@@ -165,6 +177,57 @@ export function WorkFilters() {
                             <SelectDragIndicator />
                           </SelectDragIndicatorWrapper>
                           {filtersOptions.map((option) => (
+                            <SelectItem
+                              key={option.value}
+                              label={option.label}
+                              value={option.value}
+                            />
+                          ))}
+                        </SelectContent>
+                      </SelectPortal>
+                    </Select>
+                  );
+                }}
+              />
+            </FormControl>
+
+            <FormControl>
+              <Controller
+                control={control}
+                name="category"
+                render={({ field }) => {
+                  return (
+                    <Select
+                      isDisabled={field.disabled}
+                      onClose={field.onBlur}
+                      onValueChange={(value) => {
+                        field.onChange(value);
+                      }}
+                    >
+                      <SelectTrigger
+                        variant="outline"
+                        size="xl"
+                        className="flex justify-between pr-4"
+                      >
+                        <SelectInput
+                          placeholder="Categoria"
+                          value={
+                            field.value ? categoriesLabels[field.value] : ""
+                          }
+                        />
+                        <SelectIcon
+                          as={() => (
+                            <ChevronDown stroke="white" className="size-5" />
+                          )}
+                        />
+                      </SelectTrigger>
+                      <SelectPortal>
+                        <SelectBackdrop />
+                        <SelectContent>
+                          <SelectDragIndicatorWrapper>
+                            <SelectDragIndicator />
+                          </SelectDragIndicatorWrapper>
+                          {categoryFiltersOptions.map((option) => (
                             <SelectItem
                               key={option.value}
                               label={option.label}
