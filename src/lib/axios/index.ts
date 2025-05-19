@@ -4,7 +4,7 @@ import axios, { type AxiosError, type AxiosRequestConfig } from "axios";
 import { STORAGE_KEYS } from "../storage";
 
 export const okamiHttpGateway = axios.create({
-  baseURL: process.env.EXPO_PUBLIC_API_URL,
+  baseURL: process.env.EXPO_PUBLIC_API_URL?.trim(),
   headers: {
     Authorization: `Bearer ${mmkvStorage.getString(STORAGE_KEYS.TOKEN)}`,
   },

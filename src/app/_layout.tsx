@@ -4,7 +4,11 @@ import "../../global.css";
 import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
 import { StatusBar } from "expo-status-bar";
 
-import { onAppStateChange, queryClient } from "@/lib/react-query";
+import {
+  onAppStateChange,
+  queryClient,
+  queryStoragePersister,
+} from "@/lib/react-query";
 import { Slot } from "expo-router";
 
 import * as SplashScreen from "expo-splash-screen";
@@ -21,7 +25,8 @@ import { useEffect } from "react";
 import { AuthProvider } from "@/hooks/useAuth";
 import { env } from "@/lib/env";
 import { DarkTheme, ThemeProvider } from "@react-navigation/native";
-import { QueryClientProvider, onlineManager } from "@tanstack/react-query";
+import { onlineManager } from "@tanstack/react-query";
+import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import { Provider as JotaiProvider } from "jotai";
 import { AppState } from "react-native";
 import { OneSignal } from "react-native-onesignal";
@@ -66,13 +71,16 @@ export default function RootLayout() {
   return (
     <GluestackUIProvider mode="dark">
       <ThemeProvider value={DarkTheme}>
-        <QueryClientProvider client={queryClient}>
+        <PersistQueryClientProvider
+          client={queryClient}
+          persistOptions={{ persister: queryStoragePersister }}
+        >
           <JotaiProvider>
             <AuthProvider>
               <Slot />
             </AuthProvider>
           </JotaiProvider>
-        </QueryClientProvider>
+        </PersistQueryClientProvider>
         <StatusBar style="auto" />
       </ThemeProvider>
     </GluestackUIProvider>
