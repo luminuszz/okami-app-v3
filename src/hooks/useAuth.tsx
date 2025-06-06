@@ -1,5 +1,5 @@
 import {
-  useAuthControllerLoginV2,
+  useAuthControllerLoginV2, useAuthControllerLoginV2Mobile,
   useAuthControllerLogout,
   useAuthControllerRegister,
 } from "@/api/okami";
@@ -55,7 +55,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     mmkvStorage,
   );
 
-  const { mutate: makeLogin, isPending } = useAuthControllerLoginV2({
+  const { mutate: makeLogin, isPending } = useAuthControllerLoginV2Mobile({
     mutation: {
       async onSuccess(data) {
         setToken(data.token);

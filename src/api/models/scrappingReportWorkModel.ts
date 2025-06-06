@@ -5,10 +5,12 @@
  * The Okami rest api
  * OpenAPI spec version: 1.0
  */
+import type { _ScrappingReportWorkModelTypename } from './_scrappingReportWorkModelTypename';
 import type { ScrappingReportWorkModelCategory } from './scrappingReportWorkModelCategory';
 import type { TagModel } from './tagModel';
 
 export interface ScrappingReportWorkModel {
+  readonly __typename: _ScrappingReportWorkModelTypename;
   /** @nullable */
   alternativeName: string | null;
   category: ScrappingReportWorkModelCategory;

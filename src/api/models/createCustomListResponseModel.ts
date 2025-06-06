@@ -6,6 +6,7 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface RefreshTokenDto {
-  refreshToken?: string;
+export interface CreateCustomListResponseModel {
+  /** The ID of the custom list that was created */
+  readonly customListId: string;
 }

@@ -6,6 +6,7 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface RefreshTokenDto {
-  refreshToken?: string;
+export interface FetchSharedWorkOwner {
+  /** Name of the owner */
+  name: string;
 }

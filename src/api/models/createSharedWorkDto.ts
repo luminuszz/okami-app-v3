@@ -6,6 +6,6 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface RefreshTokenDto {
-  refreshToken?: string;
+export interface CreateSharedWorkDto {
+  workId: string;
 }

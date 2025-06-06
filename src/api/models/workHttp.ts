@@ -5,10 +5,12 @@
  * The Okami rest api
  * OpenAPI spec version: 1.0
  */
+import type { _WorkHttpTypename } from './_workHttpTypename';
 import type { WorkHttpCategory } from './workHttpCategory';
 import type { TagModel } from './tagModel';
 
 export interface WorkHttp {
+  readonly __typename: _WorkHttpTypename;
   /** @nullable */
   alternativeName: string | null;
   category: WorkHttpCategory;

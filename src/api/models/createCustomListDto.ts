@@ -6,6 +6,8 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface RefreshTokenDto {
-  refreshToken?: string;
+export interface CreateCustomListDto {
+  description?: string;
+  title: string;
+  worksId: string[];
 }

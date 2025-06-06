@@ -43,7 +43,7 @@ type FailRequestQueue = {
 let failRequestQueue: FailRequestQueue = [];
 
 const refreshTokenCall = async (refreshToken: string) => {
-  const response = await okamiHttpGateway.post("/auth/v2/refresh-token", {
+  const response = await okamiHttpGateway.post("/auth/v2/refresh-token/mobile", {
     refreshToken,
   });
 
