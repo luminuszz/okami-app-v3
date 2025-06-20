@@ -28,6 +28,8 @@ import { VStack } from "@/components/ui/vstack";
 import { router, useLocalSearchParams } from "expo-router";
 import { ChevronDown } from "lucide-react-native";
 
+import { invalidateWorkListWithFiltersQuery } from "@/store/works-filters";
+import { useSetAtom } from "jotai";
 import { useMemo, useState } from "react";
 
 export type Params = {
@@ -36,6 +38,7 @@ export type Params = {
 
 export default function MarkWorkAsFinishedScreen() {
   const { workId: currentWorkIdParams } = useLocalSearchParams<Params>();
+  const invalidateWorkList = useSetAtom(invalidateWorkListWithFiltersQuery);
 
   const [workId, setWorkId] = useState<string | null>(currentWorkIdParams);
 
@@ -52,11 +55,13 @@ export default function MarkWorkAsFinishedScreen() {
 
   const { mutate, isPending } = useWorkControllerMarkFinished({
     mutation: {
-      onSuccess() {
+      async onSuccess() {
         toast({
           title: "Obra finalizada com sucesso",
           action: "success",
         });
+
+        await invalidateWorkList();
 
         router.push("/(app)/(home)");
       },

@@ -74,6 +74,9 @@ importers:
       '@tanstack/query-async-storage-persister':
         specifier: ^5.62.3
         version: 5.62.3
+      '@tanstack/query-core':
+        specifier: ^5.80.10
+        version: 5.80.10
       '@tanstack/react-query':
         specifier: ^5.61.0
         version: 5.62.0(react@18.3.1)
@@ -137,6 +140,9 @@ importers:
       jotai:
         specifier: ^2.10.3
         version: 2.10.3(@types/react@18.3.12)(react@18.3.1)
+      jotai-tanstack-query:
+        specifier: ^0.9.0
+        version: 0.9.0(@tanstack/query-core@5.80.10)(jotai@2.10.3(@types/react@18.3.12)(react@18.3.1))
       jwt-decode:
         specifier: ^4.0.0
         version: 4.0.0
@@ -2077,6 +2083,9 @@ packages:
 
   '@tanstack/query-core@5.62.3':
     resolution: {integrity: sha512-Jp/nYoz8cnO7kqhOlSv8ke/0MJRJVGuZ0P/JO9KQ+f45mpN90hrerzavyTKeSoT/pOzeoOUkv1Xd0wPsxAWXfg==}
+
+  '@tanstack/query-core@5.80.10':
+    resolution: {integrity: sha512-mUNQOtzxkjL6jLbyChZoSBP6A5gQDVRUiPvW+/zw/9ftOAz+H754zCj3D8PwnzPKyHzGkQ9JbH48ukhym9LK1Q==}
 
   '@tanstack/query-persist-client-core@5.62.3':
     resolution: {integrity: sha512-2cyrQAF1+yn/9GJf3kZnXjtFhlcCWOLL9PXG/JeMxRz8Ni0qvBbRIAXryKVJuDh570K0mmaaGs33pQb+FbmnEQ==}
@@ -4222,6 +4231,12 @@ packages:
   join-component@1.1.0:
     resolution: {integrity: sha512-bF7vcQxbODoGK1imE2P9GS9aw4zD0Sd+Hni68IMZLj7zRnquH7dXUmMw9hDI5S/Jzt7q+IyTXN0rSg2GI0IKhQ==}
 
+  jotai-tanstack-query@0.9.0:
+    resolution: {integrity: sha512-8n7/xV14+ZE63dyqngtmqs6aV1bNnQJF9bJN5Bj70USc2cMFRmsVhGGzL1cSvp5E/xXasU37czFFaZ0vavmyfA==}
+    peerDependencies:
+      '@tanstack/query-core': '*'
+      jotai: '>=2.0.0'
+
   jotai@2.10.3:
     resolution: {integrity: sha512-Nnf4IwrLhNfuz2JOQLI0V/AgwcpxvVy8Ec8PidIIDeRi4KCFpwTFIpHAAcU+yCgnw/oASYElq9UY0YdUUegsSA==}
     engines: {node: '>=12.20.0'}
@@ -4508,6 +4523,7 @@ packages:
 
   lodash.get@4.4.2:
     resolution: {integrity: sha512-z+Uw/vLuy6gQe8cfaFWD7p0wVv8fJl3mbzXh33RS+0oW2wvUqiRXiQ69gLWSLpgB5/6sU+r6BlQR0MBILadqTQ==}
+    deprecated: This package is deprecated. Use the optional chaining (?.) operator instead.
 
   lodash.isempty@4.4.0:
     resolution: {integrity: sha512-oKMuF3xEeqDltrGMfDxAPGIVMSSRv8tbRSODbrs4KGsRRLEhrW8N8Rd4DRgB2+621hY8A8XwwrTVhXWpxFvMzg==}
@@ -4517,6 +4533,7 @@ packages:
 
   lodash.omit@4.5.0:
     resolution: {integrity: sha512-XeqSp49hNGmlkj2EJlfrQFIzQ6lXdNro9sddtQzcJY8QaoC2GO0DT7xaIokHeyM+mIT0mPMlPvkYzg2xCuHdZg==}
+    deprecated: This package is deprecated. Use destructuring assignment syntax instead.
 
   lodash.omitby@4.6.0:
     resolution: {integrity: sha512-5OrRcIVR75M288p4nbI2WLAf3ndw2GD9fyNv3Bc15+WCxJDdZ4lYndSxGd7hnG6PVjiJTeJE2dHEGhIuKGicIQ==}
@@ -6005,9 +6022,11 @@ packages:
 
   sudo-prompt@8.2.5:
     resolution: {integrity: sha512-rlBo3HU/1zAJUrkY6jNxDOC9eVYliG6nS4JA8u8KAshITd07tafMc/Br7xQwCSseXwJ2iCcHCE8SNWX3q8Z+kw==}
+    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
 
   sudo-prompt@9.1.1:
     resolution: {integrity: sha512-es33J1g2HjMpyAhz8lOR+ICmXXAqTuKbuXuUWLhOLew20oN9oUCgCJx615U/v7aioZg7IX5lIh9x34vwneu4pA==}
+    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
 
   supports-color@5.5.0:
     resolution: {integrity: sha512-QjVjwdXIt408MIiAqCX4oUKsgU2EqAGzs2Ppkm4aQYbjm+ZEWEcW4SfFNTr4uMNZma0ey4f5lgLrkB0aX0QMow==}
@@ -9428,6 +9447,8 @@ snapshots:
 
   '@tanstack/query-core@5.62.3': {}
 
+  '@tanstack/query-core@5.80.10': {}
+
   '@tanstack/query-persist-client-core@5.62.3':
     dependencies:
       '@tanstack/query-core': 5.62.3
@@ -11982,6 +12003,11 @@ snapshots:
   jiti@1.21.6: {}
 
   join-component@1.1.0: {}
+
+  jotai-tanstack-query@0.9.0(@tanstack/query-core@5.80.10)(jotai@2.10.3(@types/react@18.3.12)(react@18.3.1)):
+    dependencies:
+      '@tanstack/query-core': 5.80.10
+      jotai: 2.10.3(@types/react@18.3.12)(react@18.3.1)
 
   jotai@2.10.3(@types/react@18.3.12)(react@18.3.1):
     optionalDependencies:

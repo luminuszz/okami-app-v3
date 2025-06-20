@@ -67,8 +67,8 @@ export function WorkCard({ work }: WorkCardProps) {
       : "read";
 
   return (
-    <Card variant="elevated" className="max-w-[200px]">
-      <HStack space="lg">
+    <Card variant="ghost" className="max-w-[200px]">
+      <HStack space="lg" className="items-start">
         <VStack>
           <Badge
             className="z-10 -mb-8 ml-2 self-start rounded-lg"
@@ -91,7 +91,7 @@ export function WorkCard({ work }: WorkCardProps) {
           >
             {work.imageUrl && (
               <Image
-                className="mb-6 h-[200px] w-[300px] rounded-md"
+                className="mb-6 h-[210px] w-[300px] rounded-md"
                 source={{ uri: work.imageUrl }}
                 alt="Solo Leveling"
               />
@@ -101,7 +101,7 @@ export function WorkCard({ work }: WorkCardProps) {
 
         <VStack space="md">
           <VStack>
-            <Heading ellipsizeMode="tail" numberOfLines={2} size="md">
+            <Heading ellipsizeMode="tail" numberOfLines={1} size="md">
               {work.title.trim()}
             </Heading>
 

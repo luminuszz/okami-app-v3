@@ -1,4 +1,3 @@
-import { useWorkControllerListUserWorksPagedInfinite } from "@/api/okami";
 import { Navbar } from "@/components/navbar";
 import { Badge, BadgeText } from "@/components/ui/badge";
 import { Box } from "@/components/ui/box";
@@ -9,7 +8,11 @@ import { Spinner } from "@/components/ui/spinner";
 import { Text } from "@/components/ui/text";
 import { WorkCard } from "@/components/works/work-card";
 import { categoriesLabels, filtersLabels } from "@/constants/strings";
-import { toggleWorkFilter, worksFiltersAtom } from "@/store/works-filters";
+import {
+  fetchWorksWithFiltersAtomQuery,
+  toggleWorkFilter,
+  worksFiltersAtom,
+} from "@/store/works-filters";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useMemo } from "react";
 import { FlatList, Pressable } from "react-native";
@@ -25,21 +28,7 @@ export default function WorksScreen() {
     fetchNextPage,
     isFetchingNextPage,
     hasNextPage,
-  } = useWorkControllerListUserWorksPagedInfinite(
-    {
-      status: status ?? undefined,
-      search: search ?? undefined,
-      category: category ?? undefined,
-      limit: 10,
-      page: 1,
-    },
-    {
-      query: {
-        getNextPageParam: (lastPage) => Number(lastPage.nextPage) || undefined,
-        queryKey: ["works-list-infinite", { status, search, category }],
-      },
-    },
-  );
+  } = useAtomValue(fetchWorksWithFiltersAtomQuery);
 
   const canFetchNextPage = !isFetchingNextPage && hasNextPage;
 

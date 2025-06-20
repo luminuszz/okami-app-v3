@@ -18,9 +18,10 @@ import { Input, InputField } from "@/components/ui/input";
 import { Skeleton, SkeletonText } from "@/components/ui/skeleton";
 import { Spinner } from "@/components/ui/spinner";
 import { VStack } from "@/components/ui/vstack";
+import { invalidateWorkListWithFiltersQuery } from "@/store/works-filters";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useQueryClient } from "@tanstack/react-query";
 import { Redirect, router, useLocalSearchParams } from "expo-router";
+import { useSetAtom } from "jotai";
 import { Controller, useForm } from "react-hook-form";
 import { SafeAreaView, ScrollView } from "react-native";
 import { z } from "zod";
@@ -34,8 +35,8 @@ const schema = z.object({
 type Schema = z.infer<typeof schema>;
 
 export default function UpdateWorkChapterScreen() {
-  const client = useQueryClient();
   const toast = useOkamiToast();
+  const invalidateWorkList = useSetAtom(invalidateWorkListWithFiltersQuery);
 
   const { workId } = useLocalSearchParams<{ workId: string }>();
 
@@ -54,9 +55,7 @@ export default function UpdateWorkChapterScreen() {
             action: "success",
           });
 
-          void client.invalidateQueries({
-            predicate: ({ queryKey }) => queryKey.includes("works-list-infinite"),
-          });
+          await invalidateWorkList();
 
           router.push("/(app)/(home)/works");
         },

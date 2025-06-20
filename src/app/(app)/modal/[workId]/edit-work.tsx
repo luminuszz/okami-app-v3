@@ -1,6 +1,5 @@
 import {
   getWorkControllerGetByIdQueryKey,
-  getWorkControllerListUserWorksQueryKey,
   useWorkControllerGetById,
   useWorkControllerUpdateWork,
 } from "@/api/okami";
@@ -28,6 +27,8 @@ import { router, useLocalSearchParams } from "expo-router";
 import { Controller, useForm } from "react-hook-form";
 import { SafeAreaView, ScrollView } from "react-native";
 
+import { invalidateWorkListWithFiltersQuery } from "@/store/works-filters";
+import { useSetAtom } from "jotai";
 import { z } from "zod";
 
 type EditWorkParams = {
@@ -51,6 +52,7 @@ type EditFormValues = z.infer<typeof editWorkFormSchema>;
 export default function EditWorkScreen() {
   const { workId } = useLocalSearchParams<EditWorkParams>();
   const toast = useOkamiToast();
+  const invalidateWorkList = useSetAtom(invalidateWorkListWithFiltersQuery);
 
   const client = useQueryClient();
 
@@ -59,13 +61,11 @@ export default function EditWorkScreen() {
   const updateWorkMutation = useWorkControllerUpdateWork({
     mutation: {
       async onSuccess() {
-        client.invalidateQueries({
+        await client.invalidateQueries({
           queryKey: getWorkControllerGetByIdQueryKey(workId),
         });
 
-        client.invalidateQueries({
-          queryKey: getWorkControllerListUserWorksQueryKey(),
-        });
+        await invalidateWorkList();
       },
     },
   });
