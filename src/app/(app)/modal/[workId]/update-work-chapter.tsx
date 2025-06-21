@@ -36,7 +36,9 @@ type Schema = z.infer<typeof schema>;
 
 export default function UpdateWorkChapterScreen() {
   const toast = useOkamiToast();
-  const invalidateWorkList = useSetAtom(invalidateWorkListWithFiltersQuery);
+  const invalidateWorkListQuery = useSetAtom(
+    invalidateWorkListWithFiltersQuery,
+  );
 
   const { workId } = useLocalSearchParams<{ workId: string }>();
 
@@ -49,13 +51,13 @@ export default function UpdateWorkChapterScreen() {
   const { mutate: updateWorkChapter, isPending } =
     useWorkControllerUpdateChapter({
       mutation: {
-        async onSuccess() {
+        async onSuccess(_, { data, id }) {
           toast({
             title: "Obra atualizada com sucesso !",
             action: "success",
           });
 
-          await invalidateWorkList();
+          await invalidateWorkListQuery();
 
           router.push("/(app)/(home)/works");
         },
@@ -145,7 +147,7 @@ export default function UpdateWorkChapterScreen() {
                       value={String(field.value)}
                       onChangeText={field.onChange}
                       className="w-full"
-                      keyboardType="numbers-and-punctuation"
+                      keyboardType="number-pad"
                     />
                   </Input>
                   {fieldState.invalid && (
