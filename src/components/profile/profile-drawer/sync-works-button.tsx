@@ -25,7 +25,7 @@ export function SyncWorksButton() {
           description: "Suas obras estão sendo atualizadas",
         });
       },
-      async onError(error) {
+      async onError() {
         toast({
           title: "Erro ao atualizar obras",
           action: "error",

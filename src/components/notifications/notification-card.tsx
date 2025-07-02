@@ -87,10 +87,16 @@ export function NotificationCard({ notification }: NotificationCardProps) {
     >
       <Card variant="filled" className="mt-2">
         <VStack space="xs">
-          <Text className="text-md text-typography-600">{`Obra atualizada: ${notification.content?.name}`}</Text>
-          <Text className="text-sm text-typography-900">
-            {`${isChapter ? " Capítulo" : "Episódio"} ${notification.content.nextChapter} disponível !`}
+          <Text className="text-md text-typography-600">
+            {notification.content.nextChapter
+              ? `Obra atualizada: ${notification.content?.name}`
+              : `Obra adicionada: ${notification.content?.name}`}
           </Text>
+          {notification.content.nextChapter && (
+            <Text className="text-sm text-typography-900">
+              {`${isChapter ? " Capítulo" : "Episódio"} ${notification.content.nextChapter} disponível !`}
+            </Text>
+          )}
         </VStack>
         {!notification.readAt && (
           <HStack className="w- fixed -mb-2 mr-2 flex-1 items-end self-end">
