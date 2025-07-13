@@ -41,6 +41,8 @@ export default function WorksScreen() {
 
   const toggleFilters = useSetAtom(toggleWorkFilter);
 
+  const worksCount = useMemo(() => sortedWorks?.length ?? 0, [sortedWorks]);
+
   return (
     <Box className="mt-10 w-full flex-1 px-4">
       <Navbar />
@@ -89,7 +91,9 @@ export default function WorksScreen() {
             refreshing={isFetching}
             keyExtractor={(item) => item.id}
             data={sortedWorks}
-            onEndReached={() => canFetchNextPage && fetchNextPage()}
+            onEndReached={() =>
+              canFetchNextPage && worksCount > 3 && fetchNextPage()
+            }
             contentContainerStyle={{ paddingBottom: 20 }} // Add padding to the bottom
             ListFooterComponent={<Box style={{ height: 20 }} />} // Add extra space at the end
             renderItem={({ item: work }) => (
