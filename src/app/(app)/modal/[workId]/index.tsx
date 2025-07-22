@@ -1,4 +1,4 @@
-import { useWorkControllerGetById } from "@/api/okami";
+import { useWorkControllerGetWorkById } from "@/api/okami";
 import { Container } from "@/components/layout/container";
 import { Badge, BadgeText } from "@/components/ui/badge";
 import { Box } from "@/components/ui/box";
@@ -39,7 +39,14 @@ export default function WorkDetails() {
 
   const toggleWorkActionsDrawer = useSetAtom(toggleWorkActionsDrawerActionAtom);
 
-  const { data: work, isLoading, isError } = useWorkControllerGetById(workId);
+  const {
+    data: work,
+    isLoading,
+    isError,
+    error,
+  } = useWorkControllerGetWorkById(workId);
+
+  console.log({ error });
 
   if (isLoading) {
     return (

@@ -31,7 +31,8 @@ export interface WorkHttp {
   nextChapter: number | null;
   /** @nullable */
   nextChapterUpdatedAt: string | null;
-  refreshStatus: string;
+  /** @nullable */
+  refreshStatus: string | null;
   tags: TagModel[];
   updatedAt: string;
   url: string;

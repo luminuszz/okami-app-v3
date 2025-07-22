@@ -6,6 +6,9 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface ValidateEmailDto {
-  code: string;
+export interface OwnerModel {
+  createdAt: string;
+  /** @nullable */
+  imageUrl: string | null;
+  name: string;
 }

@@ -5,11 +5,12 @@
  * The Okami rest api
  * OpenAPI spec version: 1.0
  */
-import type { _CustomListModelTypename } from './_customListModelTypename';
+import type { _CustomListWithWorksModelTypename } from './_customListWithWorksModelTypename';
+import type { WorkHttp } from './workHttp';
 
-export interface CustomListModel {
+export interface CustomListWithWorksModel {
   /** */
-  readonly __typename: _CustomListModelTypename;
+  readonly __typename: _CustomListWithWorksModelTypename;
   count: number;
   description?: string;
   id: string;
@@ -20,4 +21,5 @@ export interface CustomListModel {
   /** @nullable */
   thumbnailImageUrl: string | null;
   title: string;
+  works: WorkHttp[];
 }

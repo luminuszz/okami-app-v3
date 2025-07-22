@@ -6,6 +6,6 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface ValidateEmailDto {
-  code: string;
+export interface ToggleShareCollectionDto {
+  id: string;
 }
