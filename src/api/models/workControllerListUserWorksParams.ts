@@ -12,4 +12,5 @@ export type WorkControllerListUserWorksParams = {
 status?: WorkControllerListUserWorksStatus;
 search?: string;
 category?: WorkControllerListUserWorksCategory;
+page?: number;
 };

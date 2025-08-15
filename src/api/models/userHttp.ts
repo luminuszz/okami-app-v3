@@ -6,16 +6,20 @@
  * OpenAPI spec version: 1.0
  */
 import type { UserHttpRole } from './userHttpRole';
+import type { UserHttpTrialQuoteLimit } from './userHttpTrialQuoteLimit';
 
 export interface UserHttp {
-  avatarImageId?: string;
   /** @nullable */
   avatarImageUrl: string | null;
   email: string;
+  emailConfirmed: boolean;
   finishedWorksCount: number;
   id: string;
+  isTelegramSubscriber: boolean;
   name: string;
   notionDatabaseId?: string;
   readingWorksCount: number;
   role: UserHttpRole;
+  /** @nullable */
+  trialQuoteLimit: UserHttpTrialQuoteLimit;
 }

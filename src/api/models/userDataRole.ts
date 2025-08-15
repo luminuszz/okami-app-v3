@@ -6,13 +6,12 @@
  * OpenAPI spec version: 1.0
  */
 
-export type RefreshStatus = typeof RefreshStatus[keyof typeof RefreshStatus];
+export type UserDataRole = typeof UserDataRole[keyof typeof UserDataRole];
 
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const RefreshStatus = {
-  SUCCESS: 'SUCCESS',
-  FAILED: 'FAILED',
-  PENDING: 'PENDING',
-  IDLE: 'IDLE',
+export const UserDataRole = {
+  ADMIN: 'ADMIN',
+  USER: 'USER',
+  SUBSCRIBED_USER: 'SUBSCRIBED_USER',
 } as const;

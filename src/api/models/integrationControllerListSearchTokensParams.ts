@@ -9,4 +9,5 @@ import type { IntegrationControllerListSearchTokensType } from './integrationCon
 
 export type IntegrationControllerListSearchTokensParams = {
 type: IntegrationControllerListSearchTokensType;
+page?: number | null;
 };

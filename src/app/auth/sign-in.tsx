@@ -16,7 +16,7 @@ import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
 const formLoginSchema = z.object({
-  email: z.string().email(),
+  email: z.string().email().trim(),
   password: z.string().min(6),
 });
 
@@ -50,7 +50,7 @@ export default function SignInScreen() {
               <Input size="xl">
                 <InputField
                   onBlur={field.onBlur}
-                  onChangeText={field.onChange}
+                  onChangeText={(vl) => field.onChange(vl.trim())}
                   value={field.value}
                   className="w-full"
                   keyboardType="email-address"

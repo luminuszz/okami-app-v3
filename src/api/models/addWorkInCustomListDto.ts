@@ -7,5 +7,5 @@
  */
 
 export interface AddWorkInCustomListDto {
-  workId: string;
+  worksId: string[];
 }

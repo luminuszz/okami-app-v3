@@ -16,6 +16,7 @@ export interface CustomListWithWorksModel {
   id: string;
   isShared: boolean;
   publicId: string;
+  thumbImagesUrls: string[];
   /** @nullable */
   thumbnailImageId?: string | null;
   /** @nullable */

@@ -6,7 +6,7 @@
  * OpenAPI spec version: 1.0
  */
 
-export type TagControllerFilterTagParams = {
-search: string;
-page: number;
-};
+/**
+ * @nullable
+ */
+export type UserHttpTrialQuoteLimit = { [key: string]: unknown } | null;

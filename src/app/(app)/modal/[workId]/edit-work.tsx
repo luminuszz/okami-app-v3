@@ -1,6 +1,6 @@
 import {
-  getWorkControllerGetByIdQueryKey,
-  useWorkControllerGetById,
+  getWorkControllerGetWorkByIdQueryKey,
+  useWorkControllerGetWorkById,
   useWorkControllerUpdateWork,
 } from "@/api/okami";
 import { Container } from "@/components/layout/container";
@@ -56,13 +56,13 @@ export default function EditWorkScreen() {
 
   const client = useQueryClient();
 
-  const { data: currentWork, isLoading } = useWorkControllerGetById(workId);
+  const { data: currentWork, isLoading } = useWorkControllerGetWorkById(workId);
 
   const updateWorkMutation = useWorkControllerUpdateWork({
     mutation: {
       async onSuccess() {
         await client.invalidateQueries({
-          queryKey: getWorkControllerGetByIdQueryKey(workId),
+          queryKey: getWorkControllerGetWorkByIdQueryKey(workId),
         });
 
         await invalidateWorkList();

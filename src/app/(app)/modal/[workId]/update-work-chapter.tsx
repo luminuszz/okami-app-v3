@@ -1,5 +1,5 @@
 import {
-  useWorkControllerGetById,
+  useWorkControllerGetWorkById,
   useWorkControllerUpdateChapter,
 } from "@/api/okami";
 import { Container } from "@/components/layout/container";
@@ -36,6 +36,7 @@ type Schema = z.infer<typeof schema>;
 
 export default function UpdateWorkChapterScreen() {
   const toast = useOkamiToast();
+
   const invalidateWorkListQuery = useSetAtom(
     invalidateWorkListWithFiltersQuery,
   );
@@ -46,7 +47,7 @@ export default function UpdateWorkChapterScreen() {
     data: currentWork,
     isLoading,
     isError,
-  } = useWorkControllerGetById(workId);
+  } = useWorkControllerGetWorkById(workId);
 
   const { mutate: updateWorkChapter, isPending } =
     useWorkControllerUpdateChapter({

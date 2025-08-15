@@ -7,6 +7,12 @@
  */
 
 export interface FetchSharedWorkOwner {
+  /** Creation date of the owner account */
+  createdAt: string;
+  /** Unique identifier of the owner */
+  id: string;
+  /** URL of the owner image */
+  imageUrl: string;
   /** Name of the owner */
   name: string;
 }

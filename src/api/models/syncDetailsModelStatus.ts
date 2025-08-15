@@ -6,11 +6,11 @@
  * OpenAPI spec version: 1.0
  */
 
-export type RefreshStatus = typeof RefreshStatus[keyof typeof RefreshStatus];
+export type SyncDetailsModelStatus = typeof SyncDetailsModelStatus[keyof typeof SyncDetailsModelStatus];
 
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const RefreshStatus = {
+export const SyncDetailsModelStatus = {
   SUCCESS: 'SUCCESS',
   FAILED: 'FAILED',
   PENDING: 'PENDING',

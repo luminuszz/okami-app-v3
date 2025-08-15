@@ -31,6 +31,7 @@ import type {
   AccessToken,
   AddRowInCalendarDto,
   AddWorkInCustomListDto,
+  AdminControllerFetchUsersParams,
   CalendarModel,
   CompareSubscriberAuthTokenDto,
   CreateAdminHashCodeDto,
@@ -46,6 +47,7 @@ import type {
   CustomListModel,
   CustomListWithWorksModel,
   FetchSharedWorkQueryResponse,
+  FetchUsersModel,
   GetWorkUploadUrlDto,
   IntegrationControllerListSearchTokensParams,
   LoggerControllerHealthCheck200,
@@ -64,7 +66,7 @@ import type {
   ResetUserPasswordDto,
   ScrappingReportControllerFetchForWorksScrapingReportPaginatedParams,
   ScrappingReportDto,
-  ScrappingReportWorkModel,
+  ScrappingReportModel,
   SearchTokenControllerListSearchTokensParams,
   SearchTokenHttp,
   SendAuthCodeByEmailValidator,
@@ -81,6 +83,7 @@ import type {
   UpdateTagDto,
   UpdateTelegramChatIdValidator,
   UpdateUserDto,
+  UpdateUserRoleDto,
   UpdateWorkDto,
   UserHttp,
   ValidateEmailDto,
@@ -103,13 +106,9 @@ export const workControllerCreateWork = (
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
       
-      const formData = new FormData();
-formData.append('data', )
-
+      
       return customInstance<void>(
-      {url: `/work`, method: 'POST',
-      headers: {'Content-Type': 'multipart/form-data', },
-       data: formData, signal
+      {url: `/work`, method: 'POST', signal
     },
       options);
     }
@@ -1038,61 +1037,6 @@ const {mutation: mutationOptions, request: requestOptions} = options ?? {};
       > => {
 
       const mutationOptions = getWorkControllerMarkFinishedMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    
-export const workControllerUploadWorkImage = (
-    id: string,
- options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
-) => {
-      
-      const formData = new FormData();
-formData.append('data', )
-
-      return customInstance<void>(
-      {url: `/work/upload-work-image/${id}`, method: 'POST',
-      headers: {'Content-Type': 'multipart/form-data', },
-       data: formData, signal
-    },
-      options);
-    }
-  
-
-
-export const getWorkControllerUploadWorkImageMutationOptions = <TError = ErrorType<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof workControllerUploadWorkImage>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof customInstance>}
-): UseMutationOptions<Awaited<ReturnType<typeof workControllerUploadWorkImage>>, TError,{id: string}, TContext> => {
-const {mutation: mutationOptions, request: requestOptions} = options ?? {};
-
-      
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof workControllerUploadWorkImage>>, {id: string}> = (props) => {
-          const {id} = props ?? {};
-
-          return  workControllerUploadWorkImage(id,requestOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type WorkControllerUploadWorkImageMutationResult = NonNullable<Awaited<ReturnType<typeof workControllerUploadWorkImage>>>
-    
-    export type WorkControllerUploadWorkImageMutationError = ErrorType<unknown>
-
-    export const useWorkControllerUploadWorkImage = <TError = ErrorType<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof workControllerUploadWorkImage>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof customInstance>}
-): UseMutationResult<
-        Awaited<ReturnType<typeof workControllerUploadWorkImage>>,
-        TError,
-        {id: string},
-        TContext
-      > => {
-
-      const mutationOptions = getWorkControllerUploadWorkImageMutationOptions(options);
 
       return useMutation(mutationOptions);
     }
@@ -5306,151 +5250,6 @@ const {mutation: mutationOptions, request: requestOptions} = options ?? {};
       return useMutation(mutationOptions);
     }
     
-export const sharedWorkControllerFetchSharedWork = (
-    id: string,
- options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
-) => {
-      
-      
-      return customInstance<FetchSharedWorkQueryResponse>(
-      {url: `/shared-work/share/${id}`, method: 'GET', signal
-    },
-      options);
-    }
-  
-
-export const getSharedWorkControllerFetchSharedWorkQueryKey = (id: string,) => {
-    return [`/shared-work/share/${id}`] as const;
-    }
-
-    
-export const getSharedWorkControllerFetchSharedWorkInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof sharedWorkControllerFetchSharedWork>>>, TError = ErrorType<unknown>>(id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof sharedWorkControllerFetchSharedWork>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
-) => {
-
-const {query: queryOptions, request: requestOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getSharedWorkControllerFetchSharedWorkQueryKey(id);
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof sharedWorkControllerFetchSharedWork>>> = ({ signal }) => sharedWorkControllerFetchSharedWork(id, requestOptions, signal);
-
-      
-
-      
-
-   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof sharedWorkControllerFetchSharedWork>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
-}
-
-export type SharedWorkControllerFetchSharedWorkInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof sharedWorkControllerFetchSharedWork>>>
-export type SharedWorkControllerFetchSharedWorkInfiniteQueryError = ErrorType<unknown>
-
-
-export function useSharedWorkControllerFetchSharedWorkInfinite<TData = InfiniteData<Awaited<ReturnType<typeof sharedWorkControllerFetchSharedWork>>>, TError = ErrorType<unknown>>(
- id: string, options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof sharedWorkControllerFetchSharedWork>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof sharedWorkControllerFetchSharedWork>>,
-          TError,
-          TData
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
-
-  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useSharedWorkControllerFetchSharedWorkInfinite<TData = InfiniteData<Awaited<ReturnType<typeof sharedWorkControllerFetchSharedWork>>>, TError = ErrorType<unknown>>(
- id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof sharedWorkControllerFetchSharedWork>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof sharedWorkControllerFetchSharedWork>>,
-          TError,
-          TData
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
-
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useSharedWorkControllerFetchSharedWorkInfinite<TData = InfiniteData<Awaited<ReturnType<typeof sharedWorkControllerFetchSharedWork>>>, TError = ErrorType<unknown>>(
- id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof sharedWorkControllerFetchSharedWork>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
-
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-
-export function useSharedWorkControllerFetchSharedWorkInfinite<TData = InfiniteData<Awaited<ReturnType<typeof sharedWorkControllerFetchSharedWork>>>, TError = ErrorType<unknown>>(
- id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof sharedWorkControllerFetchSharedWork>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
-
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
-
-  const queryOptions = getSharedWorkControllerFetchSharedWorkInfiniteQueryOptions(id,options)
-
-  const query = useInfiniteQuery(queryOptions) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
-}
-
-
-
-export const getSharedWorkControllerFetchSharedWorkQueryOptions = <TData = Awaited<ReturnType<typeof sharedWorkControllerFetchSharedWork>>, TError = ErrorType<unknown>>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof sharedWorkControllerFetchSharedWork>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
-) => {
-
-const {query: queryOptions, request: requestOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getSharedWorkControllerFetchSharedWorkQueryKey(id);
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof sharedWorkControllerFetchSharedWork>>> = ({ signal }) => sharedWorkControllerFetchSharedWork(id, requestOptions, signal);
-
-      
-
-      
-
-   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof sharedWorkControllerFetchSharedWork>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
-}
-
-export type SharedWorkControllerFetchSharedWorkQueryResult = NonNullable<Awaited<ReturnType<typeof sharedWorkControllerFetchSharedWork>>>
-export type SharedWorkControllerFetchSharedWorkQueryError = ErrorType<unknown>
-
-
-export function useSharedWorkControllerFetchSharedWork<TData = Awaited<ReturnType<typeof sharedWorkControllerFetchSharedWork>>, TError = ErrorType<unknown>>(
- id: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof sharedWorkControllerFetchSharedWork>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof sharedWorkControllerFetchSharedWork>>,
-          TError,
-          TData
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
-
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useSharedWorkControllerFetchSharedWork<TData = Awaited<ReturnType<typeof sharedWorkControllerFetchSharedWork>>, TError = ErrorType<unknown>>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof sharedWorkControllerFetchSharedWork>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof sharedWorkControllerFetchSharedWork>>,
-          TError,
-          TData
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
-
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useSharedWorkControllerFetchSharedWork<TData = Awaited<ReturnType<typeof sharedWorkControllerFetchSharedWork>>, TError = ErrorType<unknown>>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof sharedWorkControllerFetchSharedWork>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
-
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-
-export function useSharedWorkControllerFetchSharedWork<TData = Awaited<ReturnType<typeof sharedWorkControllerFetchSharedWork>>, TError = ErrorType<unknown>>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof sharedWorkControllerFetchSharedWork>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
-
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
-
-  const queryOptions = getSharedWorkControllerFetchSharedWorkQueryOptions(id,options)
-
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
-}
-
-
-
-
 export const customListControllerCreateCustomList = (
     createCustomListDto: BodyType<CreateCustomListDto>,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
@@ -6054,151 +5853,6 @@ const {mutation: mutationOptions, request: requestOptions} = options ?? {};
       return useMutation(mutationOptions);
     }
     
-export const customListControllerFetchCustomListByPublicId = (
-    publicId: string,
- options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
-) => {
-      
-      
-      return customInstance<SharedCustomListModel>(
-      {url: `/custom-list/share/${publicId}`, method: 'GET', signal
-    },
-      options);
-    }
-  
-
-export const getCustomListControllerFetchCustomListByPublicIdQueryKey = (publicId: string,) => {
-    return [`/custom-list/share/${publicId}`] as const;
-    }
-
-    
-export const getCustomListControllerFetchCustomListByPublicIdInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof customListControllerFetchCustomListByPublicId>>>, TError = ErrorType<unknown>>(publicId: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof customListControllerFetchCustomListByPublicId>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
-) => {
-
-const {query: queryOptions, request: requestOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getCustomListControllerFetchCustomListByPublicIdQueryKey(publicId);
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof customListControllerFetchCustomListByPublicId>>> = ({ signal }) => customListControllerFetchCustomListByPublicId(publicId, requestOptions, signal);
-
-      
-
-      
-
-   return  { queryKey, queryFn, enabled: !!(publicId), ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof customListControllerFetchCustomListByPublicId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
-}
-
-export type CustomListControllerFetchCustomListByPublicIdInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof customListControllerFetchCustomListByPublicId>>>
-export type CustomListControllerFetchCustomListByPublicIdInfiniteQueryError = ErrorType<unknown>
-
-
-export function useCustomListControllerFetchCustomListByPublicIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof customListControllerFetchCustomListByPublicId>>>, TError = ErrorType<unknown>>(
- publicId: string, options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof customListControllerFetchCustomListByPublicId>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof customListControllerFetchCustomListByPublicId>>,
-          TError,
-          TData
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
-
-  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useCustomListControllerFetchCustomListByPublicIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof customListControllerFetchCustomListByPublicId>>>, TError = ErrorType<unknown>>(
- publicId: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof customListControllerFetchCustomListByPublicId>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof customListControllerFetchCustomListByPublicId>>,
-          TError,
-          TData
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
-
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useCustomListControllerFetchCustomListByPublicIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof customListControllerFetchCustomListByPublicId>>>, TError = ErrorType<unknown>>(
- publicId: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof customListControllerFetchCustomListByPublicId>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
-
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-
-export function useCustomListControllerFetchCustomListByPublicIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof customListControllerFetchCustomListByPublicId>>>, TError = ErrorType<unknown>>(
- publicId: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof customListControllerFetchCustomListByPublicId>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
-
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
-
-  const queryOptions = getCustomListControllerFetchCustomListByPublicIdInfiniteQueryOptions(publicId,options)
-
-  const query = useInfiniteQuery(queryOptions) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
-}
-
-
-
-export const getCustomListControllerFetchCustomListByPublicIdQueryOptions = <TData = Awaited<ReturnType<typeof customListControllerFetchCustomListByPublicId>>, TError = ErrorType<unknown>>(publicId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof customListControllerFetchCustomListByPublicId>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
-) => {
-
-const {query: queryOptions, request: requestOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getCustomListControllerFetchCustomListByPublicIdQueryKey(publicId);
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof customListControllerFetchCustomListByPublicId>>> = ({ signal }) => customListControllerFetchCustomListByPublicId(publicId, requestOptions, signal);
-
-      
-
-      
-
-   return  { queryKey, queryFn, enabled: !!(publicId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof customListControllerFetchCustomListByPublicId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
-}
-
-export type CustomListControllerFetchCustomListByPublicIdQueryResult = NonNullable<Awaited<ReturnType<typeof customListControllerFetchCustomListByPublicId>>>
-export type CustomListControllerFetchCustomListByPublicIdQueryError = ErrorType<unknown>
-
-
-export function useCustomListControllerFetchCustomListByPublicId<TData = Awaited<ReturnType<typeof customListControllerFetchCustomListByPublicId>>, TError = ErrorType<unknown>>(
- publicId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof customListControllerFetchCustomListByPublicId>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof customListControllerFetchCustomListByPublicId>>,
-          TError,
-          TData
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
-
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useCustomListControllerFetchCustomListByPublicId<TData = Awaited<ReturnType<typeof customListControllerFetchCustomListByPublicId>>, TError = ErrorType<unknown>>(
- publicId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof customListControllerFetchCustomListByPublicId>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof customListControllerFetchCustomListByPublicId>>,
-          TError,
-          TData
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
-
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useCustomListControllerFetchCustomListByPublicId<TData = Awaited<ReturnType<typeof customListControllerFetchCustomListByPublicId>>, TError = ErrorType<unknown>>(
- publicId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof customListControllerFetchCustomListByPublicId>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
-
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-
-export function useCustomListControllerFetchCustomListByPublicId<TData = Awaited<ReturnType<typeof customListControllerFetchCustomListByPublicId>>, TError = ErrorType<unknown>>(
- publicId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof customListControllerFetchCustomListByPublicId>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
-
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
-
-  const queryOptions = getCustomListControllerFetchCustomListByPublicIdQueryOptions(publicId,options)
-
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
-}
-
-
-
-
 export const scrappingReportControllerScrappingFallback = (
     scrappingReportDto: BodyType<ScrappingReportDto>,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
@@ -6258,7 +5912,7 @@ export const scrappingReportControllerFetchForWorksScrapingReportPaginated = (
 ) => {
       
       
-      return customInstance<ScrappingReportWorkModel>(
+      return customInstance<ScrappingReportModel>(
       {url: `/scrapping-report`, method: 'GET',
         params, signal
     },
@@ -6697,6 +6351,835 @@ export function useIntegrationControllerListSearchTokens<TData = Awaited<ReturnT
 
 
 
+export const integrationControllerFetchSharedCustomListsId = (
+    
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<string[]>(
+      {url: `/integration/share/collections`, method: 'GET', signal
+    },
+      options);
+    }
+  
+
+export const getIntegrationControllerFetchSharedCustomListsIdQueryKey = () => {
+    return [`/integration/share/collections`] as const;
+    }
+
+    
+export const getIntegrationControllerFetchSharedCustomListsIdInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof integrationControllerFetchSharedCustomListsId>>>, TError = ErrorType<unknown>>( options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof integrationControllerFetchSharedCustomListsId>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getIntegrationControllerFetchSharedCustomListsIdQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof integrationControllerFetchSharedCustomListsId>>> = ({ signal }) => integrationControllerFetchSharedCustomListsId(requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof integrationControllerFetchSharedCustomListsId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
+}
+
+export type IntegrationControllerFetchSharedCustomListsIdInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof integrationControllerFetchSharedCustomListsId>>>
+export type IntegrationControllerFetchSharedCustomListsIdInfiniteQueryError = ErrorType<unknown>
+
+
+export function useIntegrationControllerFetchSharedCustomListsIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof integrationControllerFetchSharedCustomListsId>>>, TError = ErrorType<unknown>>(
+  options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof integrationControllerFetchSharedCustomListsId>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof integrationControllerFetchSharedCustomListsId>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customInstance>}
+
+  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useIntegrationControllerFetchSharedCustomListsIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof integrationControllerFetchSharedCustomListsId>>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof integrationControllerFetchSharedCustomListsId>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof integrationControllerFetchSharedCustomListsId>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useIntegrationControllerFetchSharedCustomListsIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof integrationControllerFetchSharedCustomListsId>>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof integrationControllerFetchSharedCustomListsId>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+
+export function useIntegrationControllerFetchSharedCustomListsIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof integrationControllerFetchSharedCustomListsId>>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof integrationControllerFetchSharedCustomListsId>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+
+  const queryOptions = getIntegrationControllerFetchSharedCustomListsIdInfiniteQueryOptions(options)
+
+  const query = useInfiniteQuery(queryOptions) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+export const getIntegrationControllerFetchSharedCustomListsIdQueryOptions = <TData = Awaited<ReturnType<typeof integrationControllerFetchSharedCustomListsId>>, TError = ErrorType<unknown>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof integrationControllerFetchSharedCustomListsId>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getIntegrationControllerFetchSharedCustomListsIdQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof integrationControllerFetchSharedCustomListsId>>> = ({ signal }) => integrationControllerFetchSharedCustomListsId(requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof integrationControllerFetchSharedCustomListsId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
+}
+
+export type IntegrationControllerFetchSharedCustomListsIdQueryResult = NonNullable<Awaited<ReturnType<typeof integrationControllerFetchSharedCustomListsId>>>
+export type IntegrationControllerFetchSharedCustomListsIdQueryError = ErrorType<unknown>
+
+
+export function useIntegrationControllerFetchSharedCustomListsId<TData = Awaited<ReturnType<typeof integrationControllerFetchSharedCustomListsId>>, TError = ErrorType<unknown>>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof integrationControllerFetchSharedCustomListsId>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof integrationControllerFetchSharedCustomListsId>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customInstance>}
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useIntegrationControllerFetchSharedCustomListsId<TData = Awaited<ReturnType<typeof integrationControllerFetchSharedCustomListsId>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof integrationControllerFetchSharedCustomListsId>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof integrationControllerFetchSharedCustomListsId>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useIntegrationControllerFetchSharedCustomListsId<TData = Awaited<ReturnType<typeof integrationControllerFetchSharedCustomListsId>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof integrationControllerFetchSharedCustomListsId>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+
+export function useIntegrationControllerFetchSharedCustomListsId<TData = Awaited<ReturnType<typeof integrationControllerFetchSharedCustomListsId>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof integrationControllerFetchSharedCustomListsId>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+
+  const queryOptions = getIntegrationControllerFetchSharedCustomListsIdQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+export const integrationControllerFetchCustomListByPublicId = (
+    publicId: string,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<SharedCustomListModel>(
+      {url: `/integration/share/collections/${publicId}`, method: 'GET', signal
+    },
+      options);
+    }
+  
+
+export const getIntegrationControllerFetchCustomListByPublicIdQueryKey = (publicId: string,) => {
+    return [`/integration/share/collections/${publicId}`] as const;
+    }
+
+    
+export const getIntegrationControllerFetchCustomListByPublicIdInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof integrationControllerFetchCustomListByPublicId>>>, TError = ErrorType<unknown>>(publicId: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof integrationControllerFetchCustomListByPublicId>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getIntegrationControllerFetchCustomListByPublicIdQueryKey(publicId);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof integrationControllerFetchCustomListByPublicId>>> = ({ signal }) => integrationControllerFetchCustomListByPublicId(publicId, requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(publicId), ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof integrationControllerFetchCustomListByPublicId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
+}
+
+export type IntegrationControllerFetchCustomListByPublicIdInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof integrationControllerFetchCustomListByPublicId>>>
+export type IntegrationControllerFetchCustomListByPublicIdInfiniteQueryError = ErrorType<unknown>
+
+
+export function useIntegrationControllerFetchCustomListByPublicIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof integrationControllerFetchCustomListByPublicId>>>, TError = ErrorType<unknown>>(
+ publicId: string, options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof integrationControllerFetchCustomListByPublicId>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof integrationControllerFetchCustomListByPublicId>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customInstance>}
+
+  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useIntegrationControllerFetchCustomListByPublicIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof integrationControllerFetchCustomListByPublicId>>>, TError = ErrorType<unknown>>(
+ publicId: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof integrationControllerFetchCustomListByPublicId>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof integrationControllerFetchCustomListByPublicId>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useIntegrationControllerFetchCustomListByPublicIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof integrationControllerFetchCustomListByPublicId>>>, TError = ErrorType<unknown>>(
+ publicId: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof integrationControllerFetchCustomListByPublicId>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+
+export function useIntegrationControllerFetchCustomListByPublicIdInfinite<TData = InfiniteData<Awaited<ReturnType<typeof integrationControllerFetchCustomListByPublicId>>>, TError = ErrorType<unknown>>(
+ publicId: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof integrationControllerFetchCustomListByPublicId>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+
+  const queryOptions = getIntegrationControllerFetchCustomListByPublicIdInfiniteQueryOptions(publicId,options)
+
+  const query = useInfiniteQuery(queryOptions) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+export const getIntegrationControllerFetchCustomListByPublicIdQueryOptions = <TData = Awaited<ReturnType<typeof integrationControllerFetchCustomListByPublicId>>, TError = ErrorType<unknown>>(publicId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof integrationControllerFetchCustomListByPublicId>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getIntegrationControllerFetchCustomListByPublicIdQueryKey(publicId);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof integrationControllerFetchCustomListByPublicId>>> = ({ signal }) => integrationControllerFetchCustomListByPublicId(publicId, requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(publicId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof integrationControllerFetchCustomListByPublicId>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
+}
+
+export type IntegrationControllerFetchCustomListByPublicIdQueryResult = NonNullable<Awaited<ReturnType<typeof integrationControllerFetchCustomListByPublicId>>>
+export type IntegrationControllerFetchCustomListByPublicIdQueryError = ErrorType<unknown>
+
+
+export function useIntegrationControllerFetchCustomListByPublicId<TData = Awaited<ReturnType<typeof integrationControllerFetchCustomListByPublicId>>, TError = ErrorType<unknown>>(
+ publicId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof integrationControllerFetchCustomListByPublicId>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof integrationControllerFetchCustomListByPublicId>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customInstance>}
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useIntegrationControllerFetchCustomListByPublicId<TData = Awaited<ReturnType<typeof integrationControllerFetchCustomListByPublicId>>, TError = ErrorType<unknown>>(
+ publicId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof integrationControllerFetchCustomListByPublicId>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof integrationControllerFetchCustomListByPublicId>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useIntegrationControllerFetchCustomListByPublicId<TData = Awaited<ReturnType<typeof integrationControllerFetchCustomListByPublicId>>, TError = ErrorType<unknown>>(
+ publicId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof integrationControllerFetchCustomListByPublicId>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+
+export function useIntegrationControllerFetchCustomListByPublicId<TData = Awaited<ReturnType<typeof integrationControllerFetchCustomListByPublicId>>, TError = ErrorType<unknown>>(
+ publicId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof integrationControllerFetchCustomListByPublicId>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+
+  const queryOptions = getIntegrationControllerFetchCustomListByPublicIdQueryOptions(publicId,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+export const integrationControllerFetchSharedWorks = (
+    
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<string[]>(
+      {url: `/integration/share/works`, method: 'GET', signal
+    },
+      options);
+    }
+  
+
+export const getIntegrationControllerFetchSharedWorksQueryKey = () => {
+    return [`/integration/share/works`] as const;
+    }
+
+    
+export const getIntegrationControllerFetchSharedWorksInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof integrationControllerFetchSharedWorks>>>, TError = ErrorType<unknown>>( options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof integrationControllerFetchSharedWorks>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getIntegrationControllerFetchSharedWorksQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof integrationControllerFetchSharedWorks>>> = ({ signal }) => integrationControllerFetchSharedWorks(requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof integrationControllerFetchSharedWorks>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
+}
+
+export type IntegrationControllerFetchSharedWorksInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof integrationControllerFetchSharedWorks>>>
+export type IntegrationControllerFetchSharedWorksInfiniteQueryError = ErrorType<unknown>
+
+
+export function useIntegrationControllerFetchSharedWorksInfinite<TData = InfiniteData<Awaited<ReturnType<typeof integrationControllerFetchSharedWorks>>>, TError = ErrorType<unknown>>(
+  options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof integrationControllerFetchSharedWorks>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof integrationControllerFetchSharedWorks>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customInstance>}
+
+  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useIntegrationControllerFetchSharedWorksInfinite<TData = InfiniteData<Awaited<ReturnType<typeof integrationControllerFetchSharedWorks>>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof integrationControllerFetchSharedWorks>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof integrationControllerFetchSharedWorks>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useIntegrationControllerFetchSharedWorksInfinite<TData = InfiniteData<Awaited<ReturnType<typeof integrationControllerFetchSharedWorks>>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof integrationControllerFetchSharedWorks>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+
+export function useIntegrationControllerFetchSharedWorksInfinite<TData = InfiniteData<Awaited<ReturnType<typeof integrationControllerFetchSharedWorks>>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof integrationControllerFetchSharedWorks>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+
+  const queryOptions = getIntegrationControllerFetchSharedWorksInfiniteQueryOptions(options)
+
+  const query = useInfiniteQuery(queryOptions) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+export const getIntegrationControllerFetchSharedWorksQueryOptions = <TData = Awaited<ReturnType<typeof integrationControllerFetchSharedWorks>>, TError = ErrorType<unknown>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof integrationControllerFetchSharedWorks>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getIntegrationControllerFetchSharedWorksQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof integrationControllerFetchSharedWorks>>> = ({ signal }) => integrationControllerFetchSharedWorks(requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof integrationControllerFetchSharedWorks>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
+}
+
+export type IntegrationControllerFetchSharedWorksQueryResult = NonNullable<Awaited<ReturnType<typeof integrationControllerFetchSharedWorks>>>
+export type IntegrationControllerFetchSharedWorksQueryError = ErrorType<unknown>
+
+
+export function useIntegrationControllerFetchSharedWorks<TData = Awaited<ReturnType<typeof integrationControllerFetchSharedWorks>>, TError = ErrorType<unknown>>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof integrationControllerFetchSharedWorks>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof integrationControllerFetchSharedWorks>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customInstance>}
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useIntegrationControllerFetchSharedWorks<TData = Awaited<ReturnType<typeof integrationControllerFetchSharedWorks>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof integrationControllerFetchSharedWorks>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof integrationControllerFetchSharedWorks>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useIntegrationControllerFetchSharedWorks<TData = Awaited<ReturnType<typeof integrationControllerFetchSharedWorks>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof integrationControllerFetchSharedWorks>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+
+export function useIntegrationControllerFetchSharedWorks<TData = Awaited<ReturnType<typeof integrationControllerFetchSharedWorks>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof integrationControllerFetchSharedWorks>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+
+  const queryOptions = getIntegrationControllerFetchSharedWorksQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+export const integrationControllerFetchSharedWork = (
+    id: string,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<FetchSharedWorkQueryResponse>(
+      {url: `/integration/share/works/${id}`, method: 'GET', signal
+    },
+      options);
+    }
+  
+
+export const getIntegrationControllerFetchSharedWorkQueryKey = (id: string,) => {
+    return [`/integration/share/works/${id}`] as const;
+    }
+
+    
+export const getIntegrationControllerFetchSharedWorkInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof integrationControllerFetchSharedWork>>>, TError = ErrorType<unknown>>(id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof integrationControllerFetchSharedWork>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getIntegrationControllerFetchSharedWorkQueryKey(id);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof integrationControllerFetchSharedWork>>> = ({ signal }) => integrationControllerFetchSharedWork(id, requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof integrationControllerFetchSharedWork>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
+}
+
+export type IntegrationControllerFetchSharedWorkInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof integrationControllerFetchSharedWork>>>
+export type IntegrationControllerFetchSharedWorkInfiniteQueryError = ErrorType<unknown>
+
+
+export function useIntegrationControllerFetchSharedWorkInfinite<TData = InfiniteData<Awaited<ReturnType<typeof integrationControllerFetchSharedWork>>>, TError = ErrorType<unknown>>(
+ id: string, options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof integrationControllerFetchSharedWork>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof integrationControllerFetchSharedWork>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customInstance>}
+
+  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useIntegrationControllerFetchSharedWorkInfinite<TData = InfiniteData<Awaited<ReturnType<typeof integrationControllerFetchSharedWork>>>, TError = ErrorType<unknown>>(
+ id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof integrationControllerFetchSharedWork>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof integrationControllerFetchSharedWork>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useIntegrationControllerFetchSharedWorkInfinite<TData = InfiniteData<Awaited<ReturnType<typeof integrationControllerFetchSharedWork>>>, TError = ErrorType<unknown>>(
+ id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof integrationControllerFetchSharedWork>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+
+export function useIntegrationControllerFetchSharedWorkInfinite<TData = InfiniteData<Awaited<ReturnType<typeof integrationControllerFetchSharedWork>>>, TError = ErrorType<unknown>>(
+ id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof integrationControllerFetchSharedWork>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+
+  const queryOptions = getIntegrationControllerFetchSharedWorkInfiniteQueryOptions(id,options)
+
+  const query = useInfiniteQuery(queryOptions) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+export const getIntegrationControllerFetchSharedWorkQueryOptions = <TData = Awaited<ReturnType<typeof integrationControllerFetchSharedWork>>, TError = ErrorType<unknown>>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof integrationControllerFetchSharedWork>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getIntegrationControllerFetchSharedWorkQueryKey(id);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof integrationControllerFetchSharedWork>>> = ({ signal }) => integrationControllerFetchSharedWork(id, requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof integrationControllerFetchSharedWork>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
+}
+
+export type IntegrationControllerFetchSharedWorkQueryResult = NonNullable<Awaited<ReturnType<typeof integrationControllerFetchSharedWork>>>
+export type IntegrationControllerFetchSharedWorkQueryError = ErrorType<unknown>
+
+
+export function useIntegrationControllerFetchSharedWork<TData = Awaited<ReturnType<typeof integrationControllerFetchSharedWork>>, TError = ErrorType<unknown>>(
+ id: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof integrationControllerFetchSharedWork>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof integrationControllerFetchSharedWork>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customInstance>}
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useIntegrationControllerFetchSharedWork<TData = Awaited<ReturnType<typeof integrationControllerFetchSharedWork>>, TError = ErrorType<unknown>>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof integrationControllerFetchSharedWork>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof integrationControllerFetchSharedWork>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useIntegrationControllerFetchSharedWork<TData = Awaited<ReturnType<typeof integrationControllerFetchSharedWork>>, TError = ErrorType<unknown>>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof integrationControllerFetchSharedWork>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+
+export function useIntegrationControllerFetchSharedWork<TData = Awaited<ReturnType<typeof integrationControllerFetchSharedWork>>, TError = ErrorType<unknown>>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof integrationControllerFetchSharedWork>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+
+  const queryOptions = getIntegrationControllerFetchSharedWorkQueryOptions(id,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+export const adminControllerFetchUsers = (
+    params: AdminControllerFetchUsersParams,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<FetchUsersModel>(
+      {url: `/admin/users`, method: 'GET',
+        params, signal
+    },
+      options);
+    }
+  
+
+export const getAdminControllerFetchUsersQueryKey = (params: AdminControllerFetchUsersParams,) => {
+    return [`/admin/users`, ...(params ? [params]: [])] as const;
+    }
+
+    
+export const getAdminControllerFetchUsersInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof adminControllerFetchUsers>>, AdminControllerFetchUsersParams['page']>, TError = ErrorType<unknown>>(params: AdminControllerFetchUsersParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof adminControllerFetchUsers>>, TError, TData, Awaited<ReturnType<typeof adminControllerFetchUsers>>, QueryKey, AdminControllerFetchUsersParams['page']>>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getAdminControllerFetchUsersQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof adminControllerFetchUsers>>, QueryKey, AdminControllerFetchUsersParams['page']> = ({ signal, pageParam }) => adminControllerFetchUsers({...params, page: pageParam || params?.['page']}, requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof adminControllerFetchUsers>>, TError, TData, Awaited<ReturnType<typeof adminControllerFetchUsers>>, QueryKey, AdminControllerFetchUsersParams['page']> & { queryKey: DataTag<QueryKey, TData> }
+}
+
+export type AdminControllerFetchUsersInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof adminControllerFetchUsers>>>
+export type AdminControllerFetchUsersInfiniteQueryError = ErrorType<unknown>
+
+
+export function useAdminControllerFetchUsersInfinite<TData = InfiniteData<Awaited<ReturnType<typeof adminControllerFetchUsers>>, AdminControllerFetchUsersParams['page']>, TError = ErrorType<unknown>>(
+ params: AdminControllerFetchUsersParams, options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof adminControllerFetchUsers>>, TError, TData, Awaited<ReturnType<typeof adminControllerFetchUsers>>, QueryKey, AdminControllerFetchUsersParams['page']>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof adminControllerFetchUsers>>,
+          TError,
+          TData, QueryKey
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customInstance>}
+
+  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useAdminControllerFetchUsersInfinite<TData = InfiniteData<Awaited<ReturnType<typeof adminControllerFetchUsers>>, AdminControllerFetchUsersParams['page']>, TError = ErrorType<unknown>>(
+ params: AdminControllerFetchUsersParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof adminControllerFetchUsers>>, TError, TData, Awaited<ReturnType<typeof adminControllerFetchUsers>>, QueryKey, AdminControllerFetchUsersParams['page']>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof adminControllerFetchUsers>>,
+          TError,
+          TData, QueryKey
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useAdminControllerFetchUsersInfinite<TData = InfiniteData<Awaited<ReturnType<typeof adminControllerFetchUsers>>, AdminControllerFetchUsersParams['page']>, TError = ErrorType<unknown>>(
+ params: AdminControllerFetchUsersParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof adminControllerFetchUsers>>, TError, TData, Awaited<ReturnType<typeof adminControllerFetchUsers>>, QueryKey, AdminControllerFetchUsersParams['page']>>, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+
+export function useAdminControllerFetchUsersInfinite<TData = InfiniteData<Awaited<ReturnType<typeof adminControllerFetchUsers>>, AdminControllerFetchUsersParams['page']>, TError = ErrorType<unknown>>(
+ params: AdminControllerFetchUsersParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof adminControllerFetchUsers>>, TError, TData, Awaited<ReturnType<typeof adminControllerFetchUsers>>, QueryKey, AdminControllerFetchUsersParams['page']>>, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+
+  const queryOptions = getAdminControllerFetchUsersInfiniteQueryOptions(params,options)
+
+  const query = useInfiniteQuery(queryOptions) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+export const getAdminControllerFetchUsersQueryOptions = <TData = Awaited<ReturnType<typeof adminControllerFetchUsers>>, TError = ErrorType<unknown>>(params: AdminControllerFetchUsersParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof adminControllerFetchUsers>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getAdminControllerFetchUsersQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof adminControllerFetchUsers>>> = ({ signal }) => adminControllerFetchUsers(params, requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof adminControllerFetchUsers>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
+}
+
+export type AdminControllerFetchUsersQueryResult = NonNullable<Awaited<ReturnType<typeof adminControllerFetchUsers>>>
+export type AdminControllerFetchUsersQueryError = ErrorType<unknown>
+
+
+export function useAdminControllerFetchUsers<TData = Awaited<ReturnType<typeof adminControllerFetchUsers>>, TError = ErrorType<unknown>>(
+ params: AdminControllerFetchUsersParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof adminControllerFetchUsers>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof adminControllerFetchUsers>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customInstance>}
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useAdminControllerFetchUsers<TData = Awaited<ReturnType<typeof adminControllerFetchUsers>>, TError = ErrorType<unknown>>(
+ params: AdminControllerFetchUsersParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof adminControllerFetchUsers>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof adminControllerFetchUsers>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useAdminControllerFetchUsers<TData = Awaited<ReturnType<typeof adminControllerFetchUsers>>, TError = ErrorType<unknown>>(
+ params: AdminControllerFetchUsersParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof adminControllerFetchUsers>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+
+export function useAdminControllerFetchUsers<TData = Awaited<ReturnType<typeof adminControllerFetchUsers>>, TError = ErrorType<unknown>>(
+ params: AdminControllerFetchUsersParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof adminControllerFetchUsers>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+
+  const queryOptions = getAdminControllerFetchUsersQueryOptions(params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+export const adminControllerUpdateUserRole = (
+    userId: string,
+    updateUserRoleDto: BodyType<UpdateUserRoleDto>,
+ options?: SecondParameter<typeof customInstance>,) => {
+      
+      
+      return customInstance<void>(
+      {url: `/admin/users/${userId}/role`, method: 'PATCH',
+      headers: {'Content-Type': 'application/json', },
+      data: updateUserRoleDto
+    },
+      options);
+    }
+  
+
+
+export const getAdminControllerUpdateUserRoleMutationOptions = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof adminControllerUpdateUserRole>>, TError,{userId: string;data: BodyType<UpdateUserRoleDto>}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof adminControllerUpdateUserRole>>, TError,{userId: string;data: BodyType<UpdateUserRoleDto>}, TContext> => {
+const {mutation: mutationOptions, request: requestOptions} = options ?? {};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof adminControllerUpdateUserRole>>, {userId: string;data: BodyType<UpdateUserRoleDto>}> = (props) => {
+          const {userId,data} = props ?? {};
+
+          return  adminControllerUpdateUserRole(userId,data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type AdminControllerUpdateUserRoleMutationResult = NonNullable<Awaited<ReturnType<typeof adminControllerUpdateUserRole>>>
+    export type AdminControllerUpdateUserRoleMutationBody = BodyType<UpdateUserRoleDto>
+    export type AdminControllerUpdateUserRoleMutationError = ErrorType<unknown>
+
+    export const useAdminControllerUpdateUserRole = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof adminControllerUpdateUserRole>>, TError,{userId: string;data: BodyType<UpdateUserRoleDto>}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationResult<
+        Awaited<ReturnType<typeof adminControllerUpdateUserRole>>,
+        TError,
+        {userId: string;data: BodyType<UpdateUserRoleDto>},
+        TContext
+      > => {
+
+      const mutationOptions = getAdminControllerUpdateUserRoleMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const adminControllerDeleteUser = (
+    userId: string,
+ options?: SecondParameter<typeof customInstance>,) => {
+      
+      
+      return customInstance<void>(
+      {url: `/admin/users/${userId}`, method: 'DELETE'
+    },
+      options);
+    }
+  
+
+
+export const getAdminControllerDeleteUserMutationOptions = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof adminControllerDeleteUser>>, TError,{userId: string}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof adminControllerDeleteUser>>, TError,{userId: string}, TContext> => {
+const {mutation: mutationOptions, request: requestOptions} = options ?? {};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof adminControllerDeleteUser>>, {userId: string}> = (props) => {
+          const {userId} = props ?? {};
+
+          return  adminControllerDeleteUser(userId,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type AdminControllerDeleteUserMutationResult = NonNullable<Awaited<ReturnType<typeof adminControllerDeleteUser>>>
+    
+    export type AdminControllerDeleteUserMutationError = ErrorType<unknown>
+
+    export const useAdminControllerDeleteUser = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof adminControllerDeleteUser>>, TError,{userId: string}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationResult<
+        Awaited<ReturnType<typeof adminControllerDeleteUser>>,
+        TError,
+        {userId: string},
+        TContext
+      > => {
+
+      const mutationOptions = getAdminControllerDeleteUserMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
 export const loggerControllerHealthCheck = (
     
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal

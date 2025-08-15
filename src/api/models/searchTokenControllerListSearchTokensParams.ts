@@ -9,4 +9,5 @@ import type { SearchTokenControllerListSearchTokensType } from './searchTokenCon
 
 export type SearchTokenControllerListSearchTokensParams = {
 type: SearchTokenControllerListSearchTokensType;
+page?: number | null;
 };
