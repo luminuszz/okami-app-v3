@@ -1,7 +1,7 @@
 import { useWorkControllerListUserWorksPaged } from "@/api/okami";
 import { router } from "expo-router";
 import { ChevronRight } from "lucide-react-native";
-import { Pressable, ScrollView } from "react-native";
+import { FlatList, Pressable } from "react-native";
 import { Button, ButtonIcon } from "../ui/button";
 import { Card } from "../ui/card";
 import { Heading } from "../ui/heading";
@@ -56,18 +56,16 @@ export function UserWorksListSection() {
         </Button>
       </Pressable>
 
-      <ScrollView
+      <FlatList
+        contentContainerStyle={{ paddingRight: 250 }}
         horizontal
-        contentContainerStyle={{ paddingRight: 250, marginLeft: -15 }}
-      >
-        {data?.works.map((work) => (
+        data={data?.works ?? []}
+        keyExtractor={(work) => work.id}
+        renderItem={({ item: work }) => (
           <Pressable
-            key={work.id}
-            className="w-full max-w-[200px]"
             onPress={() =>
               router.push({
                 pathname: "/modal/[workId]",
-
                 params: {
                   workId: work.id,
                 },
@@ -77,11 +75,17 @@ export function UserWorksListSection() {
             <Card variant="elevated">
               <VStack space="xs">
                 <Image
-                  className="h-[200px] w-full rounded-md"
+                  className="h-[200px] w-full rounded-md max-w-[200px]"
                   source={{ uri: work.imageUrl ?? "" }}
                   alt="Solo Leveling"
                 />
-                <Heading size="lg" isTruncated numberOfLines={2}>
+                <Heading
+                  className="max-w-[200px]"
+                  size="md"
+                  isTruncated
+                  numberOfLines={2}
+                  ellipsizeMode="tail"
+                >
                   {work.name}
                 </Heading>
                 <Text className="text-typography-600" size="md">
@@ -90,8 +94,8 @@ export function UserWorksListSection() {
               </VStack>
             </Card>
           </Pressable>
-        ))}
-      </ScrollView>
+        )}
+      />
     </VStack>
   );
 }

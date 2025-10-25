@@ -36,7 +36,8 @@ export default function Notifications() {
             renderItem={({ item }) => (
               <NotificationCard
                 notification={{
-                  content: item.content,
+                  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+                  content: item.content as any,
                   id: item.id,
                   readAt: item.readAt,
                 }}

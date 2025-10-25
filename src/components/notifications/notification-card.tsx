@@ -85,10 +85,10 @@ export function NotificationCard({ notification }: NotificationCardProps) {
         });
       }}
     >
-      <Card variant="filled" className="mt-2">
+      <Card variant="filled" className="mt-2 min-h-[60px]">
         <VStack space="xs">
           <Text className="text-md text-typography-600">
-            {notification.content.nextChapter
+            {notification?.content?.nextChapter
               ? `Obra atualizada: ${notification.content?.name}`
               : `Obra adicionada: ${notification.content?.name}`}
           </Text>

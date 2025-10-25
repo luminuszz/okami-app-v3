@@ -94,8 +94,8 @@ export default function WorksScreen() {
             onEndReached={() =>
               canFetchNextPage && worksCount > 3 && fetchNextPage()
             }
-            contentContainerStyle={{ paddingBottom: 20 }} // Add padding to the bottom
-            ListFooterComponent={<Box style={{ height: 20 }} />} // Add extra space at the end
+            contentContainerStyle={{ paddingBottom: 20 }}
+            ListFooterComponent={<Box style={{ height: 20 }} />}
             renderItem={({ item: work }) => (
               <WorkCard
                 work={{
