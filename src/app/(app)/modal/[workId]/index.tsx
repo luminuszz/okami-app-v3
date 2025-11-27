@@ -43,10 +43,11 @@ export default function WorkDetails() {
     data: work,
     isLoading,
     isError,
-    error,
   } = useWorkControllerGetWorkById(workId);
 
-  console.log({ error });
+
+
+
 
   if (isLoading) {
     return (

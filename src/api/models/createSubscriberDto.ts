@@ -6,7 +6,7 @@
  * OpenAPI spec version: 1.0
  */
 
-export type TagControllerListTagsParams = {
-page: number;
-search: string | null;
-};
+export interface CreateSubscriberDto {
+  email: string;
+  userId: string;
+}

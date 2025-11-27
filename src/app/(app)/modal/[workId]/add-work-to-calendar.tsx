@@ -2,7 +2,7 @@ import {
   getCalendarControllerFetchUserCalendarQueryKey,
   useCalendarControllerAddRowInCalendar,
   useCalendarControllerFetchUserCalendar,
-  useWorkControllerGetById,
+  useWorkControllerGetWorkById,
 } from "@/api/okami";
 import { Container } from "@/components/layout/container";
 import { HeaderWithGoBack } from "@/components/navigation/header-with-go-back";
@@ -46,7 +46,7 @@ export default function AddWorkToCalendarScreen() {
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
 
   const { data: calendar } = useCalendarControllerFetchUserCalendar();
-  const { data: currentWork, isLoading } = useWorkControllerGetById(workId);
+  const { data: currentWork, isLoading } = useWorkControllerGetWorkById(workId);
 
   const addRowInCalendar = useCalendarControllerAddRowInCalendar({
     mutation: {

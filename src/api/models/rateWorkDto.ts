@@ -6,7 +6,10 @@
  * OpenAPI spec version: 1.0
  */
 
-export type TagControllerListTagsParams = {
-page: number;
-search: string | null;
-};
+export interface RateWorkDto {
+  /**
+   * @minimum 1
+   * @maximum 5
+   */
+  rate: number;
+}

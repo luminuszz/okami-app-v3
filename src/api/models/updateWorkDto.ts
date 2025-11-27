@@ -6,9 +6,4 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface UpdateWorkDto {
-  alternativeName: string;
-  chapter: number;
-  name: string;
-  url: string;
-}
+export interface UpdateWorkDto { [key: string]: unknown }

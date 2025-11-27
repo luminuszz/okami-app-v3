@@ -6,8 +6,14 @@
  * OpenAPI spec version: 1.0
  */
 import type { WorkControllerListUserWorksPagedLimit } from './workControllerListUserWorksPagedLimit';
+import type { WorkControllerListUserWorksPagedStatus } from './workControllerListUserWorksPagedStatus';
+import type { WorkControllerListUserWorksPagedCategory } from './workControllerListUserWorksPagedCategory';
 
 export type WorkControllerListUserWorksPagedParams = {
-page: number;
 limit: WorkControllerListUserWorksPagedLimit;
+status?: WorkControllerListUserWorksPagedStatus;
+search?: string;
+tagId?: string;
+category?: WorkControllerListUserWorksPagedCategory;
+page?: number;
 };

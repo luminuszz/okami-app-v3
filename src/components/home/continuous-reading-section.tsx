@@ -33,7 +33,7 @@ export function ContinuousReadingSection() {
 
   const openProfile = useSetAtom(toggleProfileDrawerActionAtom);
 
-  const { data: works, refetch, isFetching } = useWorkControllerListUserWorks();
+  const { data: works, isFetching } = useWorkControllerListUserWorks();
 
   const work =
     works?.find((work) => work.id === lastSelectedWorkStorage) ?? works?.[0];

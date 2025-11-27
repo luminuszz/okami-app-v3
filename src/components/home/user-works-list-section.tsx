@@ -10,12 +10,17 @@ import { Image } from "../ui/image";
 import { Skeleton, SkeletonText } from "../ui/skeleton";
 import { Text } from "../ui/text";
 import { VStack } from "../ui/vstack";
+import {useMemo} from "react";
+import {sortByName} from "@/helpers/strings";
 
 export function UserWorksListSection() {
-  const { data, isFetching } = useWorkControllerListUserWorksPaged({
+  const { data:worksResponseData, isFetching } = useWorkControllerListUserWorksPaged({
     limit: 10,
     page: 1,
   });
+
+
+  const sortedWorks = useMemo(() => worksResponseData?.works?.sort(sortByName) ?? [], [worksResponseData])
 
   if (isFetching) {
     return (
@@ -57,9 +62,9 @@ export function UserWorksListSection() {
       </Pressable>
 
       <FlatList
-        contentContainerStyle={{ paddingRight: 250 }}
+
         horizontal
-        data={data?.works ?? []}
+        data={sortedWorks}
         keyExtractor={(work) => work.id}
         renderItem={({ item: work }) => (
           <Pressable
@@ -75,12 +80,12 @@ export function UserWorksListSection() {
             <Card variant="elevated">
               <VStack space="xs">
                 <Image
-                  className="h-[200px] w-full rounded-md max-w-[200px]"
+                  className="h-[200px]  rounded-md w-[200px]"
                   source={{ uri: work.imageUrl ?? "" }}
                   alt="Solo Leveling"
                 />
                 <Heading
-                  className="max-w-[200px]"
+                  className="max-w-[200px] text-center"
                   size="md"
                   isTruncated
                   numberOfLines={2}
@@ -88,9 +93,7 @@ export function UserWorksListSection() {
                 >
                   {work.name}
                 </Heading>
-                <Text className="text-typography-600" size="md">
-                  {work.alternativeName}
-                </Text>
+
               </VStack>
             </Card>
           </Pressable>

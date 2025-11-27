@@ -14,6 +14,7 @@ export function useGoToWorkUrlAction() {
 		STORAGE_KEYS.LAST_WORK_CLICKED,
 		mmkvStorage,
 	);
+
 	const toast = useOkamiToast();
 
 	async function handlePushToUrl(data: WorkParams) {

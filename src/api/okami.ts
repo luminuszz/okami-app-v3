@@ -42,6 +42,7 @@ import type {
   CreateSearchTokenDto,
   CreateSharedWorkDto,
   CreateSharedWorkResponseModel,
+  CreateSubscriberDto,
   CreateTagDto,
   CreateUserDto,
   CustomListModel,
@@ -57,6 +58,7 @@ import type {
   MarkWorkUnreadDto,
   NotificationHttp,
   PaymentStatusModel,
+  RateWorkDto,
   RefreshTokenDto,
   RefreshTokenModel,
   RefreshTokenOnlyModel,
@@ -72,7 +74,6 @@ import type {
   SendAuthCodeByEmailValidator,
   SendResetPasswordEmailDto,
   SharedCustomListModel,
-  TagControllerFilterTagParams,
   TagControllerListTagsParams,
   TagModel,
   TagModelPaged,
@@ -87,6 +88,7 @@ import type {
   UpdateWorkDto,
   UserHttp,
   ValidateEmailDto,
+  WorkControllerCompleteInfoParams,
   WorkControllerListUserWorksPagedParams,
   WorkControllerListUserWorksParams,
   WorkHttp,
@@ -1581,6 +1583,255 @@ const {mutation: mutationOptions, request: requestOptions} = options ?? {};
       return useMutation(mutationOptions);
     }
     
+export const workControllerToggleTracking = (
+    id: string,
+ options?: SecondParameter<typeof customInstance>,) => {
+      
+      
+      return customInstance<void>(
+      {url: `/work/${id}/toggle-tracking`, method: 'PATCH'
+    },
+      options);
+    }
+  
+
+
+export const getWorkControllerToggleTrackingMutationOptions = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof workControllerToggleTracking>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof workControllerToggleTracking>>, TError,{id: string}, TContext> => {
+const {mutation: mutationOptions, request: requestOptions} = options ?? {};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof workControllerToggleTracking>>, {id: string}> = (props) => {
+          const {id} = props ?? {};
+
+          return  workControllerToggleTracking(id,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type WorkControllerToggleTrackingMutationResult = NonNullable<Awaited<ReturnType<typeof workControllerToggleTracking>>>
+    
+    export type WorkControllerToggleTrackingMutationError = ErrorType<unknown>
+
+    export const useWorkControllerToggleTracking = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof workControllerToggleTracking>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationResult<
+        Awaited<ReturnType<typeof workControllerToggleTracking>>,
+        TError,
+        {id: string},
+        TContext
+      > => {
+
+      const mutationOptions = getWorkControllerToggleTrackingMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const workControllerRateWork = (
+    id: string,
+    rateWorkDto: BodyType<RateWorkDto>,
+ options?: SecondParameter<typeof customInstance>,) => {
+      
+      
+      return customInstance<void>(
+      {url: `/work/${id}/rate`, method: 'PATCH',
+      headers: {'Content-Type': 'application/json', },
+      data: rateWorkDto
+    },
+      options);
+    }
+  
+
+
+export const getWorkControllerRateWorkMutationOptions = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof workControllerRateWork>>, TError,{id: string;data: BodyType<RateWorkDto>}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof workControllerRateWork>>, TError,{id: string;data: BodyType<RateWorkDto>}, TContext> => {
+const {mutation: mutationOptions, request: requestOptions} = options ?? {};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof workControllerRateWork>>, {id: string;data: BodyType<RateWorkDto>}> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  workControllerRateWork(id,data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type WorkControllerRateWorkMutationResult = NonNullable<Awaited<ReturnType<typeof workControllerRateWork>>>
+    export type WorkControllerRateWorkMutationBody = BodyType<RateWorkDto>
+    export type WorkControllerRateWorkMutationError = ErrorType<unknown>
+
+    export const useWorkControllerRateWork = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof workControllerRateWork>>, TError,{id: string;data: BodyType<RateWorkDto>}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationResult<
+        Awaited<ReturnType<typeof workControllerRateWork>>,
+        TError,
+        {id: string;data: BodyType<RateWorkDto>},
+        TContext
+      > => {
+
+      const mutationOptions = getWorkControllerRateWorkMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const workControllerCompleteInfo = (
+    params: WorkControllerCompleteInfoParams,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<void>(
+      {url: `/work/complete-info`, method: 'GET',
+        params, signal
+    },
+      options);
+    }
+  
+
+export const getWorkControllerCompleteInfoQueryKey = (params: WorkControllerCompleteInfoParams,) => {
+    return [`/work/complete-info`, ...(params ? [params]: [])] as const;
+    }
+
+    
+export const getWorkControllerCompleteInfoInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof workControllerCompleteInfo>>, WorkControllerCompleteInfoParams['page']>, TError = ErrorType<unknown>>(params: WorkControllerCompleteInfoParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof workControllerCompleteInfo>>, TError, TData, Awaited<ReturnType<typeof workControllerCompleteInfo>>, QueryKey, WorkControllerCompleteInfoParams['page']>>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getWorkControllerCompleteInfoQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof workControllerCompleteInfo>>, QueryKey, WorkControllerCompleteInfoParams['page']> = ({ signal, pageParam }) => workControllerCompleteInfo({...params, page: pageParam || params?.['page']}, requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof workControllerCompleteInfo>>, TError, TData, Awaited<ReturnType<typeof workControllerCompleteInfo>>, QueryKey, WorkControllerCompleteInfoParams['page']> & { queryKey: DataTag<QueryKey, TData> }
+}
+
+export type WorkControllerCompleteInfoInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof workControllerCompleteInfo>>>
+export type WorkControllerCompleteInfoInfiniteQueryError = ErrorType<unknown>
+
+
+export function useWorkControllerCompleteInfoInfinite<TData = InfiniteData<Awaited<ReturnType<typeof workControllerCompleteInfo>>, WorkControllerCompleteInfoParams['page']>, TError = ErrorType<unknown>>(
+ params: WorkControllerCompleteInfoParams, options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof workControllerCompleteInfo>>, TError, TData, Awaited<ReturnType<typeof workControllerCompleteInfo>>, QueryKey, WorkControllerCompleteInfoParams['page']>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof workControllerCompleteInfo>>,
+          TError,
+          TData, QueryKey
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customInstance>}
+
+  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useWorkControllerCompleteInfoInfinite<TData = InfiniteData<Awaited<ReturnType<typeof workControllerCompleteInfo>>, WorkControllerCompleteInfoParams['page']>, TError = ErrorType<unknown>>(
+ params: WorkControllerCompleteInfoParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof workControllerCompleteInfo>>, TError, TData, Awaited<ReturnType<typeof workControllerCompleteInfo>>, QueryKey, WorkControllerCompleteInfoParams['page']>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof workControllerCompleteInfo>>,
+          TError,
+          TData, QueryKey
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useWorkControllerCompleteInfoInfinite<TData = InfiniteData<Awaited<ReturnType<typeof workControllerCompleteInfo>>, WorkControllerCompleteInfoParams['page']>, TError = ErrorType<unknown>>(
+ params: WorkControllerCompleteInfoParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof workControllerCompleteInfo>>, TError, TData, Awaited<ReturnType<typeof workControllerCompleteInfo>>, QueryKey, WorkControllerCompleteInfoParams['page']>>, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+
+export function useWorkControllerCompleteInfoInfinite<TData = InfiniteData<Awaited<ReturnType<typeof workControllerCompleteInfo>>, WorkControllerCompleteInfoParams['page']>, TError = ErrorType<unknown>>(
+ params: WorkControllerCompleteInfoParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof workControllerCompleteInfo>>, TError, TData, Awaited<ReturnType<typeof workControllerCompleteInfo>>, QueryKey, WorkControllerCompleteInfoParams['page']>>, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+
+  const queryOptions = getWorkControllerCompleteInfoInfiniteQueryOptions(params,options)
+
+  const query = useInfiniteQuery(queryOptions) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+export const getWorkControllerCompleteInfoQueryOptions = <TData = Awaited<ReturnType<typeof workControllerCompleteInfo>>, TError = ErrorType<unknown>>(params: WorkControllerCompleteInfoParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof workControllerCompleteInfo>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getWorkControllerCompleteInfoQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof workControllerCompleteInfo>>> = ({ signal }) => workControllerCompleteInfo(params, requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof workControllerCompleteInfo>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
+}
+
+export type WorkControllerCompleteInfoQueryResult = NonNullable<Awaited<ReturnType<typeof workControllerCompleteInfo>>>
+export type WorkControllerCompleteInfoQueryError = ErrorType<unknown>
+
+
+export function useWorkControllerCompleteInfo<TData = Awaited<ReturnType<typeof workControllerCompleteInfo>>, TError = ErrorType<unknown>>(
+ params: WorkControllerCompleteInfoParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof workControllerCompleteInfo>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof workControllerCompleteInfo>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customInstance>}
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useWorkControllerCompleteInfo<TData = Awaited<ReturnType<typeof workControllerCompleteInfo>>, TError = ErrorType<unknown>>(
+ params: WorkControllerCompleteInfoParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof workControllerCompleteInfo>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof workControllerCompleteInfo>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useWorkControllerCompleteInfo<TData = Awaited<ReturnType<typeof workControllerCompleteInfo>>, TError = ErrorType<unknown>>(
+ params: WorkControllerCompleteInfoParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof workControllerCompleteInfo>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+
+export function useWorkControllerCompleteInfo<TData = Awaited<ReturnType<typeof workControllerCompleteInfo>>, TError = ErrorType<unknown>>(
+ params: WorkControllerCompleteInfoParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof workControllerCompleteInfo>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+
+  const queryOptions = getWorkControllerCompleteInfoQueryOptions(params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
 export const authControllerRegister = (
     createUserDto: BodyType<CreateUserDto>,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
@@ -4303,152 +4554,6 @@ const {mutation: mutationOptions, request: requestOptions} = options ?? {};
       return useMutation(mutationOptions);
     }
     
-export const tagControllerFilterTag = (
-    params: TagControllerFilterTagParams,
- options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
-) => {
-      
-      
-      return customInstance<void>(
-      {url: `/tags/filter`, method: 'GET',
-        params, signal
-    },
-      options);
-    }
-  
-
-export const getTagControllerFilterTagQueryKey = (params: TagControllerFilterTagParams,) => {
-    return [`/tags/filter`, ...(params ? [params]: [])] as const;
-    }
-
-    
-export const getTagControllerFilterTagInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof tagControllerFilterTag>>, TagControllerFilterTagParams['page']>, TError = ErrorType<unknown>>(params: TagControllerFilterTagParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof tagControllerFilterTag>>, TError, TData, Awaited<ReturnType<typeof tagControllerFilterTag>>, QueryKey, TagControllerFilterTagParams['page']>>, request?: SecondParameter<typeof customInstance>}
-) => {
-
-const {query: queryOptions, request: requestOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getTagControllerFilterTagQueryKey(params);
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof tagControllerFilterTag>>, QueryKey, TagControllerFilterTagParams['page']> = ({ signal, pageParam }) => tagControllerFilterTag({...params, page: pageParam || params?.['page']}, requestOptions, signal);
-
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof tagControllerFilterTag>>, TError, TData, Awaited<ReturnType<typeof tagControllerFilterTag>>, QueryKey, TagControllerFilterTagParams['page']> & { queryKey: DataTag<QueryKey, TData> }
-}
-
-export type TagControllerFilterTagInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof tagControllerFilterTag>>>
-export type TagControllerFilterTagInfiniteQueryError = ErrorType<unknown>
-
-
-export function useTagControllerFilterTagInfinite<TData = InfiniteData<Awaited<ReturnType<typeof tagControllerFilterTag>>, TagControllerFilterTagParams['page']>, TError = ErrorType<unknown>>(
- params: TagControllerFilterTagParams, options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof tagControllerFilterTag>>, TError, TData, Awaited<ReturnType<typeof tagControllerFilterTag>>, QueryKey, TagControllerFilterTagParams['page']>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof tagControllerFilterTag>>,
-          TError,
-          TData, QueryKey
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
-
-  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useTagControllerFilterTagInfinite<TData = InfiniteData<Awaited<ReturnType<typeof tagControllerFilterTag>>, TagControllerFilterTagParams['page']>, TError = ErrorType<unknown>>(
- params: TagControllerFilterTagParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof tagControllerFilterTag>>, TError, TData, Awaited<ReturnType<typeof tagControllerFilterTag>>, QueryKey, TagControllerFilterTagParams['page']>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof tagControllerFilterTag>>,
-          TError,
-          TData, QueryKey
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
-
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useTagControllerFilterTagInfinite<TData = InfiniteData<Awaited<ReturnType<typeof tagControllerFilterTag>>, TagControllerFilterTagParams['page']>, TError = ErrorType<unknown>>(
- params: TagControllerFilterTagParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof tagControllerFilterTag>>, TError, TData, Awaited<ReturnType<typeof tagControllerFilterTag>>, QueryKey, TagControllerFilterTagParams['page']>>, request?: SecondParameter<typeof customInstance>}
-
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-
-export function useTagControllerFilterTagInfinite<TData = InfiniteData<Awaited<ReturnType<typeof tagControllerFilterTag>>, TagControllerFilterTagParams['page']>, TError = ErrorType<unknown>>(
- params: TagControllerFilterTagParams, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof tagControllerFilterTag>>, TError, TData, Awaited<ReturnType<typeof tagControllerFilterTag>>, QueryKey, TagControllerFilterTagParams['page']>>, request?: SecondParameter<typeof customInstance>}
-
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
-
-  const queryOptions = getTagControllerFilterTagInfiniteQueryOptions(params,options)
-
-  const query = useInfiniteQuery(queryOptions) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
-}
-
-
-
-export const getTagControllerFilterTagQueryOptions = <TData = Awaited<ReturnType<typeof tagControllerFilterTag>>, TError = ErrorType<unknown>>(params: TagControllerFilterTagParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof tagControllerFilterTag>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
-) => {
-
-const {query: queryOptions, request: requestOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getTagControllerFilterTagQueryKey(params);
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof tagControllerFilterTag>>> = ({ signal }) => tagControllerFilterTag(params, requestOptions, signal);
-
-      
-
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof tagControllerFilterTag>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
-}
-
-export type TagControllerFilterTagQueryResult = NonNullable<Awaited<ReturnType<typeof tagControllerFilterTag>>>
-export type TagControllerFilterTagQueryError = ErrorType<unknown>
-
-
-export function useTagControllerFilterTag<TData = Awaited<ReturnType<typeof tagControllerFilterTag>>, TError = ErrorType<unknown>>(
- params: TagControllerFilterTagParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof tagControllerFilterTag>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof tagControllerFilterTag>>,
-          TError,
-          TData
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
-
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useTagControllerFilterTag<TData = Awaited<ReturnType<typeof tagControllerFilterTag>>, TError = ErrorType<unknown>>(
- params: TagControllerFilterTagParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof tagControllerFilterTag>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof tagControllerFilterTag>>,
-          TError,
-          TData
-        > , 'initialData'
-      >, request?: SecondParameter<typeof customInstance>}
-
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useTagControllerFilterTag<TData = Awaited<ReturnType<typeof tagControllerFilterTag>>, TError = ErrorType<unknown>>(
- params: TagControllerFilterTagParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof tagControllerFilterTag>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
-
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-
-export function useTagControllerFilterTag<TData = Awaited<ReturnType<typeof tagControllerFilterTag>>, TError = ErrorType<unknown>>(
- params: TagControllerFilterTagParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof tagControllerFilterTag>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
-
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
-
-  const queryOptions = getTagControllerFilterTagQueryOptions(params,options)
-
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
-}
-
-
-
-
 export const tagControllerFetchAllTags = (
     
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
@@ -6931,6 +7036,360 @@ export function useIntegrationControllerFetchSharedWork<TData = Awaited<ReturnTy
 
 
 
+export const integrationControllerUpdateChatId = (
+    updateTelegramChatIdValidator: BodyType<UpdateTelegramChatIdValidator>,
+ options?: SecondParameter<typeof customInstance>,) => {
+      
+      
+      return customInstance<void>(
+      {url: `/integration/telegram/update-chat-id`, method: 'PATCH',
+      headers: {'Content-Type': 'application/json', },
+      data: updateTelegramChatIdValidator
+    },
+      options);
+    }
+  
+
+
+export const getIntegrationControllerUpdateChatIdMutationOptions = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof integrationControllerUpdateChatId>>, TError,{data: BodyType<UpdateTelegramChatIdValidator>}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof integrationControllerUpdateChatId>>, TError,{data: BodyType<UpdateTelegramChatIdValidator>}, TContext> => {
+const {mutation: mutationOptions, request: requestOptions} = options ?? {};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof integrationControllerUpdateChatId>>, {data: BodyType<UpdateTelegramChatIdValidator>}> = (props) => {
+          const {data} = props ?? {};
+
+          return  integrationControllerUpdateChatId(data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type IntegrationControllerUpdateChatIdMutationResult = NonNullable<Awaited<ReturnType<typeof integrationControllerUpdateChatId>>>
+    export type IntegrationControllerUpdateChatIdMutationBody = BodyType<UpdateTelegramChatIdValidator>
+    export type IntegrationControllerUpdateChatIdMutationError = ErrorType<unknown>
+
+    export const useIntegrationControllerUpdateChatId = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof integrationControllerUpdateChatId>>, TError,{data: BodyType<UpdateTelegramChatIdValidator>}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationResult<
+        Awaited<ReturnType<typeof integrationControllerUpdateChatId>>,
+        TError,
+        {data: BodyType<UpdateTelegramChatIdValidator>},
+        TContext
+      > => {
+
+      const mutationOptions = getIntegrationControllerUpdateChatIdMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const integrationControllerSendAuthCode = (
+    sendAuthCodeByEmailValidator: BodyType<SendAuthCodeByEmailValidator>,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<void>(
+      {url: `/integration/telegram/send-auth-code`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: sendAuthCodeByEmailValidator, signal
+    },
+      options);
+    }
+  
+
+
+export const getIntegrationControllerSendAuthCodeMutationOptions = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof integrationControllerSendAuthCode>>, TError,{data: BodyType<SendAuthCodeByEmailValidator>}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof integrationControllerSendAuthCode>>, TError,{data: BodyType<SendAuthCodeByEmailValidator>}, TContext> => {
+const {mutation: mutationOptions, request: requestOptions} = options ?? {};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof integrationControllerSendAuthCode>>, {data: BodyType<SendAuthCodeByEmailValidator>}> = (props) => {
+          const {data} = props ?? {};
+
+          return  integrationControllerSendAuthCode(data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type IntegrationControllerSendAuthCodeMutationResult = NonNullable<Awaited<ReturnType<typeof integrationControllerSendAuthCode>>>
+    export type IntegrationControllerSendAuthCodeMutationBody = BodyType<SendAuthCodeByEmailValidator>
+    export type IntegrationControllerSendAuthCodeMutationError = ErrorType<unknown>
+
+    export const useIntegrationControllerSendAuthCode = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof integrationControllerSendAuthCode>>, TError,{data: BodyType<SendAuthCodeByEmailValidator>}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationResult<
+        Awaited<ReturnType<typeof integrationControllerSendAuthCode>>,
+        TError,
+        {data: BodyType<SendAuthCodeByEmailValidator>},
+        TContext
+      > => {
+
+      const mutationOptions = getIntegrationControllerSendAuthCodeMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const integrationControllerCompareSubscriberAuthCodeCall = (
+    compareSubscriberAuthTokenDto: BodyType<CompareSubscriberAuthTokenDto>,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<void>(
+      {url: `/integration/telegram/compare-auth-code`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: compareSubscriberAuthTokenDto, signal
+    },
+      options);
+    }
+  
+
+
+export const getIntegrationControllerCompareSubscriberAuthCodeCallMutationOptions = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof integrationControllerCompareSubscriberAuthCodeCall>>, TError,{data: BodyType<CompareSubscriberAuthTokenDto>}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof integrationControllerCompareSubscriberAuthCodeCall>>, TError,{data: BodyType<CompareSubscriberAuthTokenDto>}, TContext> => {
+const {mutation: mutationOptions, request: requestOptions} = options ?? {};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof integrationControllerCompareSubscriberAuthCodeCall>>, {data: BodyType<CompareSubscriberAuthTokenDto>}> = (props) => {
+          const {data} = props ?? {};
+
+          return  integrationControllerCompareSubscriberAuthCodeCall(data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type IntegrationControllerCompareSubscriberAuthCodeCallMutationResult = NonNullable<Awaited<ReturnType<typeof integrationControllerCompareSubscriberAuthCodeCall>>>
+    export type IntegrationControllerCompareSubscriberAuthCodeCallMutationBody = BodyType<CompareSubscriberAuthTokenDto>
+    export type IntegrationControllerCompareSubscriberAuthCodeCallMutationError = ErrorType<unknown>
+
+    export const useIntegrationControllerCompareSubscriberAuthCodeCall = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof integrationControllerCompareSubscriberAuthCodeCall>>, TError,{data: BodyType<CompareSubscriberAuthTokenDto>}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationResult<
+        Awaited<ReturnType<typeof integrationControllerCompareSubscriberAuthCodeCall>>,
+        TError,
+        {data: BodyType<CompareSubscriberAuthTokenDto>},
+        TContext
+      > => {
+
+      const mutationOptions = getIntegrationControllerCompareSubscriberAuthCodeCallMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const integrationControllerGetSubscriberByEmail = (
+    email: string,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<void>(
+      {url: `/integration/telegram/find/${email}`, method: 'GET', signal
+    },
+      options);
+    }
+  
+
+export const getIntegrationControllerGetSubscriberByEmailQueryKey = (email: string,) => {
+    return [`/integration/telegram/find/${email}`] as const;
+    }
+
+    
+export const getIntegrationControllerGetSubscriberByEmailInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof integrationControllerGetSubscriberByEmail>>>, TError = ErrorType<unknown>>(email: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof integrationControllerGetSubscriberByEmail>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getIntegrationControllerGetSubscriberByEmailQueryKey(email);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof integrationControllerGetSubscriberByEmail>>> = ({ signal }) => integrationControllerGetSubscriberByEmail(email, requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(email), ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof integrationControllerGetSubscriberByEmail>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
+}
+
+export type IntegrationControllerGetSubscriberByEmailInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof integrationControllerGetSubscriberByEmail>>>
+export type IntegrationControllerGetSubscriberByEmailInfiniteQueryError = ErrorType<unknown>
+
+
+export function useIntegrationControllerGetSubscriberByEmailInfinite<TData = InfiniteData<Awaited<ReturnType<typeof integrationControllerGetSubscriberByEmail>>>, TError = ErrorType<unknown>>(
+ email: string, options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof integrationControllerGetSubscriberByEmail>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof integrationControllerGetSubscriberByEmail>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customInstance>}
+
+  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useIntegrationControllerGetSubscriberByEmailInfinite<TData = InfiniteData<Awaited<ReturnType<typeof integrationControllerGetSubscriberByEmail>>>, TError = ErrorType<unknown>>(
+ email: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof integrationControllerGetSubscriberByEmail>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof integrationControllerGetSubscriberByEmail>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useIntegrationControllerGetSubscriberByEmailInfinite<TData = InfiniteData<Awaited<ReturnType<typeof integrationControllerGetSubscriberByEmail>>>, TError = ErrorType<unknown>>(
+ email: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof integrationControllerGetSubscriberByEmail>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+
+export function useIntegrationControllerGetSubscriberByEmailInfinite<TData = InfiniteData<Awaited<ReturnType<typeof integrationControllerGetSubscriberByEmail>>>, TError = ErrorType<unknown>>(
+ email: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof integrationControllerGetSubscriberByEmail>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+
+  const queryOptions = getIntegrationControllerGetSubscriberByEmailInfiniteQueryOptions(email,options)
+
+  const query = useInfiniteQuery(queryOptions) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+export const getIntegrationControllerGetSubscriberByEmailQueryOptions = <TData = Awaited<ReturnType<typeof integrationControllerGetSubscriberByEmail>>, TError = ErrorType<unknown>>(email: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof integrationControllerGetSubscriberByEmail>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getIntegrationControllerGetSubscriberByEmailQueryKey(email);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof integrationControllerGetSubscriberByEmail>>> = ({ signal }) => integrationControllerGetSubscriberByEmail(email, requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(email), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof integrationControllerGetSubscriberByEmail>>, TError, TData> & { queryKey: DataTag<QueryKey, TData> }
+}
+
+export type IntegrationControllerGetSubscriberByEmailQueryResult = NonNullable<Awaited<ReturnType<typeof integrationControllerGetSubscriberByEmail>>>
+export type IntegrationControllerGetSubscriberByEmailQueryError = ErrorType<unknown>
+
+
+export function useIntegrationControllerGetSubscriberByEmail<TData = Awaited<ReturnType<typeof integrationControllerGetSubscriberByEmail>>, TError = ErrorType<unknown>>(
+ email: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof integrationControllerGetSubscriberByEmail>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof integrationControllerGetSubscriberByEmail>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customInstance>}
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useIntegrationControllerGetSubscriberByEmail<TData = Awaited<ReturnType<typeof integrationControllerGetSubscriberByEmail>>, TError = ErrorType<unknown>>(
+ email: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof integrationControllerGetSubscriberByEmail>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof integrationControllerGetSubscriberByEmail>>,
+          TError,
+          TData
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useIntegrationControllerGetSubscriberByEmail<TData = Awaited<ReturnType<typeof integrationControllerGetSubscriberByEmail>>, TError = ErrorType<unknown>>(
+ email: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof integrationControllerGetSubscriberByEmail>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+
+export function useIntegrationControllerGetSubscriberByEmail<TData = Awaited<ReturnType<typeof integrationControllerGetSubscriberByEmail>>, TError = ErrorType<unknown>>(
+ email: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof integrationControllerGetSubscriberByEmail>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+
+  const queryOptions = getIntegrationControllerGetSubscriberByEmailQueryOptions(email,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+export const integrationControllerHandlePlexWebhook = (
+    
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<void>(
+      {url: `/integration/plex/webhook`, method: 'POST', signal
+    },
+      options);
+    }
+  
+
+
+export const getIntegrationControllerHandlePlexWebhookMutationOptions = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof integrationControllerHandlePlexWebhook>>, TError,void, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof integrationControllerHandlePlexWebhook>>, TError,void, TContext> => {
+const {mutation: mutationOptions, request: requestOptions} = options ?? {};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof integrationControllerHandlePlexWebhook>>, void> = () => {
+          
+
+          return  integrationControllerHandlePlexWebhook(requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type IntegrationControllerHandlePlexWebhookMutationResult = NonNullable<Awaited<ReturnType<typeof integrationControllerHandlePlexWebhook>>>
+    
+    export type IntegrationControllerHandlePlexWebhookMutationError = ErrorType<unknown>
+
+    export const useIntegrationControllerHandlePlexWebhook = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof integrationControllerHandlePlexWebhook>>, TError,void, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationResult<
+        Awaited<ReturnType<typeof integrationControllerHandlePlexWebhook>>,
+        TError,
+        void,
+        TContext
+      > => {
+
+      const mutationOptions = getIntegrationControllerHandlePlexWebhookMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
 export const adminControllerFetchUsers = (
     params: AdminControllerFetchUsersParams,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
@@ -7176,6 +7635,110 @@ const {mutation: mutationOptions, request: requestOptions} = options ?? {};
       > => {
 
       const mutationOptions = getAdminControllerDeleteUserMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const adminControllerResetScrappingForAllWorks = (
+    
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<void>(
+      {url: `/admin/batch/reset-scrapping`, method: 'POST', signal
+    },
+      options);
+    }
+  
+
+
+export const getAdminControllerResetScrappingForAllWorksMutationOptions = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof adminControllerResetScrappingForAllWorks>>, TError,void, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof adminControllerResetScrappingForAllWorks>>, TError,void, TContext> => {
+const {mutation: mutationOptions, request: requestOptions} = options ?? {};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof adminControllerResetScrappingForAllWorks>>, void> = () => {
+          
+
+          return  adminControllerResetScrappingForAllWorks(requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type AdminControllerResetScrappingForAllWorksMutationResult = NonNullable<Awaited<ReturnType<typeof adminControllerResetScrappingForAllWorks>>>
+    
+    export type AdminControllerResetScrappingForAllWorksMutationError = ErrorType<unknown>
+
+    export const useAdminControllerResetScrappingForAllWorks = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof adminControllerResetScrappingForAllWorks>>, TError,void, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationResult<
+        Awaited<ReturnType<typeof adminControllerResetScrappingForAllWorks>>,
+        TError,
+        void,
+        TContext
+      > => {
+
+      const mutationOptions = getAdminControllerResetScrappingForAllWorksMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const adminControllerCreateSubscriberPost = (
+    createSubscriberDto: BodyType<CreateSubscriberDto>,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<void>(
+      {url: `/admin/subscriber`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: createSubscriberDto, signal
+    },
+      options);
+    }
+  
+
+
+export const getAdminControllerCreateSubscriberPostMutationOptions = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof adminControllerCreateSubscriberPost>>, TError,{data: BodyType<CreateSubscriberDto>}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof adminControllerCreateSubscriberPost>>, TError,{data: BodyType<CreateSubscriberDto>}, TContext> => {
+const {mutation: mutationOptions, request: requestOptions} = options ?? {};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof adminControllerCreateSubscriberPost>>, {data: BodyType<CreateSubscriberDto>}> = (props) => {
+          const {data} = props ?? {};
+
+          return  adminControllerCreateSubscriberPost(data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type AdminControllerCreateSubscriberPostMutationResult = NonNullable<Awaited<ReturnType<typeof adminControllerCreateSubscriberPost>>>
+    export type AdminControllerCreateSubscriberPostMutationBody = BodyType<CreateSubscriberDto>
+    export type AdminControllerCreateSubscriberPostMutationError = ErrorType<unknown>
+
+    export const useAdminControllerCreateSubscriberPost = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof adminControllerCreateSubscriberPost>>, TError,{data: BodyType<CreateSubscriberDto>}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationResult<
+        Awaited<ReturnType<typeof adminControllerCreateSubscriberPost>>,
+        TError,
+        {data: BodyType<CreateSubscriberDto>},
+        TContext
+      > => {
+
+      const mutationOptions = getAdminControllerCreateSubscriberPostMutationOptions(options);
 
       return useMutation(mutationOptions);
     }

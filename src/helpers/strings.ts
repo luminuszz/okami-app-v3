@@ -33,3 +33,8 @@ export const parseCategoryPredicate = (category: string) => {
 
   return categoryMapper[category as keyof typeof categoryMapper];
 };
+
+
+export const sortByName = <T extends { name: string }>(a: T, b: T) => {
+    return a.name.localeCompare(b.name, undefined, { sensitivity: "base" });
+}

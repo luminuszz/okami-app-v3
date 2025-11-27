@@ -11,6 +11,7 @@ import type { WorkControllerListUserWorksCategory } from './workControllerListUs
 export type WorkControllerListUserWorksParams = {
 status?: WorkControllerListUserWorksStatus;
 search?: string;
+tagId?: string;
 category?: WorkControllerListUserWorksCategory;
 page?: number;
 };

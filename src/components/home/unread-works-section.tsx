@@ -29,8 +29,6 @@ export function UnreadWorksSection() {
     },
   );
 
-  const isLoading = !works;
-
   const formattedWorks = chain(works)
     .sort((a, b) =>
       sortDateByDesc(a.nextChapterUpdatedAt, b.nextChapterUpdatedAt),
