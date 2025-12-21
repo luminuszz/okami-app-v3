@@ -12,8 +12,10 @@ import { Text } from "@/components/ui/text";
 import { VStack } from "@/components/ui/vstack";
 import { useAuth } from "@/hooks/useAuth";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useNavigation } from "expo-router";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
+import { router } from "expo-router";
 
 const formLoginSchema = z.object({
   email: z.string().email().trim(),
@@ -24,6 +26,8 @@ type FormSchema = z.infer<typeof formLoginSchema>;
 
 export default function SignInScreen() {
   const { login, isAuthLoginPending } = useAuth();
+
+  const navigation = useNavigation();
 
   const {
     control,
@@ -36,6 +40,10 @@ export default function SignInScreen() {
     },
     resolver: zodResolver(formLoginSchema),
   });
+
+  function handlePushToRegister() {
+    router.push({ pathname: "/auth/sign-up" });
+  }
 
   return (
     <Container classname="flex-1 items-center justify-center gap-4">
@@ -102,7 +110,16 @@ export default function SignInScreen() {
           className="w-full"
           size="lg"
         >
-          {isAuthLoginPending ? <Spinner /> : <ButtonText> Entrar</ButtonText>}
+          {isAuthLoginPending ? <Spinner /> : <ButtonText>Entrar</ButtonText>}
+        </Button>
+
+        <Button
+          variant="outline"
+          size="lg"
+          className="w-full mt-2"
+          onPress={handlePushToRegister}
+        >
+          <ButtonText>Criar conta</ButtonText>
         </Button>
       </VStack>
     </Container>

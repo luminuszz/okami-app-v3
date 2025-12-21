@@ -69,7 +69,7 @@ export default function SignUpScreen() {
                   className="w-full"
                   keyboardType="default"
                   type="text"
-                  placeholder="E-mail"
+                  placeholder="Nome"
                 />
               </Input>
             )}
@@ -170,7 +170,7 @@ export default function SignUpScreen() {
           {isAuthRegisterPending ? (
             <Spinner />
           ) : (
-            <ButtonText> Registrar</ButtonText>
+            <ButtonText> Criar conta</ButtonText>
           )}
         </Button>
       </VStack>
