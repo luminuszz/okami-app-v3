@@ -85,7 +85,7 @@ export function NotificationCard({ notification }: NotificationCardProps) {
         });
       }}
     >
-      <Card variant="filled" className="mt-2 min-h-[60px]">
+      <Card variant="filled" className="mt-2">
         <VStack space="xs">
           <Text className="text-md text-typography-600">
             {notification?.content?.nextChapter
@@ -99,7 +99,7 @@ export function NotificationCard({ notification }: NotificationCardProps) {
           )}
         </VStack>
         {!notification.readAt && (
-          <HStack className="w- fixed -mb-2 mr-2 flex-1 items-end self-end">
+          <HStack className="mr-2 flex-1 items-end self-end">
             <MotiView
               from={{ scale: 1, opacity: 1 }}
               animate={{ scale: 2, opacity: 0 }}

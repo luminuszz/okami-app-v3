@@ -26,25 +26,24 @@ export default function Notifications() {
           <Heading size="xl">Notificações</Heading>
         </HeaderWithGoBack>
 
-        <Box className="mt-5 pb-12">
-          <FlatList
-            refreshing={isLoading}
-            onRefresh={refetch}
-            data={data}
-            keyExtractor={(item) => item.id}
-            ItemSeparatorComponent={() => <Box className="h-2" />}
-            renderItem={({ item }) => (
-              <NotificationCard
-                notification={{
-                  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-                  content: item.content as any,
-                  id: item.id,
-                  readAt: item.readAt,
-                }}
-              />
-            )}
-          />
-        </Box>
+        <FlatList
+          className="mt-10 h-full"
+          refreshing={isLoading}
+          onRefresh={refetch}
+          data={data}
+          keyExtractor={(item) => item.id}
+          ItemSeparatorComponent={() => <Box className="h-2" />}
+          renderItem={({ item }) => (
+            <NotificationCard
+              notification={{
+                // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+                content: item.content as any,
+                id: item.id,
+                readAt: item.readAt,
+              }}
+            />
+          )}
+        />
       </VStack>
     </Container>
   );
